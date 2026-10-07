@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="iio">
+      <UniqueIdentifier>{9f91c9ea-075d-462b-ada3-2654c3306164}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="iio\deps">
+      <UniqueIdentifier>{62bc48da-b0a2-4870-9149-81382bebebab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="iio\deps\mdns">
+      <UniqueIdentifier>{0068f888-2861-4ae4-8128-874b34d7d0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libad9361">
+      <UniqueIdentifier>{b3f5aa0e-cb4f-4d93-a9fe-a6e918b1204d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libad9361\filterdesigner">
+      <UniqueIdentifier>{2db4095f-77b6-4fa3-a343-a5d828c6e38c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb">
+      <UniqueIdentifier>{56a3400a-5657-4696-bf0a-f58d97a92ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libusb\os">
+      <UniqueIdentifier>{7da0b8bd-078b-4262-9ad0-9dffb9d613cf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\extern_static_lib\iio\deps\mdns\mdns.c">
+      <Filter>iio\deps\mdns</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\backend.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\buffer.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\channel.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\context.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\device.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\dns_sd.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\dns_sd_windows.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\iiod-client.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\lock.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\network.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\network-windows.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\scan.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\sort.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\usb.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\utilities.c">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\iio\xml.cpp">
+      <Filter>iio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\filterdesigner\internal_design_filter_cg.c">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\filterdesigner\internal_design_filter_cg_emxutil.c">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\filterdesigner\rt_nonfinite.c">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\filterdesigner\rtGetInf.c">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\filterdesigner\rtGetNaN.c">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\ad9361_baseband_auto_rate.c">
+      <Filter>libad9361</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\ad9361_calculate_rf_clock_chain.c">
+      <Filter>libad9361</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\ad9361_design_taps.c">
+      <Filter>libad9361</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\ad9361_fmcomms5_phase_sync.c">
+      <Filter>libad9361</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libad9361\ad9361_multichip_sync.c">
+      <Filter>libad9361</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\core.c">
+      <Filter>libusb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\descriptor.c">
+      <Filter>libusb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\hotplug.c">
+      <Filter>libusb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\io.c">
+      <Filter>libusb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\strerror.c">
+      <Filter>libusb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\sync.c">
+      <Filter>libusb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\os\events_windows.c">
+      <Filter>libusb\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\os\threads_windows.c">
+      <Filter>libusb\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\os\windows_common.c">
+      <Filter>libusb\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\os\windows_usbdk.c">
+      <Filter>libusb\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libusb\os\windows_winusb.c">
+      <Filter>libusb\os</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\extern_static_lib\iio\deps\mdns\mdns.h">
+      <Filter>iio\deps\mdns</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\debug.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\dns_sd.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\iio-backend.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\iio-config.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\iiod-client.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\iio-lock.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\iio-private.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\network.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\iio\sort.h">
+      <Filter>iio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libad9361\filterdesigner\internal_design_filter_cg.h">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libad9361\filterdesigner\internal_design_filter_cg_emxutil.h">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libad9361\filterdesigner\internal_design_filter_cg_types.h">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libad9361\filterdesigner\rt_defines.h">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libad9361\filterdesigner\rt_nonfinite.h">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libad9361\filterdesigner\rtGetInf.h">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libad9361\filterdesigner\rtGetNaN.h">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libad9361\filterdesigner\rtwtypes.h">
+      <Filter>libad9361\filterdesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\config.h">
+      <Filter>libusb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\libusb.h">
+      <Filter>libusb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\libusbi.h">
+      <Filter>libusb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\version.h">
+      <Filter>libusb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\version_nano.h">
+      <Filter>libusb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\os\events_windows.h">
+      <Filter>libusb\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\os\threads_windows.h">
+      <Filter>libusb\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\os\windows_common.h">
+      <Filter>libusb\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\os\windows_usbdk.h">
+      <Filter>libusb\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libusb\os\windows_winusb.h">
+      <Filter>libusb\os</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

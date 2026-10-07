@@ -1,0 +1,41 @@
+#ifndef IIO_CONFIG_H
+#define IIO_CONFIG_H
+
+#define LIBIIO_VERSION_MAJOR	0
+#define LIBIIO_VERSION_MINOR	26
+#define LIBIIO_VERSION_GIT	"v0.26"
+
+#define LOG_LEVEL Info_L
+
+#define LIBIIO_SCAN_BACKENDS	"usb"
+
+#define WITH_LOCAL_BACKEND 0
+#define WITH_XML_BACKEND 1
+#define WITH_NETWORK_BACKEND 1
+#define WITH_USB_BACKEND 1
+#define WITH_SERIAL_BACKEND 0
+
+/* #undef WITH_NETWORK_GET_BUFFER */
+#define WITH_NETWORK_EVENTFD 0
+#define WITH_IIOD_USBD 0
+#define WITH_IIOD_SERIAL 0
+#define WITH_LOCAL_CONFIG 0
+#define WITH_LOCAL_MMAP_API 0
+#define WITH_HWMON 0
+#define WITH_AIO 0
+#define HAVE_DNS_SD 0
+#define HAVE_AVAHI 0
+#define WITH_ZSTD 0
+
+/* #undef HAS_PIPE2 */
+#define HAS_STRDUP
+/* #undef HAS_STRNDUP */
+#define HAS_STRTOK_R
+/* #undef HAS_STRERROR_R */
+/* #undef HAS_NEWLOCALE */
+/* #undef HAS_PTHREAD_SETNAME_NP */
+#define HAVE_IPV6
+/* #undef NO_THREADS */
+#define HAS_LIBUSB_GETVERSION
+
+#endif /* IIO_CONFIG_H */

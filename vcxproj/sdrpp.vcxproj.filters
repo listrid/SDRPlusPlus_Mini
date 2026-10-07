@@ -1,0 +1,1256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{b355c2ba-4a50-4bce-878d-074b1e09b7e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\utils">
+      <UniqueIdentifier>{40957f0d-26e3-4cc0-b954-887491843620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\utils\proto">
+      <UniqueIdentifier>{80633690-9c7c-4be0-831e-489b220034ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\backends">
+      <UniqueIdentifier>{2ea5ea3e-d403-4080-a5d7-643c5d68bcd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\backends\glfw">
+      <UniqueIdentifier>{c852d03f-8990-4122-a137-24a7e4e55696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\backends\glfw\imgui">
+      <UniqueIdentifier>{900a03e4-f453-4a1a-9df2-0fda0b20c775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp">
+      <UniqueIdentifier>{57ebde3e-0766-49ae-8d54-9737ac543b08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\detector">
+      <UniqueIdentifier>{43d80585-d20f-4c5b-bce8-6dd5af426f13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\audio">
+      <UniqueIdentifier>{8cff5813-9d30-40ce-80a6-cf8bf2a7ccf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\bench">
+      <UniqueIdentifier>{285e8727-d323-4473-8d7b-91232b9bf58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\buffer">
+      <UniqueIdentifier>{faad9515-7f67-401c-a9aa-509081685174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\channel">
+      <UniqueIdentifier>{f67aeab6-dc4d-459a-8c7c-369ab7549ae0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\clock_recovery">
+      <UniqueIdentifier>{d119f307-24eb-409d-9858-4cd645d1271f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\compression">
+      <UniqueIdentifier>{bba3853b-e83f-4330-997d-c116086ac9e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\convert">
+      <UniqueIdentifier>{a65197ce-117b-412b-81c6-7b6dcada4571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\correction">
+      <UniqueIdentifier>{96c4a7a5-fdbe-424a-90cc-7504cd02b857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\demod">
+      <UniqueIdentifier>{7e2a84dc-da1c-4f6f-abef-79eeea6501b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\digital">
+      <UniqueIdentifier>{b5973a14-9bc9-4ad2-a59a-5bcf64e2fe16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\filter">
+      <UniqueIdentifier>{56aeb782-369c-4b36-9b55-0c5df032e536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\loop">
+      <UniqueIdentifier>{0c26696e-f3d2-4b36-b4cd-4a2c044bfb5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\math">
+      <UniqueIdentifier>{27848e5e-d7d1-4325-a30f-4dfe84891211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\mod">
+      <UniqueIdentifier>{e2d4f4d2-7b70-495e-8586-848fa9b5b3d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\multirate">
+      <UniqueIdentifier>{ce63bd4f-9088-4cc3-8b20-f6cc7ad61cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\multirate\decim">
+      <UniqueIdentifier>{a020bf40-c06f-440b-96fa-6aa407122ed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\multirate\decim\taps">
+      <UniqueIdentifier>{262e1853-411a-47d3-83b0-ae6eac125983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\noise_reduction">
+      <UniqueIdentifier>{2dc1605e-bddc-4f94-a945-b73847c2b17f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\routing">
+      <UniqueIdentifier>{ef403e3b-6354-416f-987f-c466ebbb604e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\sink">
+      <UniqueIdentifier>{2a5ee865-f011-4e64-9927-4fa904ae7a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\taps">
+      <UniqueIdentifier>{663abbde-a25c-40b2-9ed5-2848f943c472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\dsp\window">
+      <UniqueIdentifier>{c2c918b0-013c-4994-bc0b-b607e41af38a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\gui">
+      <UniqueIdentifier>{3d6eed52-9ef5-49c6-a3d8-3640991850f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\gui\dialogs">
+      <UniqueIdentifier>{9fe51c8b-307b-4b17-9f4a-38b634b60495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\gui\menus">
+      <UniqueIdentifier>{8dc06aff-1610-45cc-93b6-7170a3f2f613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\gui\widgets">
+      <UniqueIdentifier>{730f4aaa-f03d-4b37-8b90-bec878a20566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\gui\widgets\freq_input">
+      <UniqueIdentifier>{9055a58f-d3ac-4473-a095-368bd708c3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\gui\brown">
+      <UniqueIdentifier>{cad89e10-ce93-4a86-93de-4753734efb8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\gui\brown\imgui-notify">
+      <UniqueIdentifier>{ec81e9ab-2fb2-484d-bf9b-4d205fcd7003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\imgui">
+      <UniqueIdentifier>{fa735e12-e4b7-43db-9c3d-77271df69ea4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\signal_path">
+      <UniqueIdentifier>{e2a1c04a-1603-4f9a-a7f1-22cee21cc141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules">
+      <UniqueIdentifier>{18b2728d-760b-42ec-b97e-6aa6a94cd1cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\radio">
+      <UniqueIdentifier>{188cc3c5-bf3a-4eb4-8321-c848243fbb2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\radio\demodulators">
+      <UniqueIdentifier>{bdf190c2-8cc4-448f-977a-56989ff63d51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\audio_sink">
+      <UniqueIdentifier>{1712072e-5b4c-4897-a9ba-aded720dfab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\audio_source">
+      <UniqueIdentifier>{79634224-44f2-4d1b-82e6-b72b63dffc24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\frequency_manager">
+      <UniqueIdentifier>{0c37f575-cd38-4130-b416-d952b17f3cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\plutosdr_source">
+      <UniqueIdentifier>{2604565a-43a0-4ebe-8799-b812f5a3019a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\file_source">
+      <UniqueIdentifier>{383a926a-b542-40c0-8dde-496b50cf9905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\iq_exporter">
+      <UniqueIdentifier>{c5e9f399-1cd0-45c2-9b41-c912398b4478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\network_source">
+      <UniqueIdentifier>{6fd86d38-e5c5-4b41-8399-2d0d7024c450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\noise_reduction_logmmse">
+      <UniqueIdentifier>{420827c7-0abe-4c36-90aa-5aed4d308d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\noise_reduction_logmmse\omlsa_mcra">
+      <UniqueIdentifier>{4090344a-83c3-4d6e-8ca1-feb5f3e05fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\recorder">
+      <UniqueIdentifier>{855969ce-73f8-47d2-a0f6-6432122480c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\scanner">
+      <UniqueIdentifier>{971ecdc8-bd4e-4123-b812-89287039121e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\scheduler">
+      <UniqueIdentifier>{366eafc0-b278-4c88-9dd4-d3b2a16f28d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\scheduler\actions">
+      <UniqueIdentifier>{7ccec44a-ae36-4102-bd45-427976c92adc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules\network_sink">
+      <UniqueIdentifier>{1c4fac5c-a061-46ec-9f5e-e6b7f984081b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\core\backend_common.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\command_args.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\config.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\core.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\credits.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\module.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\module_com.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\server.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\executable_path.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\flog.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\hrfreq.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\net.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\networking.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\riff.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\url.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\wav.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\proto\http.cpp">
+      <Filter>core\utils\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\proto\kiwisdr.cpp">
+      <Filter>core\utils\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\proto\rigctl.cpp">
+      <Filter>core\utils\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\proto\websock.cpp">
+      <Filter>core\utils\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\backends\glfw\backend.cpp">
+      <Filter>core\backends\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\backends\glfw\imgui\imgui_impl_glfw.cpp">
+      <Filter>core\backends\glfw\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\colormaps.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\gui.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\icons.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\main_window.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\smgui.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\style.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\theme_manager.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\tuner.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\waterfall_autorange.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\dialogs\credits.cpp">
+      <Filter>core\gui\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\dialogs\loading_screen.cpp">
+      <Filter>core\gui\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\menus\bandplan.cpp">
+      <Filter>core\gui\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\menus\display.cpp">
+      <Filter>core\gui\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\menus\module_manager.cpp">
+      <Filter>core\gui\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\menus\sink.cpp">
+      <Filter>core\gui\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\menus\source.cpp">
+      <Filter>core\gui\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\menus\theme.cpp">
+      <Filter>core\gui\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\menus\vfo_color.cpp">
+      <Filter>core\gui\menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\bandplan.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\band_mapping.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\band_stack.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\constellation_diagram.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\file_select.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\folder_select.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\frequency_select.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\freq_memory.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\image.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\line_push_image.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\menu.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\popup_dialog.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\snr_meter.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\stepped_slider.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\symbol_diagram.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\volume_meter.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\waterfall.cpp">
+      <Filter>core\gui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\bands.cpp">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\band_picker_model.cpp">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\dialog.cpp">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\keypad.cpp">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\spectrum.cpp">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\spectrum_ranges.cpp">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\imgui\imgui.cpp">
+      <Filter>core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\imgui\imgui_demo.cpp">
+      <Filter>core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\imgui\imgui_draw.cpp">
+      <Filter>core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\imgui\imgui_impl_opengl3.cpp">
+      <Filter>core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\imgui\imgui_tables.cpp">
+      <Filter>core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\imgui\imgui_widgets.cpp">
+      <Filter>core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\signal_path\iq_frontend.cpp">
+      <Filter>core\signal_path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\signal_path\signal_path.cpp">
+      <Filter>core\signal_path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\signal_path\sink.cpp">
+      <Filter>core\signal_path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\signal_path\source.cpp">
+      <Filter>core\signal_path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\signal_path\vfo_manager.cpp">
+      <Filter>core\signal_path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\radio\main_radio.cpp">
+      <Filter>modules\radio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\radio\rds.cpp">
+      <Filter>modules\radio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\audio_sink\main_audio_sink.cpp">
+      <Filter>modules\audio_sink</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\audio_source\main_audio_source.cpp">
+      <Filter>modules\audio_source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\frequency_manager\bookmark.cpp">
+      <Filter>modules\frequency_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\frequency_manager\main_frequency_manager.cpp">
+      <Filter>modules\frequency_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\frequency_manager\schedule.cpp">
+      <Filter>modules\frequency_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\modules\plutosdr_source\main_plutosdr_source.cpp">
+      <Filter>modules\plutosdr_source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\file_source\main_file_source.cpp">
+      <Filter>modules\file_source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\iq_exporter\main_iq_exporter.cpp">
+      <Filter>modules\iq_exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\network_source\main_network_source.cpp">
+      <Filter>modules\network_source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\arrays.cpp">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\main_noise.cpp">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra.cpp">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\base4_fft.cpp">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\Cordic.cpp">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\Datablock_Read.cpp">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\G_calculate.cpp">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\LSA_denoise.cpp">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\recorder\main_recorder.cpp">
+      <Filter>modules\recorder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\scanner\main_scanner.cpp">
+      <Filter>modules\scanner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\utils\flac_reader.cpp">
+      <Filter>core\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\scheduler\main_scheduler.cpp">
+      <Filter>modules\scheduler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\network_sink\main_network_sink.cpp">
+      <Filter>modules\network_sink</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\gui\theme_internal.cpp">
+      <Filter>core\gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\core\backend.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\backend_common.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\command_args.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\config.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\core.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\credits.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\json.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\meteor_demodulator_interface.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\module.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\module_com.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\radio_interface.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\recorder_interface.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\sdrpp_export.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\server.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\server_protocol.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\version.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\ascii.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\async_connector.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\base64.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\color.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\event.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\executable_path.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\flog.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\freq_formatting.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\hex_color.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\hrfreq.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\net.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\networking.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\net_connect.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\net_resolve.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\new_event.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\opengl_include_code.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\optionlist.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\riff.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\url.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\wav.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\proto\http.h">
+      <Filter>core\utils\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\proto\kiwisdr.h">
+      <Filter>core\utils\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\proto\pbkdf2_sha256.h">
+      <Filter>core\utils\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\proto\picohash.h">
+      <Filter>core\utils\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\proto\rigctl.h">
+      <Filter>core\utils\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\proto\websock.h">
+      <Filter>core\utils\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\backends\glfw\imgui\imgui_impl_glfw.h">
+      <Filter>core\backends\glfw\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\block.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\chain.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\hier_block.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\operator.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\processor.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\sink.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\source.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\stream.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\types.h">
+      <Filter>core\dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\audio\volume.h">
+      <Filter>core\dsp\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\bench\peak_level_meter.h">
+      <Filter>core\dsp\bench</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\bench\speed_tester.h">
+      <Filter>core\dsp\bench</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\buffer\buffer.h">
+      <Filter>core\dsp\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\buffer\frame_buffer.h">
+      <Filter>core\dsp\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\buffer\packer.h">
+      <Filter>core\dsp\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\buffer\prebuffer.h">
+      <Filter>core\dsp\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\buffer\reshaper.h">
+      <Filter>core\dsp\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\buffer\ring_buffer.h">
+      <Filter>core\dsp\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\channel\frequency_xlator.h">
+      <Filter>core\dsp\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\channel\rx_vfo.h">
+      <Filter>core\dsp\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\clock_recovery\fd.h">
+      <Filter>core\dsp\clock_recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\clock_recovery\mm.h">
+      <Filter>core\dsp\clock_recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\compression\pcm_type.h">
+      <Filter>core\dsp\compression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\compression\sample_stream_compressor.h">
+      <Filter>core\dsp\compression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\compression\sample_stream_decompressor.h">
+      <Filter>core\dsp\compression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\convert\complex_to_real.h">
+      <Filter>core\dsp\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\convert\complex_to_stereo.h">
+      <Filter>core\dsp\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\convert\l_r_to_stereo.h">
+      <Filter>core\dsp\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\convert\mono_to_stereo.h">
+      <Filter>core\dsp\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\convert\real_to_complex.h">
+      <Filter>core\dsp\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\convert\stereo_to_mono.h">
+      <Filter>core\dsp\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\correction\dc_blocker.h">
+      <Filter>core\dsp\correction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\demod\am.h">
+      <Filter>core\dsp\demod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\demod\broadcast_fm.h">
+      <Filter>core\dsp\demod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\demod\cw.h">
+      <Filter>core\dsp\demod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\demod\fm.h">
+      <Filter>core\dsp\demod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\demod\gfsk.h">
+      <Filter>core\dsp\demod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\demod\psk.h">
+      <Filter>core\dsp\demod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\demod\quadrature.h">
+      <Filter>core\dsp\demod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\demod\ssb.h">
+      <Filter>core\dsp\demod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\digital\binary_slicer.h">
+      <Filter>core\dsp\digital</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\digital\differential_decoder.h">
+      <Filter>core\dsp\digital</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\digital\manchester_decoder.h">
+      <Filter>core\dsp\digital</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\filter\decimating_fir.h">
+      <Filter>core\dsp\filter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\filter\deephasis.h">
+      <Filter>core\dsp\filter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\filter\fir.h">
+      <Filter>core\dsp\filter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\loop\agc.h">
+      <Filter>core\dsp\loop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\loop\carrier_tracking_pll.h">
+      <Filter>core\dsp\loop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\loop\costas.h">
+      <Filter>core\dsp\loop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\loop\fast_agc.h">
+      <Filter>core\dsp\loop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\loop\phase_control_loop.h">
+      <Filter>core\dsp\loop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\loop\pll.h">
+      <Filter>core\dsp\loop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\add.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\conjugate.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\constants.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\delay.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\fast_atan2.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\hz_to_rads.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\multiply.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\normalize_phase.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\phasor.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\sinc.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\step.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\math\subtract.h">
+      <Filter>core\dsp\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\mod\gfsk.h">
+      <Filter>core\dsp\mod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\mod\psk.h">
+      <Filter>core\dsp\mod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\mod\quadrature.h">
+      <Filter>core\dsp\mod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\polyphase_bank.h">
+      <Filter>core\dsp\multirate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\polyphase_resampler.h">
+      <Filter>core\dsp\multirate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\power_decimator.h">
+      <Filter>core\dsp\multirate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\rational_resampler.h">
+      <Filter>core\dsp\multirate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\rrc_interpolator.h">
+      <Filter>core\dsp\multirate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\plans.h">
+      <Filter>core\dsp\multirate\decim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_1024_64.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_128_16.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_16_8.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_2048_64.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_256_32.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_2_2.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_32_8.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_4096_64.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_4_2.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_512_32.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_64_8.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_8192_128.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_8_4.h">
+      <Filter>core\dsp\multirate\decim\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\noise_reduction\ctcss_squelch.h">
+      <Filter>core\dsp\noise_reduction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\noise_reduction\fm_if.h">
+      <Filter>core\dsp\noise_reduction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\noise_reduction\noise_blanker.h">
+      <Filter>core\dsp\noise_reduction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\noise_reduction\power_squelch.h">
+      <Filter>core\dsp\noise_reduction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\routing\doubler.h">
+      <Filter>core\dsp\routing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\routing\splitter.h">
+      <Filter>core\dsp\routing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\routing\stream_link.h">
+      <Filter>core\dsp\routing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\sink\handler_sink.h">
+      <Filter>core\dsp\sink</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\sink\null_sink.h">
+      <Filter>core\dsp\sink</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\sink\ring_buffer.h">
+      <Filter>core\dsp\sink</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\band_pass.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\estimate_tap_count.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\from_array.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\high_pass.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\low_pass.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\raised_cosine.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\root_raised_cosine.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\tap.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\taps\windowed_sinc.h">
+      <Filter>core\dsp\taps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\blackman.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\blackman_harris.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\blackman_harris7.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\blackman_nuttall.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\cosine.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\hamming.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\hann.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\nuttall.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\dsp\window\rectangular.h">
+      <Filter>core\dsp\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\colormaps.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\file_dialogs.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\gui.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\icons.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\main_window.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\smgui.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\style.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\theme_manager.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\tuner.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\waterfall_autorange.h">
+      <Filter>core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\dialogs\credits.h">
+      <Filter>core\gui\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\dialogs\dialog_box.h">
+      <Filter>core\gui\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\dialogs\loading_screen.h">
+      <Filter>core\gui\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\menus\bandplan.h">
+      <Filter>core\gui\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\menus\display.h">
+      <Filter>core\gui\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\menus\module_manager.h">
+      <Filter>core\gui\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\menus\sink.h">
+      <Filter>core\gui\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\menus\source.h">
+      <Filter>core\gui\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\menus\theme.h">
+      <Filter>core\gui\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\menus\vfo_color.h">
+      <Filter>core\gui\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\bandplan.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\band_mapping.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\band_stack.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\constellation_diagram.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\file_select.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\folder_select.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\frequency_select.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\freq_input.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\freq_memory.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\image.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\line_push_image.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\menu.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\popup_dialog.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\segmented_control.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\simple_widgets.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\snr_meter.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\stepped_slider.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\symbol_diagram.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\toggle_button_grid.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\toggle_style.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\volume_meter.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\waterfall.h">
+      <Filter>core\gui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\freq_input\band_picker_groups.h">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\freq_input\band_picker_model.h">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\widgets\freq_input\spectrum_ranges.h">
+      <Filter>core\gui\widgets\freq_input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\brown\earcut.hpp">
+      <Filter>core\gui\brown</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\brown\imgui-notify\fa_solid_900.h">
+      <Filter>core\gui\brown\imgui-notify</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\brown\imgui-notify\font_awesome_5.h">
+      <Filter>core\gui\brown\imgui-notify</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\brown\imgui-notify\imgui_notify.h">
+      <Filter>core\gui\brown\imgui-notify</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\gui\brown\imgui-notify\tahoma.h">
+      <Filter>core\gui\brown\imgui-notify</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imconfig.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imgui.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imgui_impl_opengl3.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imgui_internal.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imstb_rectpack.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imstb_textedit.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imstb_truetype.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\imutils.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\stb_image.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\imgui\stb_image_resize.h">
+      <Filter>core\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\signal_path\iq_frontend.h">
+      <Filter>core\signal_path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\signal_path\signal_path.h">
+      <Filter>core\signal_path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\signal_path\sink.h">
+      <Filter>core\signal_path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\signal_path\source.h">
+      <Filter>core\signal_path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\signal_path\vfo_manager.h">
+      <Filter>core\signal_path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demod.h">
+      <Filter>modules\radio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\rds.h">
+      <Filter>modules\radio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\rds_demod.h">
+      <Filter>modules\radio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\am.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\cw.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\cwr.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\dsb.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\lsb.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\nfm.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\raw.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\usb.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\radio\demodulators\wfm.h">
+      <Filter>modules\radio\demodulators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\frequency_manager\bookmark.h">
+      <Filter>modules\frequency_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\frequency_manager\schedule.h">
+      <Filter>modules\frequency_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\file_source\flacreader.h">
+      <Filter>modules\file_source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\file_source\sample_reader.h">
+      <Filter>modules\file_source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\file_source\wavreader.h">
+      <Filter>modules\file_source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\af_nr.h">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\arrays.h">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\bgnoise.h">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\if_nr.h">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\logmmse.h">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra.h">
+      <Filter>modules\noise_reduction_logmmse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\base4_fft.h">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\Cordic.h">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\Datablock_Read.h">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\G_calculate.h">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\LSA_denoise.h">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\SearchChart.h">
+      <Filter>modules\noise_reduction_logmmse\omlsa_mcra</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils\flac_reader.h">
+      <Filter>core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\scheduler\sched_action.h">
+      <Filter>modules\scheduler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\scheduler\sched_task.h">
+      <Filter>modules\scheduler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\scheduler\actions\start_recorder.h">
+      <Filter>modules\scheduler\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\modules\scheduler\actions\tune_vfo.h">
+      <Filter>modules\scheduler\actions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="..\src\utf8.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\resources.rc" />
+  </ItemGroup>
+</Project>

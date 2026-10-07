@@ -1,0 +1,324 @@
+#include <backend.h>
+#include <backend_common.h>
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include <GLFW/glfw3.h>
+#include <utils/flog.h>
+#include <utils/opengl_include_code.h>
+#include <version.h>
+#include <core.h>
+// Desktop integration that applies to every Unix-like platform driving GLFW's
+// X11/Wayland backends, as opposed to macOS (bundle ICNS) and Windows (ICO
+// resource), which identify the application through packaging metadata instead.
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__)
+#define SDRPP_GLFW_UNIX_DESKTOP 1
+#endif
+
+#if defined(SDRPP_GLFW_UNIX_DESKTOP)
+#include <stb_image.h>
+#endif
+
+namespace backend {
+    const char* OPENGL_VERSIONS_GLSL[] = {
+        "#version 120",
+        "#version 300 es",
+        "#version 120"
+    };
+
+    const int OPENGL_VERSIONS_MAJOR[] = {
+        3,
+        3,
+        2
+    };
+
+    const int OPENGL_VERSIONS_MINOR[] = {
+        0,
+        1,
+        1
+    };
+
+    const bool OPENGL_VERSIONS_IS_ES[] = {
+        false,
+        true,
+        false
+    };
+
+    #define OPENGL_VERSION_COUNT (sizeof(OPENGL_VERSIONS_GLSL) / sizeof(char*))
+
+    bool maximized = false;
+    bool fullScreen = false;
+    // Defaults match defConfig's windowSize, and stand in when the key is absent.
+    int winHeight = 720;
+    int winWidth = 1280;
+    bool _maximized = maximized;
+    int fsWidth, fsHeight, fsPosX, fsPosY;
+    int _winWidth, _winHeight;
+    GLFWwindow* window;
+    GLFWmonitor* monitor;
+    common::ScaleState scaleState;
+
+    static void glfw_error_callback(int error, const char* description) {
+        flog::error("Glfw Error {0}: {1}", error, description);
+    }
+
+    static void maximized_callback(GLFWwindow* window, int n) {
+        if (n == GLFW_TRUE) {
+            maximized = true;
+        }
+        else {
+            maximized = false;
+        }
+    }
+
+    static void onWindowContentScaleChanged(GLFWwindow* w, float xscale, float yscale) {
+        common::queueContentScale(scaleState, xscale);
+    }
+
+    void setUserScaleFactor(float newFactor) {
+        common::setUserScaleFactor(scaleState, newFactor);
+    }
+
+    int init(std::string resDir) {
+        // Load config
+        {
+            auto configAccess = core::configManager.read();
+            ConfigManager::ReadSection size = configAccess.section("windowSize");
+            size.tryGet("w", winWidth);
+            size.tryGet("h", winHeight);
+            configAccess.tryGet("maximized", maximized);
+            configAccess.tryGet("fullscreen", fullScreen);
+        }
+        float userScaleFactor = common::configUserScaleFactor();
+
+        // Setup window
+        glfwSetErrorCallback(glfw_error_callback);
+        if (!glfwInit()) {
+            return 1;
+        }
+
+    #ifdef __APPLE__
+        // GL 3.2 + GLSL 150
+        const char* glsl_version = "#version 150";
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 3.2+ only
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);           // Required on Mac
+
+        // Create window with graphics context
+        monitor = glfwGetPrimaryMonitor();
+        window = glfwCreateWindow(winWidth, winHeight, "SDRIAK v" VERSION_STR " (Built at " __TIME__ ", " __DATE__ ")", NULL, NULL);
+        if (window == NULL)
+            return 1;
+        glfwMakeContextCurrent(window);
+    #else
+        const char* glsl_version = "#version 120";
+        monitor = NULL;
+        // Both must match the desktop file's basename (and its StartupWMClass)
+        // for the shell to bind the window to sdriak.desktop and pick up the
+        // hicolor icon. X11 keys off WM_CLASS, Wayland off the xdg app ID.
+    #if defined(SDRPP_GLFW_UNIX_DESKTOP) && (GLFW_VERSION_MAJOR > 3 || (GLFW_VERSION_MAJOR == 3 && GLFW_VERSION_MINOR >= 3))
+        glfwWindowHintString(GLFW_X11_CLASS_NAME, "sdriak");
+        glfwWindowHintString(GLFW_X11_INSTANCE_NAME, "sdriak");
+    #endif
+    #if defined(SDRPP_GLFW_UNIX_DESKTOP) && (GLFW_VERSION_MAJOR > 3 || (GLFW_VERSION_MAJOR == 3 && GLFW_VERSION_MINOR >= 4))
+        glfwWindowHintString(GLFW_WAYLAND_APP_ID, "sdriak");
+    #endif
+        for (int i = 0; i < OPENGL_VERSION_COUNT; i++) {
+            glsl_version = OPENGL_VERSIONS_GLSL[i];
+            glfwWindowHint(GLFW_CLIENT_API, OPENGL_VERSIONS_IS_ES[i] ? GLFW_OPENGL_ES_API : GLFW_OPENGL_API);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_VERSIONS_MAJOR[i]);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OPENGL_VERSIONS_MINOR[i]);
+            
+            // Create window with graphics context
+            monitor = glfwGetPrimaryMonitor();
+            window = glfwCreateWindow(winWidth, winHeight, "SDRIAK v" VERSION_STR " (Built at " __TIME__ ", " __DATE__ ")", NULL, NULL);
+            if (window == NULL) {
+                flog::info("OpenGL {0}.{1} {2}was not supported", OPENGL_VERSIONS_MAJOR[i], OPENGL_VERSIONS_MINOR[i], OPENGL_VERSIONS_IS_ES[i] ? "ES " : "");
+                continue;
+            }
+            flog::info("Using OpenGL {0}.{1}{2}", OPENGL_VERSIONS_MAJOR[i], OPENGL_VERSIONS_MINOR[i], OPENGL_VERSIONS_IS_ES[i] ? " ES" : "");
+            glfwMakeContextCurrent(window);
+            break;
+        }
+
+    #endif
+
+        // Query the content scale of the display the window actually landed on
+        if (window) {
+            float xscale = 1.0f, yscale = 1.0f;
+            glfwGetWindowContentScale(window, &xscale, &yscale);
+            common::initScaleState(scaleState, resDir, xscale, userScaleFactor);
+        }
+
+#if defined(SDRPP_GLFW_UNIX_DESKTOP)
+        // X11 needs _NET_WM_ICON data on the window. Wayland instead
+        // identifies the application through its desktop-file ID. Windows uses
+        // the embedded ICO resource and macOS uses the application bundle's ICNS.
+        const std::string iconPath = resDir + "/icons/sdriak.png";
+        GLFWimage icon = {};
+        icon.pixels = stbi_load(iconPath.c_str(), &icon.width, &icon.height, 0, 4);
+        if (icon.pixels == nullptr) {
+            flog::error("Failed to load application icon '{0}'", iconPath);
+            return 1;
+        }
+        glfwSetWindowIcon(window, 1, &icon);
+        stbi_image_free(icon.pixels);
+#endif
+
+        // Add callback for max/min if GLFW supports it
+    #if (GLFW_VERSION_MAJOR == 3) && (GLFW_VERSION_MINOR >= 3)
+        if (maximized) {
+            glfwMaximizeWindow(window);
+        }
+
+        glfwSetWindowMaximizeCallback(window, maximized_callback);
+    #endif
+
+        // Setup Dear ImGui context
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        (void)io;
+        io.ConfigWindowsMoveFromTitleBarOnly = true;
+        io.IniFilename = NULL;
+
+        // Setup Platform/Renderer bindings
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        glfwSetWindowContentScaleCallback(window, onWindowContentScaleChanged);
+
+        if (!ImGui_ImplOpenGL3_Init(glsl_version)) {
+            // If init fail, try to fall back on GLSL 1.2
+            flog::warn("Could not init using OpenGL with normal GLSL version, falling back to GLSL 1.2");
+            if (!ImGui_ImplOpenGL3_Init("#version 120")) {
+                flog::error("Failed to initialize OpenGL with GLSL 1.2");
+                return -1;
+            }
+        }
+
+        // Set window size and fullscreen state
+        glfwGetWindowSize(window, &_winWidth, &_winHeight);
+        if (fullScreen) {
+            flog::info("Fullscreen: ON");
+            fsWidth = _winWidth;
+            fsHeight = _winHeight;
+            glfwGetWindowPos(window, &fsPosX, &fsPosY);
+            const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+            glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, 0);
+        }
+
+        // Everything went according to plan
+        return 0;
+    }
+
+    void beginFrame() {
+        // Start the Dear ImGui frame
+        ImGui_ImplOpenGL3_NewFrame();
+        if (ImGui::GetIO().Fonts->TexPixelsRGBA32) {
+            ImGui::GetIO().Fonts->ClearTexData();
+        }
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
+
+    void render(bool vsync) {
+        // Rendering
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        common::renderOpenGLFrame(display_w, display_h);
+
+        glfwSwapInterval(vsync);
+        glfwSwapBuffers(window);
+    }
+
+    float getContentScale() {
+        return scaleState.detectedContentScale;
+    }
+
+    void getMouseScreenPos(double& x, double& y) {
+        glfwGetCursorPos(window, &x, &y);
+    }
+
+    void setMouseScreenPos(double x, double y) {
+        // Tell GLFW to move the cursor and then manually fire the event
+        glfwSetCursorPos(window, x, y);
+        ImGui_ImplGlfw_CursorPosCallback(window, x, y);
+    }
+
+    int renderLoop() {
+        // Main loop
+        while (!glfwWindowShouldClose(window)) {
+            glfwPollEvents();
+
+            common::applyPendingScaleChanges(scaleState, scaleState.detectedContentScale, false);
+
+            beginFrame();
+            
+            if (_maximized != maximized) {
+                _maximized = maximized;
+                int restoreW = 0, restoreH = 0;
+                {
+                    auto configAccess = core::configManager.edit();
+                    configAccess.set("maximized", _maximized);
+                    if (!maximized) {
+                        ConfigManager::EditSection size = configAccess.section("windowSize");
+                        restoreW = size.value("w", winWidth);
+                        restoreH = size.value("h", winHeight);
+                    }
+                }
+                // Outside the transaction: resizing runs the GLFW callbacks, which
+                // reach for the config themselves.
+                if (!maximized) { glfwSetWindowSize(window, restoreW, restoreH); }
+            }
+
+            glfwGetWindowSize(window, &_winWidth, &_winHeight);
+
+            if (ImGui::IsKeyPressed(GLFW_KEY_F11)) {
+                fullScreen = !fullScreen;
+                if (fullScreen) {
+                    flog::info("Fullscreen: ON");
+                    fsWidth = _winWidth;
+                    fsHeight = _winHeight;
+                    glfwGetWindowPos(window, &fsPosX, &fsPosY);
+                    const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+                    glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, 0);
+                    core::configManager.edit().set("fullscreen", true);
+                }
+                else {
+                    flog::info("Fullscreen: OFF");
+                    glfwSetWindowMonitor(window, nullptr, fsPosX, fsPosY, fsWidth, fsHeight, 0);
+                    core::configManager.edit().set("fullscreen", false);
+                }
+            }
+
+            if ((_winWidth != winWidth || _winHeight != winHeight) && !maximized && _winWidth > 0 && _winHeight > 0) {
+                winWidth = _winWidth;
+                winHeight = _winHeight;
+                auto configAccess = core::configManager.edit();
+                ConfigManager::EditSection size = configAccess.section("windowSize");
+                size.set("w", winWidth);
+                size.set("h", winHeight);
+            }
+
+            if (winWidth > 0 && winHeight > 0) {
+                common::drawMainWindow(ImVec2(_winWidth, _winHeight));
+            }
+
+            render();
+        }
+
+        return 0;
+    }
+
+    int end() {
+        // Cleanup
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+
+        glfwDestroyWindow(window);
+        glfwTerminate();
+
+        return 0; // TODO: Int really needed?
+    }
+}

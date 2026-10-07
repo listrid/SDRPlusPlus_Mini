@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\backends\glfw\backend.cpp" />
+    <ClCompile Include="..\src\backends\glfw\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\src\core\backend_common.cpp" />
+    <ClCompile Include="..\src\core\command_args.cpp" />
+    <ClCompile Include="..\src\core\config.cpp" />
+    <ClCompile Include="..\src\core\core.cpp" />
+    <ClCompile Include="..\src\core\credits.cpp" />
+    <ClCompile Include="..\src\core\gui\colormaps.cpp" />
+    <ClCompile Include="..\src\core\gui\dialogs\credits.cpp" />
+    <ClCompile Include="..\src\core\gui\dialogs\loading_screen.cpp" />
+    <ClCompile Include="..\src\core\gui\gui.cpp" />
+    <ClCompile Include="..\src\core\gui\icons.cpp" />
+    <ClCompile Include="..\src\core\gui\main_window.cpp" />
+    <ClCompile Include="..\src\core\gui\menus\bandplan.cpp" />
+    <ClCompile Include="..\src\core\gui\menus\display.cpp" />
+    <ClCompile Include="..\src\core\gui\menus\module_manager.cpp" />
+    <ClCompile Include="..\src\core\gui\menus\sink.cpp" />
+    <ClCompile Include="..\src\core\gui\menus\source.cpp" />
+    <ClCompile Include="..\src\core\gui\menus\theme.cpp" />
+    <ClCompile Include="..\src\core\gui\menus\vfo_color.cpp" />
+    <ClCompile Include="..\src\core\gui\smgui.cpp" />
+    <ClCompile Include="..\src\core\gui\style.cpp" />
+    <ClCompile Include="..\src\core\gui\theme_internal.cpp" />
+    <ClCompile Include="..\src\core\gui\theme_manager.cpp" />
+    <ClCompile Include="..\src\core\gui\tuner.cpp" />
+    <ClCompile Include="..\src\core\gui\waterfall_autorange.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\bandplan.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\band_mapping.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\band_stack.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\constellation_diagram.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\file_select.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\folder_select.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\frequency_select.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\bands.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\band_picker_model.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\dialog.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\keypad.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\spectrum.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\freq_input\spectrum_ranges.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\freq_memory.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\image.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\line_push_image.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\menu.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\popup_dialog.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\snr_meter.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\stepped_slider.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\symbol_diagram.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\volume_meter.cpp" />
+    <ClCompile Include="..\src\core\gui\widgets\waterfall.cpp" />
+    <ClCompile Include="..\src\core\imgui\imgui.cpp" />
+    <ClCompile Include="..\src\core\imgui\imgui_demo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\src\core\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\src\core\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\src\core\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\src\core\module.cpp" />
+    <ClCompile Include="..\src\modules\audio_sink\main_audio_sink.cpp" />
+    <ClCompile Include="..\src\modules\audio_source\main_audio_source.cpp" />
+    <ClCompile Include="..\src\modules\file_source\main_file_source.cpp" />
+    <ClCompile Include="..\src\modules\frequency_manager\bookmark.cpp" />
+    <ClCompile Include="..\src\modules\frequency_manager\main_frequency_manager.cpp" />
+    <ClCompile Include="..\src\modules\frequency_manager\schedule.cpp" />
+    <ClCompile Include="..\src\modules\iq_exporter\main_iq_exporter.cpp" />
+    <ClCompile Include="..\src\modules\network_sink\main_network_sink.cpp" />
+    <ClCompile Include="..\src\modules\network_source\main_network_source.cpp" />
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\arrays.cpp" />
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\main_noise.cpp" />
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra.cpp" />
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\base4_fft.cpp" />
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\Cordic.cpp" />
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\Datablock_Read.cpp" />
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\G_calculate.cpp" />
+    <ClCompile Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\LSA_denoise.cpp" />
+    <ClCompile Include="..\src\modules\plutosdr_source\main_plutosdr_source.cpp" />
+    <ClCompile Include="..\src\modules\radio\main_radio.cpp" />
+    <ClCompile Include="..\src\modules\radio\rds.cpp" />
+    <ClCompile Include="..\src\modules\recorder\main_recorder.cpp" />
+    <ClCompile Include="..\src\modules\scanner\main_scanner.cpp" />
+    <ClCompile Include="..\src\modules\scheduler\main_scheduler.cpp" />
+    <ClCompile Include="..\src\core\module_com.cpp" />
+    <ClCompile Include="..\src\core\server.cpp" />
+    <ClCompile Include="..\src\core\signal_path\iq_frontend.cpp" />
+    <ClCompile Include="..\src\core\signal_path\signal_path.cpp" />
+    <ClCompile Include="..\src\core\signal_path\sink.cpp" />
+    <ClCompile Include="..\src\core\signal_path\source.cpp" />
+    <ClCompile Include="..\src\core\signal_path\vfo_manager.cpp" />
+    <ClCompile Include="..\src\core\utils\executable_path.cpp" />
+    <ClCompile Include="..\src\core\utils\flac_reader.cpp" />
+    <ClCompile Include="..\src\core\utils\flog.cpp" />
+    <ClCompile Include="..\src\core\utils\hrfreq.cpp" />
+    <ClCompile Include="..\src\core\utils\net.cpp" />
+    <ClCompile Include="..\src\core\utils\networking.cpp" />
+    <ClCompile Include="..\src\core\utils\proto\http.cpp" />
+    <ClCompile Include="..\src\core\utils\proto\kiwisdr.cpp" />
+    <ClCompile Include="..\src\core\utils\proto\rigctl.cpp" />
+    <ClCompile Include="..\src\core\utils\proto\websock.cpp" />
+    <ClCompile Include="..\src\core\utils\riff.cpp" />
+    <ClCompile Include="..\src\core\utils\url.cpp" />
+    <ClCompile Include="..\src\core\utils\wav.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="..\src\utf8.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\backends\glfw\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="..\src\core\backend.h" />
+    <ClInclude Include="..\src\core\backend_common.h" />
+    <ClInclude Include="..\src\core\command_args.h" />
+    <ClInclude Include="..\src\core\config.h" />
+    <ClInclude Include="..\src\core\core.h" />
+    <ClInclude Include="..\src\core\credits.h" />
+    <ClInclude Include="..\src\core\dsp\audio\volume.h" />
+    <ClInclude Include="..\src\core\dsp\bench\peak_level_meter.h" />
+    <ClInclude Include="..\src\core\dsp\bench\speed_tester.h" />
+    <ClInclude Include="..\src\core\dsp\block.h" />
+    <ClInclude Include="..\src\core\dsp\buffer\buffer.h" />
+    <ClInclude Include="..\src\core\dsp\buffer\frame_buffer.h" />
+    <ClInclude Include="..\src\core\dsp\buffer\packer.h" />
+    <ClInclude Include="..\src\core\dsp\buffer\prebuffer.h" />
+    <ClInclude Include="..\src\core\dsp\buffer\reshaper.h" />
+    <ClInclude Include="..\src\core\dsp\buffer\ring_buffer.h" />
+    <ClInclude Include="..\src\core\dsp\chain.h" />
+    <ClInclude Include="..\src\core\dsp\channel\frequency_xlator.h" />
+    <ClInclude Include="..\src\core\dsp\channel\rx_vfo.h" />
+    <ClInclude Include="..\src\core\dsp\clock_recovery\fd.h" />
+    <ClInclude Include="..\src\core\dsp\clock_recovery\mm.h" />
+    <ClInclude Include="..\src\core\dsp\compression\pcm_type.h" />
+    <ClInclude Include="..\src\core\dsp\compression\sample_stream_compressor.h" />
+    <ClInclude Include="..\src\core\dsp\compression\sample_stream_decompressor.h" />
+    <ClInclude Include="..\src\core\dsp\convert\complex_to_real.h" />
+    <ClInclude Include="..\src\core\dsp\convert\complex_to_stereo.h" />
+    <ClInclude Include="..\src\core\dsp\convert\l_r_to_stereo.h" />
+    <ClInclude Include="..\src\core\dsp\convert\mono_to_stereo.h" />
+    <ClInclude Include="..\src\core\dsp\convert\real_to_complex.h" />
+    <ClInclude Include="..\src\core\dsp\convert\stereo_to_mono.h" />
+    <ClInclude Include="..\src\core\dsp\correction\dc_blocker.h" />
+    <ClInclude Include="..\src\core\dsp\demod\am.h" />
+    <ClInclude Include="..\src\core\dsp\demod\broadcast_fm.h" />
+    <ClInclude Include="..\src\core\dsp\demod\cw.h" />
+    <ClInclude Include="..\src\core\dsp\demod\fm.h" />
+    <ClInclude Include="..\src\core\dsp\demod\gfsk.h" />
+    <ClInclude Include="..\src\core\dsp\demod\psk.h" />
+    <ClInclude Include="..\src\core\dsp\demod\quadrature.h" />
+    <ClInclude Include="..\src\core\dsp\demod\ssb.h" />
+    <ClInclude Include="..\src\core\dsp\digital\binary_slicer.h" />
+    <ClInclude Include="..\src\core\dsp\digital\differential_decoder.h" />
+    <ClInclude Include="..\src\core\dsp\digital\manchester_decoder.h" />
+    <ClInclude Include="..\src\core\dsp\filter\decimating_fir.h" />
+    <ClInclude Include="..\src\core\dsp\filter\deephasis.h" />
+    <ClInclude Include="..\src\core\dsp\filter\fir.h" />
+    <ClInclude Include="..\src\core\dsp\hier_block.h" />
+    <ClInclude Include="..\src\core\dsp\loop\agc.h" />
+    <ClInclude Include="..\src\core\dsp\loop\carrier_tracking_pll.h" />
+    <ClInclude Include="..\src\core\dsp\loop\costas.h" />
+    <ClInclude Include="..\src\core\dsp\loop\fast_agc.h" />
+    <ClInclude Include="..\src\core\dsp\loop\phase_control_loop.h" />
+    <ClInclude Include="..\src\core\dsp\loop\pll.h" />
+    <ClInclude Include="..\src\core\dsp\math\add.h" />
+    <ClInclude Include="..\src\core\dsp\math\conjugate.h" />
+    <ClInclude Include="..\src\core\dsp\math\constants.h" />
+    <ClInclude Include="..\src\core\dsp\math\delay.h" />
+    <ClInclude Include="..\src\core\dsp\math\fast_atan2.h" />
+    <ClInclude Include="..\src\core\dsp\math\hz_to_rads.h" />
+    <ClInclude Include="..\src\core\dsp\math\multiply.h" />
+    <ClInclude Include="..\src\core\dsp\math\normalize_phase.h" />
+    <ClInclude Include="..\src\core\dsp\math\phasor.h" />
+    <ClInclude Include="..\src\core\dsp\math\sinc.h" />
+    <ClInclude Include="..\src\core\dsp\math\step.h" />
+    <ClInclude Include="..\src\core\dsp\math\subtract.h" />
+    <ClInclude Include="..\src\core\dsp\mod\gfsk.h" />
+    <ClInclude Include="..\src\core\dsp\mod\psk.h" />
+    <ClInclude Include="..\src\core\dsp\mod\quadrature.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\plans.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_1024_64.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_128_16.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_16_8.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_2048_64.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_256_32.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_2_2.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_32_8.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_4096_64.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_4_2.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_512_32.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_64_8.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_8192_128.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\decim\taps\fir_8_4.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\polyphase_bank.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\polyphase_resampler.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\power_decimator.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\rational_resampler.h" />
+    <ClInclude Include="..\src\core\dsp\multirate\rrc_interpolator.h" />
+    <ClInclude Include="..\src\core\dsp\noise_reduction\ctcss_squelch.h" />
+    <ClInclude Include="..\src\core\dsp\noise_reduction\fm_if.h" />
+    <ClInclude Include="..\src\core\dsp\noise_reduction\noise_blanker.h" />
+    <ClInclude Include="..\src\core\dsp\noise_reduction\power_squelch.h" />
+    <ClInclude Include="..\src\core\dsp\operator.h" />
+    <ClInclude Include="..\src\core\dsp\processor.h" />
+    <ClInclude Include="..\src\core\dsp\routing\doubler.h" />
+    <ClInclude Include="..\src\core\dsp\routing\splitter.h" />
+    <ClInclude Include="..\src\core\dsp\routing\stream_link.h" />
+    <ClInclude Include="..\src\core\dsp\sink.h" />
+    <ClInclude Include="..\src\core\dsp\sink\handler_sink.h" />
+    <ClInclude Include="..\src\core\dsp\sink\null_sink.h" />
+    <ClInclude Include="..\src\core\dsp\sink\ring_buffer.h" />
+    <ClInclude Include="..\src\core\dsp\source.h" />
+    <ClInclude Include="..\src\core\dsp\stream.h" />
+    <ClInclude Include="..\src\core\dsp\taps\band_pass.h" />
+    <ClInclude Include="..\src\core\dsp\taps\estimate_tap_count.h" />
+    <ClInclude Include="..\src\core\dsp\taps\from_array.h" />
+    <ClInclude Include="..\src\core\dsp\taps\high_pass.h" />
+    <ClInclude Include="..\src\core\dsp\taps\low_pass.h" />
+    <ClInclude Include="..\src\core\dsp\taps\raised_cosine.h" />
+    <ClInclude Include="..\src\core\dsp\taps\root_raised_cosine.h" />
+    <ClInclude Include="..\src\core\dsp\taps\tap.h" />
+    <ClInclude Include="..\src\core\dsp\taps\windowed_sinc.h" />
+    <ClInclude Include="..\src\core\dsp\types.h" />
+    <ClInclude Include="..\src\core\dsp\window\blackman.h" />
+    <ClInclude Include="..\src\core\dsp\window\blackman_harris.h" />
+    <ClInclude Include="..\src\core\dsp\window\blackman_harris7.h" />
+    <ClInclude Include="..\src\core\dsp\window\blackman_nuttall.h" />
+    <ClInclude Include="..\src\core\dsp\window\cosine.h" />
+    <ClInclude Include="..\src\core\dsp\window\hamming.h" />
+    <ClInclude Include="..\src\core\dsp\window\hann.h" />
+    <ClInclude Include="..\src\core\dsp\window\nuttall.h" />
+    <ClInclude Include="..\src\core\dsp\window\rectangular.h" />
+    <ClInclude Include="..\src\core\gui\brown\earcut.hpp" />
+    <ClInclude Include="..\src\core\gui\brown\imgui-notify\fa_solid_900.h" />
+    <ClInclude Include="..\src\core\gui\brown\imgui-notify\font_awesome_5.h" />
+    <ClInclude Include="..\src\core\gui\brown\imgui-notify\imgui_notify.h" />
+    <ClInclude Include="..\src\core\gui\brown\imgui-notify\tahoma.h" />
+    <ClInclude Include="..\src\core\gui\colormaps.h" />
+    <ClInclude Include="..\src\core\gui\dialogs\credits.h" />
+    <ClInclude Include="..\src\core\gui\dialogs\dialog_box.h" />
+    <ClInclude Include="..\src\core\gui\dialogs\loading_screen.h" />
+    <ClInclude Include="..\src\core\gui\file_dialogs.h" />
+    <ClInclude Include="..\src\core\gui\gui.h" />
+    <ClInclude Include="..\src\core\gui\icons.h" />
+    <ClInclude Include="..\src\core\gui\main_window.h" />
+    <ClInclude Include="..\src\core\gui\menus\bandplan.h" />
+    <ClInclude Include="..\src\core\gui\menus\display.h" />
+    <ClInclude Include="..\src\core\gui\menus\module_manager.h" />
+    <ClInclude Include="..\src\core\gui\menus\sink.h" />
+    <ClInclude Include="..\src\core\gui\menus\source.h" />
+    <ClInclude Include="..\src\core\gui\menus\theme.h" />
+    <ClInclude Include="..\src\core\gui\menus\vfo_color.h" />
+    <ClInclude Include="..\src\core\gui\smgui.h" />
+    <ClInclude Include="..\src\core\gui\style.h" />
+    <ClInclude Include="..\src\core\gui\theme_manager.h" />
+    <ClInclude Include="..\src\core\gui\tuner.h" />
+    <ClInclude Include="..\src\core\gui\waterfall_autorange.h" />
+    <ClInclude Include="..\src\core\gui\widgets\bandplan.h" />
+    <ClInclude Include="..\src\core\gui\widgets\band_mapping.h" />
+    <ClInclude Include="..\src\core\gui\widgets\band_stack.h" />
+    <ClInclude Include="..\src\core\gui\widgets\constellation_diagram.h" />
+    <ClInclude Include="..\src\core\gui\widgets\file_select.h" />
+    <ClInclude Include="..\src\core\gui\widgets\folder_select.h" />
+    <ClInclude Include="..\src\core\gui\widgets\frequency_select.h" />
+    <ClInclude Include="..\src\core\gui\widgets\freq_input.h" />
+    <ClInclude Include="..\src\core\gui\widgets\freq_input\band_picker_groups.h" />
+    <ClInclude Include="..\src\core\gui\widgets\freq_input\band_picker_model.h" />
+    <ClInclude Include="..\src\core\gui\widgets\freq_input\spectrum_ranges.h" />
+    <ClInclude Include="..\src\core\gui\widgets\freq_memory.h" />
+    <ClInclude Include="..\src\core\gui\widgets\image.h" />
+    <ClInclude Include="..\src\core\gui\widgets\line_push_image.h" />
+    <ClInclude Include="..\src\core\gui\widgets\menu.h" />
+    <ClInclude Include="..\src\core\gui\widgets\popup_dialog.h" />
+    <ClInclude Include="..\src\core\gui\widgets\segmented_control.h" />
+    <ClInclude Include="..\src\core\gui\widgets\simple_widgets.h" />
+    <ClInclude Include="..\src\core\gui\widgets\snr_meter.h" />
+    <ClInclude Include="..\src\core\gui\widgets\stepped_slider.h" />
+    <ClInclude Include="..\src\core\gui\widgets\symbol_diagram.h" />
+    <ClInclude Include="..\src\core\gui\widgets\toggle_button_grid.h" />
+    <ClInclude Include="..\src\core\gui\widgets\toggle_style.h" />
+    <ClInclude Include="..\src\core\gui\widgets\volume_meter.h" />
+    <ClInclude Include="..\src\core\gui\widgets\waterfall.h" />
+    <ClInclude Include="..\src\core\imgui\imconfig.h" />
+    <ClInclude Include="..\src\core\imgui\imgui.h" />
+    <ClInclude Include="..\src\core\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\src\core\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="..\src\core\imgui\imgui_internal.h" />
+    <ClInclude Include="..\src\core\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\src\core\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\src\core\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\src\core\imgui\imutils.h" />
+    <ClInclude Include="..\src\core\imgui\stb_image.h" />
+    <ClInclude Include="..\src\core\imgui\stb_image_resize.h" />
+    <ClInclude Include="..\src\core\json.hpp" />
+    <ClInclude Include="..\src\core\meteor_demodulator_interface.h" />
+    <ClInclude Include="..\src\core\module.h" />
+    <ClInclude Include="..\src\modules\file_source\flacreader.h" />
+    <ClInclude Include="..\src\modules\file_source\sample_reader.h" />
+    <ClInclude Include="..\src\modules\file_source\wavreader.h" />
+    <ClInclude Include="..\src\modules\frequency_manager\bookmark.h" />
+    <ClInclude Include="..\src\modules\frequency_manager\schedule.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\af_nr.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\arrays.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\bgnoise.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\if_nr.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\logmmse.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\base4_fft.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\Cordic.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\Datablock_Read.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\G_calculate.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\LSA_denoise.h" />
+    <ClInclude Include="..\src\modules\noise_reduction_logmmse\omlsa_mcra\SearchChart.h" />
+    <ClInclude Include="..\src\modules\radio\demod.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\am.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\cw.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\cwr.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\dsb.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\lsb.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\nfm.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\raw.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\usb.h" />
+    <ClInclude Include="..\src\modules\radio\demodulators\wfm.h" />
+    <ClInclude Include="..\src\modules\radio\rds.h" />
+    <ClInclude Include="..\src\modules\radio\rds_demod.h" />
+    <ClInclude Include="..\src\modules\scheduler\actions\start_recorder.h" />
+    <ClInclude Include="..\src\modules\scheduler\actions\tune_vfo.h" />
+    <ClInclude Include="..\src\modules\scheduler\sched_action.h" />
+    <ClInclude Include="..\src\modules\scheduler\sched_task.h" />
+    <ClInclude Include="..\src\core\module_com.h" />
+    <ClInclude Include="..\src\core\radio_interface.h" />
+    <ClInclude Include="..\src\core\recorder_interface.h" />
+    <ClInclude Include="..\src\core\sdrpp_export.h" />
+    <ClInclude Include="..\src\core\server.h" />
+    <ClInclude Include="..\src\core\server_protocol.h" />
+    <ClInclude Include="..\src\core\signal_path\iq_frontend.h" />
+    <ClInclude Include="..\src\core\signal_path\signal_path.h" />
+    <ClInclude Include="..\src\core\signal_path\sink.h" />
+    <ClInclude Include="..\src\core\signal_path\source.h" />
+    <ClInclude Include="..\src\core\signal_path\vfo_manager.h" />
+    <ClInclude Include="..\src\core\utils\ascii.h" />
+    <ClInclude Include="..\src\core\utils\async_connector.h" />
+    <ClInclude Include="..\src\core\utils\base64.h" />
+    <ClInclude Include="..\src\core\utils\color.h" />
+    <ClInclude Include="..\src\core\utils\event.h" />
+    <ClInclude Include="..\src\core\utils\executable_path.h" />
+    <ClInclude Include="..\src\core\utils\flac_reader.h" />
+    <ClInclude Include="..\src\core\utils\flog.h" />
+    <ClInclude Include="..\src\core\utils\freq_formatting.h" />
+    <ClInclude Include="..\src\core\utils\hex_color.h" />
+    <ClInclude Include="..\src\core\utils\hrfreq.h" />
+    <ClInclude Include="..\src\core\utils\net.h" />
+    <ClInclude Include="..\src\core\utils\networking.h" />
+    <ClInclude Include="..\src\core\utils\net_connect.h" />
+    <ClInclude Include="..\src\core\utils\net_resolve.h" />
+    <ClInclude Include="..\src\core\utils\new_event.h" />
+    <ClInclude Include="..\src\core\utils\opengl_include_code.h" />
+    <ClInclude Include="..\src\core\utils\optionlist.h" />
+    <ClInclude Include="..\src\core\utils\proto\http.h" />
+    <ClInclude Include="..\src\core\utils\proto\kiwisdr.h" />
+    <ClInclude Include="..\src\core\utils\proto\pbkdf2_sha256.h" />
+    <ClInclude Include="..\src\core\utils\proto\picohash.h" />
+    <ClInclude Include="..\src\core\utils\proto\rigctl.h" />
+    <ClInclude Include="..\src\core\utils\proto\websock.h" />
+    <ClInclude Include="..\src\core\utils\riff.h" />
+    <ClInclude Include="..\src\core\utils\url.h" />
+    <ClInclude Include="..\src\core\utils\wav.h" />
+    <ClInclude Include="..\src\core\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="extern_static_lib.vcxproj">
+      <Project>{e9b9866d-3042-4498-a274-49e5f1283d2f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="extern_static_lib2.vcxproj">
+      <Project>{84eada8e-008d-45c9-b84b-6113f6edc985}</Project>
+    </ProjectReference>
+    <ProjectReference Include="extern_static_lib3.vcxproj">
+      <Project>{852f3329-24d9-4ef8-805e-3df8bada8365}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7B8CA692-8D00-4E43-9F38-29C367D112DD}</ProjectGuid>
+    <Keyword>Win64Proj</Keyword>
+    <RootNamespace>sdrpp</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\</LocalDebuggerWorkingDirectory>
+    <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\</LocalDebuggerWorkingDirectory>
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SDRPP_IS_CORE;LIBAD9361_STATIC;LIBIIO_STATIC;FLAC__NO_DLL;WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\src\core\imgui;..\src\backends\glfw;..\src\backends\glfw\imgui;..\src\libcorrect\include;..\src\include;..\src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>dsound.lib;dxguid.lib;opengl32.lib;wsock32.lib;ws2_32.lib;iphlpapi.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SDRPP_IS_CORE;LIBAD9361_STATIC;LIBIIO_STATIC;FLAC__NO_DLL;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\src\core\imgui;..\src\backends\glfw;..\src\backends\glfw\imgui;..\src\libcorrect\include;..\src\include;..\src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <SDLCheck>false</SDLCheck>
+      <GuardEHContMetadata>false</GuardEHContMetadata>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <ExceptionHandling>false</ExceptionHandling>
+      <DisableSpecificWarnings>4018;4244;4251;4267;4309;4530</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>dsound.lib;dxguid.lib;opengl32.lib;wsock32.lib;ws2_32.lib;iphlpapi.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

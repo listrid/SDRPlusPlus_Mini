@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="libcorrect">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="libcorrect\convolutional">
+      <UniqueIdentifier>{ac5d195f-096a-4d5d-b63e-5cf592243441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libcorrect\reed-solomon">
+      <UniqueIdentifier>{cb3ac93c-bb13-4d41-85c7-7399761b833a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rtaudio">
+      <UniqueIdentifier>{699911a6-ef66-4cf4-90b8-793fe6538540}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rtaudio\include">
+      <UniqueIdentifier>{ccb67b05-7801-4985-87c7-79dfffc767ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libFLAC">
+      <UniqueIdentifier>{2e47a0e0-644e-4a21-8f72-7e7eb155c317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libFLAC\share">
+      <UniqueIdentifier>{e0af4476-bf94-49cb-b1e3-7a2c841731ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libogg">
+      <UniqueIdentifier>{7b89a55c-5396-48fd-97ed-3a76415bdc67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glfw3">
+      <UniqueIdentifier>{a01fd15e-3b77-4eb1-99f5-780a3e6e9bc3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\libcorrect\src\convolutional\bit.c">
+      <Filter>libcorrect\convolutional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\convolutional\convolutional.c">
+      <Filter>libcorrect\convolutional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\convolutional\decode.c">
+      <Filter>libcorrect\convolutional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\convolutional\encode.c">
+      <Filter>libcorrect\convolutional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\convolutional\error_buffer.c">
+      <Filter>libcorrect\convolutional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\convolutional\history_buffer.c">
+      <Filter>libcorrect\convolutional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\convolutional\lookup.c">
+      <Filter>libcorrect\convolutional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\convolutional\metric.c">
+      <Filter>libcorrect\convolutional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\reed-solomon\decode.c">
+      <Filter>libcorrect\reed-solomon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\reed-solomon\encode.c">
+      <Filter>libcorrect\reed-solomon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\reed-solomon\polynomial.c">
+      <Filter>libcorrect\reed-solomon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\libcorrect\src\reed-solomon\reed-solomon.c">
+      <Filter>libcorrect\reed-solomon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\rtaudio\RtAudio.cpp">
+      <Filter>rtaudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\rtaudio\rtaudio_c.cpp">
+      <Filter>rtaudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\rtaudio\include\asio.cpp">
+      <Filter>rtaudio\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\rtaudio\include\asiodrivers.cpp">
+      <Filter>rtaudio\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\rtaudio\include\asiolist.cpp">
+      <Filter>rtaudio\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\rtaudio\include\iasiothiscallresolver.cpp">
+      <Filter>rtaudio\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitmath.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitreader.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitwriter.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\cpu.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\crc.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_avx2.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_sse2.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_sse42.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_ssse3.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\float.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\format.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_avx2.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_fma.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_neon.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_sse2.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_sse41.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\md5.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\memory.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\metadata_iterators.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\metadata_object.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_decoder_aspect.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_encoder_aspect.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_helper.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_mapping.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_decoder.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_framing.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_avx2.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_sse2.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_ssse3.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\window.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libFLAC\win_utf8_io.c">
+      <Filter>libFLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libogg\bitwise.c">
+      <Filter>libogg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\libogg\framing.c">
+      <Filter>libogg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\context.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\egl_context.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\init.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\input.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\monitor.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\null_init.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\null_joystick.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\null_monitor.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\null_window.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\osmesa_context.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\platform.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\vulkan.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\wgl_context.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\win32_init.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\win32_joystick.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\win32_module.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\win32_monitor.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\win32_thread.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\win32_time.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\win32_window.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\glfw3\window.c">
+      <Filter>glfw3</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\RtAudio.h">
+      <Filter>rtaudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\rtaudio_c.h">
+      <Filter>rtaudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\asio.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\asiodrivers.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\asiodrvr.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\asiolist.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\asiosys.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\dsound.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\functiondiscoverykeys_devpkey.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\ginclude.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\iasiodrv.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\iasiothiscallresolver.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\rtaudio\include\soundcard.h">
+      <Filter>rtaudio\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\libogg\crctable.h">
+      <Filter>libogg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\glfw3\null_joystick.h">
+      <Filter>glfw3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\glfw3\null_platform.h">
+      <Filter>glfw3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\glfw3\platform.h">
+      <Filter>glfw3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\glfw3\win32_joystick.h">
+      <Filter>glfw3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\glfw3\win32_platform.h">
+      <Filter>glfw3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\glfw3\win32_thread.h">
+      <Filter>glfw3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\glfw3\win32_time.h">
+      <Filter>glfw3</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\src\extern_static_lib\rtaudio\include\asioinfo.txt">
+      <Filter>rtaudio\include</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,282 @@
+#pragma once
+#include "quadrature.h"
+#include "../taps/low_pass.h"
+#include "../taps/band_pass.h"
+#include "../filter/fir.h"
+#include "../loop/pll.h"
+#include "../convert/l_r_to_stereo.h"
+#include "../convert/real_to_complex.h"
+#include "../convert/complex_to_real.h"
+#include "../math/conjugate.h"
+#include "../math/delay.h"
+#include "../math/multiply.h"
+#include "../math/add.h"
+#include "../math/subtract.h"
+#include "../multirate/rational_resampler.h"
+
+namespace dsp::demod {
+    class BroadcastFM : public Processor<complex_t, stereo_t> {
+        using base_type = Processor<complex_t, stereo_t>;
+    public:
+        BroadcastFM() {}
+
+        BroadcastFM(stream<complex_t>* in, double deviation, double samplerate, bool stereo = true, bool lowPass = true, bool rdsOut = false, bool mpxOut = false) { init(in, deviation, samplerate, stereo, lowPass, rdsOut, mpxOut); }
+
+        ~BroadcastFM() {
+            if (!base_type::_block_init) { return; }
+            base_type::stop();
+            taps::free(pilotFirTaps);
+            taps::free(audioFirTaps);
+        }
+
+        virtual void init(stream<complex_t>* in, double deviation, double samplerate, bool stereo = true, bool lowPass = true, bool rdsOut = false, bool mpxOut = false) {
+            _deviation = deviation;
+            _samplerate = samplerate;
+            _stereo = stereo;
+            _lowPass = lowPass;
+            _rdsOut = rdsOut;
+            _mpxOut = mpxOut;
+            
+            demod.init(NULL, _deviation, _samplerate);
+            pilotFirTaps = taps::bandPass<complex_t>(18750.0, 19250.0, 3000.0, _samplerate, true);
+            pilotFir.init(NULL, pilotFirTaps);
+            rtoc.init(NULL);
+            pilotPLL.init(NULL, 25000.0 / _samplerate, 0.0, math::hzToRads(19000.0, _samplerate), math::hzToRads(18750.0, _samplerate), math::hzToRads(19250.0, _samplerate));
+            lprDelay.init(NULL, ((pilotFirTaps.size - 1) / 2) + 1);
+            lmrDelay.init(NULL, ((pilotFirTaps.size - 1) / 2) + 1);
+            audioFirTaps = taps::lowPass(15000.0, 4000.0, _samplerate);
+            alFir.init(NULL, audioFirTaps);
+            arFir.init(NULL, audioFirTaps);
+            xlator.init(NULL, -57000.0, samplerate);
+            rdsResamp.init(NULL, samplerate, 5000.0);
+
+            lprDelay.out.free();
+            arFir.out.free();
+            alFir.out.free();
+            xlator.out.free();
+            rdsResamp.out.free();
+
+            base_type::init(in);
+        }
+
+        void setDeviation(double deviation) {
+            assert(base_type::_block_init);
+            std::lock_guard<std::recursive_mutex> lck(base_type::ctrlMtx);
+            _deviation = deviation;
+            demod.setDeviation(_deviation, _samplerate);
+        }
+
+        void setSamplerate(double samplerate) {
+            assert(base_type::_block_init);
+            std::lock_guard<std::recursive_mutex> lck(base_type::ctrlMtx);
+            base_type::tempStop();
+            _samplerate = samplerate;
+
+            demod.setDeviation(_deviation, _samplerate);
+            taps::free(pilotFirTaps);
+            pilotFirTaps = taps::bandPass<complex_t>(18750.0, 19250.0, 3000.0, samplerate, true);
+            pilotFir.setTaps(pilotFirTaps);
+            
+            pilotPLL.setFrequencyLimits(math::hzToRads(18750.0, _samplerate), math::hzToRads(19250.0, _samplerate));
+            pilotPLL.setInitialFreq(math::hzToRads(19000.0, _samplerate));
+            lprDelay.setDelay(((pilotFirTaps.size - 1) / 2) + 1);
+            lmrDelay.setDelay(((pilotFirTaps.size - 1) / 2) + 1);
+
+            taps::free(audioFirTaps);
+            audioFirTaps = taps::lowPass(15000.0, 4000.0, _samplerate);
+            alFir.setTaps(audioFirTaps);
+            arFir.setTaps(audioFirTaps);
+
+            xlator.setOffset(-57000.0, samplerate);
+            rdsResamp.setInSamplerate(samplerate);
+
+            reset();
+            base_type::tempStart();
+        }
+
+        void setStereo(bool stereo) {
+            assert(base_type::_block_init);
+            std::lock_guard<std::recursive_mutex> lck(base_type::ctrlMtx);
+            base_type::tempStop();
+            _stereo = stereo;
+            reset();
+            base_type::tempStart();
+        }
+
+        void setLowPass(bool lowPass) {
+            assert(base_type::_block_init);
+            std::lock_guard<std::recursive_mutex> lck(base_type::ctrlMtx);
+            base_type::tempStop();
+            _lowPass = lowPass;
+            reset();
+            base_type::tempStart();
+        }
+
+        void setRDSOut(bool rdsOut) {
+            assert(base_type::_block_init);
+            std::lock_guard<std::recursive_mutex> lck(base_type::ctrlMtx);
+            base_type::tempStop();
+            _rdsOut = rdsOut;
+            reset();
+            base_type::tempStart();
+        }
+
+        void setMPXOut(bool mpxOut) {
+            assert(base_type::_block_init);
+            std::lock_guard<std::recursive_mutex> lck(base_type::ctrlMtx);
+            base_type::tempStop();
+            _mpxOut = mpxOut;
+            reset();
+            base_type::tempStart();
+        }
+
+        void reset() {
+            assert(base_type::_block_init);
+            std::lock_guard<std::recursive_mutex> lck(base_type::ctrlMtx);
+            base_type::tempStop();
+            demod.reset();
+            pilotFir.reset();
+            pilotPLL.reset();
+            lprDelay.reset();
+            lmrDelay.reset();
+            alFir.reset();
+            arFir.reset();
+            base_type::tempStart();
+        }
+
+        inline int process(int count, complex_t* in, stereo_t* out, int& rdsOutCount, complex_t* rdsout = NULL, float* mpxout = NULL) {
+            // Demodulate
+            demod.process(count, in, demod.out.GetWBuf(count));
+            
+            // Capture raw MPX signal for analysis (if enabled)
+            if (_mpxOut && mpxout) {
+                memcpy(mpxout, demod.out.GetWBuf(count), count * sizeof(float));
+            }
+            
+            if (_stereo) {
+                // Convert to complex
+                rtoc.process(count, demod.out.GetWBuf(count), rtoc.out.GetWBuf(count));
+
+                // Filter out pilot and run through PLL
+                pilotFir.process(count, rtoc.out.GetWBuf(count), pilotFir.out.GetWBuf(count));
+                pilotPLL.process(count, pilotFir.out.GetWBuf(count), pilotPLL.out.GetWBuf(count));
+
+                // Delay
+                lprDelay.process(count, demod.out.GetWBuf(count), demod.out.GetWBuf(count));
+                lmrDelay.process(count, rtoc.out.GetWBuf(count), lmrDelay.out.GetWBuf(count));
+                
+                // conjugate PLL output to down convert twice the L-R signal
+                math::Conjugate::process(count, pilotPLL.out.GetWBuf(count), pilotPLL.out.GetWBuf(count));
+                math::Multiply<dsp::complex_t>::process(count, lmrDelay.out.GetWBuf(count), pilotPLL.out.GetWBuf(count), lmrDelay.out.GetWBuf(count));
+                math::Multiply<dsp::complex_t>::process(count, lmrDelay.out.GetWBuf(count), pilotPLL.out.GetWBuf(count), lmrDelay.out.GetWBuf(count));
+
+                // Do RDS demod
+                if (_rdsOut) {
+                    // Translate to 0Hz
+                    xlator.process(count, rtoc.out.GetWBuf(count), rtoc.out.GetWBuf(count));
+
+                    // Resample to the output samplerate
+                    rdsOutCount = rdsResamp.process(count, rtoc.out.GetWBuf(count), rdsout);
+                }
+
+                // Convert output back to real for further processing
+                convert::ComplexToReal::process(count, lmrDelay.out.GetWBuf(count), lmr.GetBuf(count));
+
+                // Amplify by 2x
+                volk_32f_s32f_multiply_32f(lmr.GetBuf(count), lmr.GetBuf(count), 2.0f, count);
+
+                // Do L = (L+R) + (L-R), R = (L+R) - (L-R)
+                math::Add<float>::process(count, demod.out.GetWBuf(count), lmr.GetBuf(count), l.GetBuf(count));
+                math::Subtract<float>::process(count, demod.out.GetWBuf(count), lmr.GetBuf(count), r.GetBuf(count));
+
+                // Filter if needed
+                if (_lowPass) {
+                    alFir.process(count, l.GetBuf(count), l.GetBuf(count));
+                    arFir.process(count, r.GetBuf(count), r.GetBuf(count));
+                }
+
+                // Interleave into stereo
+                convert::LRToStereo::process(count, l.GetBuf(count), r.GetBuf(count), out);
+            }
+            else {
+                // Process RDS if needed. Note: find a way to not have to copy half the code from the stereo demod
+                if (_rdsOut) {
+                    // Convert to complex
+                    rtoc.process(count, demod.out.GetWBuf(count), rtoc.out.GetWBuf(count));
+
+                    // Translate to 0Hz
+                    xlator.process(count, rtoc.out.GetWBuf(count), rtoc.out.GetWBuf(count));
+
+                    // Resample to the output samplerate
+                    rdsOutCount = rdsResamp.process(count, rtoc.out.GetWBuf(count), rdsout);
+                }
+
+                // Filter if needed
+                if (_lowPass) {
+                    alFir.process(count, demod.out.GetWBuf(count), demod.out.GetWBuf(count));
+                }
+
+                // Interleave raw MPX to stereo
+                convert::LRToStereo::process(count, demod.out.GetWBuf(count), demod.out.GetWBuf(count), out);
+            }
+
+            return count;
+        }
+
+        int run() {
+            int count = base_type::_in->read();
+            if (count < 0) { return -1; }
+
+            int rdsOutCount = 0;
+            
+            // Prepare MPX buffer if needed
+            float* mpxBuffer = (_mpxOut) ? mpxOut.GetWBuf(count) : NULL;
+            
+            process(count, base_type::_in->GetRBuf(), base_type::out.GetWBuf(count), rdsOutCount, rdsOut.GetWBuf(count), mpxBuffer);
+
+            base_type::_in->flush();
+            if (!base_type::out.swap(count)) { return -1; }
+            
+            // MPX output - asynchronous, never blocks main signal path
+            if (_mpxOut && mpxBuffer) {
+                // This swap is non-blocking - if it fails, we just skip this frame
+                // The analyzer will handle missing frames gracefully
+                mpxOut.swap(count);
+            }
+            
+            if (rdsOutCount && _rdsOut) {
+                if (!rdsOut.swap(rdsOutCount)) { return -1; }
+            }
+            return count;
+        }
+
+        stream<complex_t> rdsOut;
+        stream<float> mpxOut;
+
+    protected:
+        double _deviation;
+        double _samplerate;
+        bool _stereo;
+        bool _lowPass;
+        bool _rdsOut;
+        bool _mpxOut;
+
+        Quadrature demod;
+        tap<complex_t> pilotFirTaps;
+        filter::FIR<complex_t, complex_t> pilotFir;
+        convert::RealToComplex rtoc;
+        channel::FrequencyXlator xlator;
+        loop::PLL pilotPLL;
+        math::Delay<float> lprDelay;
+        math::Delay<complex_t> lmrDelay;
+        tap<float> audioFirTaps;
+        filter::FIR<float, float> arFir;
+        filter::FIR<float, float> alFir;
+        multirate::RationalResampler<dsp::complex_t> rdsResamp;
+
+        dsp::vector<float> lmr;
+        dsp::vector<float> l;
+        dsp::vector<float> r;
+        
+    };
+}

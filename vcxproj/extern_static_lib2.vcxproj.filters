@@ -1,0 +1,3915 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="volk">
+      <UniqueIdentifier>{0e925b08-d857-454c-89fa-9074e6e64c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3">
+      <UniqueIdentifier>{00145369-8d99-4e34-91a7-6077504cb462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\api">
+      <UniqueIdentifier>{79fc41c3-433d-4375-9d04-85689a6ac224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\dft">
+      <UniqueIdentifier>{956a19d6-7402-4f43-a5f0-8f570e07b65c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\dft\scalar">
+      <UniqueIdentifier>{8a30e68a-1880-4ee3-b7c9-caac69fc54f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\dft\scalar\codelets">
+      <UniqueIdentifier>{279e2bd0-18b7-444e-94ab-1aad49ee3aae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\kernel">
+      <UniqueIdentifier>{816e08e4-7537-4334-a30e-824128055247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\simd-support">
+      <UniqueIdentifier>{0a54e72a-5d26-4028-a233-54f8b1cd6fa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft">
+      <UniqueIdentifier>{2091a787-6db8-4b5a-ad37-7b25da1fd218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\scalar">
+      <UniqueIdentifier>{1dd30236-f48c-4a2d-b6a7-3f3ee12fcea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\scalar\r2cb">
+      <UniqueIdentifier>{a0e4f58e-0f0e-4726-b6a5-d7991badd228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\scalar\r2cf">
+      <UniqueIdentifier>{56dc7824-2277-49a2-a1d9-3d779b6dd85b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\scalar\r2r">
+      <UniqueIdentifier>{da2ebcc9-d49e-455b-a0de-af4cd96ea737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\reodft">
+      <UniqueIdentifier>{720b6d2d-e016-4e89-abc0-7bd308b13130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\dft\simd">
+      <UniqueIdentifier>{bcaff287-279d-403f-af00-f2e9c020408b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\dft\simd\avx">
+      <UniqueIdentifier>{ce91b17d-66ff-48d2-a104-90f5ac0f9a62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\dft\simd\avx2">
+      <UniqueIdentifier>{faa5cdf4-b36e-4526-adbc-02a13997ef6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\dft\simd\avx2-128">
+      <UniqueIdentifier>{d2e9b010-556f-4aaa-8f01-cf6a920329ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\simd">
+      <UniqueIdentifier>{a923c601-df8e-4baf-a223-1ccc99822f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\simd\avx">
+      <UniqueIdentifier>{c6e031f9-23cc-42e5-8091-2d16b2ef3af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\simd\avx2">
+      <UniqueIdentifier>{7e8ea42b-8c45-4bf1-b4dc-96704cdcddff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\simd\avx2-128">
+      <UniqueIdentifier>{5cc4f9e3-cc42-4ca1-b6a1-27941f687a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\dft\simd\sse2">
+      <UniqueIdentifier>{c246d2ae-0c5f-43b2-8d0d-c32f875d7d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fftw3\rdft\simd\sse2">
+      <UniqueIdentifier>{8aa0b07c-81c6-41d1-ab17-c98c1f3dbb79}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\extern_static_lib\volk\constants.c">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_cpu.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx2.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_generic.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse2.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse3.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse4_1.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse4_2.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_ssse3.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machines.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_malloc.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_prefs.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_rank_archs.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\apiplan.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\configure.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\execute.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\execute-dft.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\execute-dft-c2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\execute-dft-r2c.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\execute-r2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\execute-split-dft.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\execute-split-dft-c2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\execute-split-dft-r2c.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\export-wisdom.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\export-wisdom-to-file.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\export-wisdom-to-string.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\f77api.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\flops.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\forget-wisdom.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\import-system-wisdom.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\import-wisdom.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\import-wisdom-from-file.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\import-wisdom-from-string.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\malloc.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\mapflags.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\map-r2r-kind.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\mkprinter-file.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\mkprinter-str.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\mktensor-iodims.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\mktensor-iodims64.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\mktensor-rowmajor.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-1d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-2d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-3d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-c2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-c2r-1d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-c2r-2d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-c2r-3d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-r2c.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-r2c-1d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-r2c-2d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-dft-r2c-3d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru64-dft.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru64-dft-c2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru64-dft-r2c.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru64-r2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru64-split-dft.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru64-split-dft-c2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru64-split-dft-r2c.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru-dft.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru-dft-c2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru-dft-r2c.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru-r2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru-split-dft.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru-split-dft-c2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-guru-split-dft-r2c.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-many-dft.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-many-dft-c2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-many-dft-r2c.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-many-r2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-r2r.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-r2r-1d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-r2r-2d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\plan-r2r-3d.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\print-plan.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\rdft2-pad.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\the-planner.cpp">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\api\version.c">
+      <Filter>fftw3\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\bluestein.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\buffered.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\conf.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\ct.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\dftw-direct.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\dftw-directsq.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\dftw-generic.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\dftw-genericbuf.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\direct.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\generic.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\indirect.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\indirect-transpose.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\kdft.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\kdft-dif.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\kdft-difsq.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\kdft-dit.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\nop.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\plan.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\problem.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\rader.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\rank-geq2.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\solve.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\vrank-geq1.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\zero.cpp">
+      <Filter>fftw3\dft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\n.cpp">
+      <Filter>fftw3\dft\scalar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\t.cpp">
+      <Filter>fftw3\dft\scalar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\codlist.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_2.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_3.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_4.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_5.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_6.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_7.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_8.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_9.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_10.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_11.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_12.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_13.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_14.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_15.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_16.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_20.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_25.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_32.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\n1_64.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\q1_2.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\q1_3.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\q1_4.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\q1_5.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\q1_6.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\q1_8.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_2.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_3.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_4.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_5.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_6.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_7.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_8.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_9.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_10.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_12.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_15.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_16.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_20.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_25.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_32.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t1_64.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_4.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_5.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_8.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_10.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_16.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_20.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_25.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_32.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\scalar\codelets\t2_64.cpp">
+      <Filter>fftw3\dft\scalar\codelets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\align.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\alloc.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\assert.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\awake.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\buffered.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\cpy1d.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\cpy2d.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\cpy2d-pair.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\ct.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\debug.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\extract-reim.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\hash.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\iabs.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\kalloc.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\md5.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\md5-1.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\minmax.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\ops.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\pickdim.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\plan.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\planner.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\primes.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\print.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\problem.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\rader.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\scan.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\solver.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\solvtab.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\stride.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor1.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor2.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor3.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor4.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor5.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor7.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor8.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tensor9.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\tile2d.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\timer.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\transpose.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\trig.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\kernel\twiddle.cpp">
+      <Filter>fftw3\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\altivec.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\avx.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\avx2.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\avx-128-fma.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\avx512.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\kcvi.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\lasx.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\lsx.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\neon.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\sse2.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\sve.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\taint.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\vsx.cpp">
+      <Filter>fftw3\simd-support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\buffered.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\buffered2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\conf.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\ct-hc2c.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\ct-hc2c-direct.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\dft-r2hc.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\dht-r2hc.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\dht-rader.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\direct2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\direct-r2c.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\direct-r2r.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\generic.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\hc2hc.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\hc2hc-direct.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\hc2hc-generic.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\indirect.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\khc2c.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\khc2hc.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\kr2c.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\kr2r.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\nop.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\nop2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\plan.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\plan2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\problem.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\problem2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rank0.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rank0-rdft2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rank-geq2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rank-geq2-rdft2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rdft2-inplace-strides.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rdft2-rdft.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rdft2-strides.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rdft2-tensor-max-index.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\rdft-dht.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\solve.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\solve2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\vrank3-transpose.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\vrank-geq1.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\vrank-geq1-rdft2.cpp">
+      <Filter>fftw3\rdft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\hc2c.cpp">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\hfb.cpp">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2c.cpp">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2r.cpp">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\codlist.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_3.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_5.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_7.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_9.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_15.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_25.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb_64.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb2_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb2_5.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb2_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb2_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb2_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb2_25.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hb2_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb2_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb2_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb2_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb2_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cb2_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft2_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft2_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft2_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft2_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\hc2cbdft2_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_3.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_5.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_7.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_9.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_11.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_13.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_14.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_15.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_25.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_64.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cb_128.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_3.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_5.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_7.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_9.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_15.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_25.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb\r2cbIII_64.cpp">
+      <Filter>fftw3\rdft\scalar\r2cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\codlist.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf2_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf2_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf2_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf2_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cf2_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft2_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft2_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft2_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft2_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hc2cfdft2_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_3.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_5.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_7.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_9.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_15.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_25.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf_64.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf2_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf2_5.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf2_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf2_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf2_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf2_25.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\hf2_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_3.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_5.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_7.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_9.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_11.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_13.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_14.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_15.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_25.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_64.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cf_128.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_2.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_3.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_4.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_5.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_6.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_7.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_9.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_10.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_12.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_15.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_16.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_20.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_25.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_32.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf\r2cfII_64.cpp">
+      <Filter>fftw3\rdft\scalar\r2cf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2r\codlist.cpp">
+      <Filter>fftw3\rdft\scalar\r2r</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2r\e01_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2r</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2r\e10_8.cpp">
+      <Filter>fftw3\rdft\scalar\r2r</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\conf.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\redft00e-r2hc.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\redft00e-r2hc-pad.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\reodft00e-splitradix.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\reodft010e-r2hc.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\reodft11e-r2hc.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\reodft11e-r2hc-odd.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\reodft11e-radix2.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\rodft00e-r2hc.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\reodft\rodft00e-r2hc-pad.cpp">
+      <Filter>fftw3\reodft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\codlist.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\genus.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_11.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_13.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_14.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_15.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1bv_128.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_11.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_13.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_14.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_15.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n1fv_128.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_14.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_14.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\n2sv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\q1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\q1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\q1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\q1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\q1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\q1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\q1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\q1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1buv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_15.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fuv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_15.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1sv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t1sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t2sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2\t3fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\codlist.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\genus.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_11.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_13.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_14.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_15.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1bv_128.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_11.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_13.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_14.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_15.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n1fv_128.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_14.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_14.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\n2sv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\q1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\q1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\q1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\q1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\q1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\q1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\q1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\q1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1buv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_15.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fuv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_3.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_7.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_9.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_15.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1sv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t1sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t2sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx2-128\t3fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\codlist.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\genus.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_2.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_4.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_6.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_8.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_10.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_12.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_16.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_20.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cbdftv_32.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_2.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_4.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_6.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_8.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_10.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_12.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_16.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_20.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx\hc2cfdftv_32.cpp">
+      <Filter>fftw3\rdft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\codlist.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\genus.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_2.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_4.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_6.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_8.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_10.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_12.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_16.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_20.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cbdftv_32.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_2.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_4.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_6.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_8.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_10.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_12.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_16.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_20.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2\hc2cfdftv_32.cpp">
+      <Filter>fftw3\rdft\simd\avx2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\codlist.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\genus.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_2.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_4.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_6.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_8.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_10.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_12.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_16.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_20.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cbdftv_32.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_2.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_4.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_6.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_8.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_10.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_12.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_16.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_20.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\avx2-128\hc2cfdftv_32.cpp">
+      <Filter>fftw3\rdft\simd\avx2-128</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\codlist.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\genus.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_3.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_7.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_9.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_11.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_13.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_14.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_15.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1bv_128.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_3.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_7.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_9.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_11.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_13.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_14.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_15.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n1fv_128.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_14.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_14.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\n2sv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\q1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\q1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\q1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\q1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\q1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\q1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\q1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\q1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_3.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_6.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_7.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_9.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1buv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_3.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_6.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_7.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_9.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_12.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_15.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_3.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_6.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_7.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_9.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fuv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_3.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_6.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_7.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_9.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_12.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_15.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1sv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t1sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2bv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_2.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2fv_64.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2sv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2sv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2sv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t2sv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3bv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3bv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3bv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3bv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3bv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3bv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3bv_25.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3bv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3fv_4.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3fv_5.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3fv_8.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3fv_10.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3fv_16.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3fv_20.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3fv_25.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\avx\t3fv_32.cpp">
+      <Filter>fftw3\dft\simd\avx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\codlist.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\genus.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_3.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_6.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_7.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_9.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_11.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_12.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_13.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_14.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_15.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_25.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1bv_128.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_3.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_6.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_7.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_9.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_11.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_12.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_13.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_14.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_15.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_25.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n1fv_128.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_6.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_12.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_14.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2bv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_6.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_12.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_14.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2fv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2sv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2sv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2sv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2sv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\n2sv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\q1bv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\q1bv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\q1bv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\q1bv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\q1fv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\q1fv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\q1fv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\q1fv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_3.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_6.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_7.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_9.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1buv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_3.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_6.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_7.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_9.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_12.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_15.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_25.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1bv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_3.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_6.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_7.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_9.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fuv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_3.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_6.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_7.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_9.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_12.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_15.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_25.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1fv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1sv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1sv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1sv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1sv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t1sv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_25.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2bv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_2.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_25.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2fv_64.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2sv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2sv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2sv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t2sv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3bv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3bv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3bv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3bv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3bv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3bv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3bv_25.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3bv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3fv_4.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3fv_5.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3fv_8.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3fv_10.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3fv_16.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3fv_20.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3fv_25.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\dft\simd\sse2\t3fv_32.cpp">
+      <Filter>fftw3\dft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\codlist.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\genus.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_2.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_4.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_6.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_8.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_10.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_12.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_16.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_20.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cbdftv_32.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_2.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_4.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_6.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_8.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_10.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_12.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_16.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_20.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_32.cpp">
+      <Filter>fftw3\rdft\simd\sse2</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\extern_static_lib\volk\volk_machines.h">
+      <Filter>volk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\volk\volk_rank_archs.h">
+      <Filter>volk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\fftw3_config.h">
+      <Filter>fftw3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\api.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\f77funcs.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\fftw3.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\guru.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\guru64.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\mktensor-iodims.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\plan-guru-dft.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\plan-guru-dft-c2r.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\plan-guru-dft-r2c.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\plan-guru-r2r.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\plan-guru-split-dft.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\plan-guru-split-dft-c2r.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\plan-guru-split-dft-r2c.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\api\x77.h">
+      <Filter>fftw3\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\dft\codelet-dft.h">
+      <Filter>fftw3\dft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\dft\ct.h">
+      <Filter>fftw3\dft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\dft\dft.h">
+      <Filter>fftw3\dft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\dft\scalar\f.h">
+      <Filter>fftw3\dft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\dft\scalar\n.h">
+      <Filter>fftw3\dft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\dft\scalar\q.h">
+      <Filter>fftw3\dft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\dft\scalar\t.h">
+      <Filter>fftw3\dft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\kernel\cycle.h">
+      <Filter>fftw3\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\kernel\ifftw.h">
+      <Filter>fftw3\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\amd64-cpuid.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-altivec.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-avx.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-avx2.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-avx2-128.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-avx-128-fma.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-avx512.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-common.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-generic128.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-generic256.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-kcvi.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-lasx.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-lsx.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-maskedsve.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-maskedsve128.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-maskedsve256.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-maskedsve512.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-maskedsve1024.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-maskedsve2048.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-neon.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-sse2.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-vsx.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\x86-cpuid.h">
+      <Filter>fftw3\simd-support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\codelet-rdft.h">
+      <Filter>fftw3\rdft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\ct-hc2c.h">
+      <Filter>fftw3\rdft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\hc2hc.h">
+      <Filter>fftw3\rdft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\rdft.h">
+      <Filter>fftw3\rdft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\hb.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\hc2cb.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\hc2cf.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\hf.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cb.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cbIII.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cf.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2cfII.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\rdft\scalar\r2r.h">
+      <Filter>fftw3\rdft\scalar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\fftw3\reodft\reodft.h">
+      <Filter>fftw3\reodft</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

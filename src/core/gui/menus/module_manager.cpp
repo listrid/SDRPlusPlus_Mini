@@ -1,0 +1,120 @@
+#include <gui/menus/module_manager.h>
+#include <imgui.h>
+#include <core.h>
+#include <string.h>
+#include <gui/style.h>
+#include <gui/dialogs/dialog_box.h>
+
+namespace module_manager_menu {
+    char modName[1024];
+    std::vector<std::string> modTypes;
+    std::string toBeRemoved;
+    std::string modTypesTxt;
+    std::string errorMessage;
+    int modTypeId;
+    bool confirmOpened = false;
+    bool errorOpen = false;
+
+    void init() {
+        modName[0] = 0;
+
+        modTypes.clear();
+        modTypesTxt = "";
+        for (auto& [name, mod] : core::moduleManager.modules) {
+            modTypes.push_back(name);
+            modTypesTxt += name;
+            modTypesTxt += '\0';
+        }
+        modTypeId = 0;
+    }
+
+    void draw(void* ctx) {
+        bool modified = false;
+
+        // The delete/add buttons are FrameHeight squares like any framed
+        // widget; size the fixed table column from that metric so they fit
+        // under any style, including the enlarged touch paddings.
+        ImVec2 cellpad = ImGui::GetStyle().CellPadding;
+        float btnSize = ImGui::GetFrameHeight();
+
+        if (ImGui::BeginTable("Module Manager Table", 3, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollY, ImVec2(0, style::dp(200.0f)))) {
+            ImGui::TableSetupColumn("Name");
+            ImGui::TableSetupColumn("Type");
+            ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, btnSize + cellpad.x);
+            ImGui::TableSetupScrollFreeze(3, 1);
+            ImGui::TableHeadersRow();
+
+            for (auto& [name, inst] : core::moduleManager.instances) {
+                ImGui::TableNextRow();
+
+                ImGui::TableSetColumnIndex(0);
+                ImGui::AlignTextToFramePadding();
+                ImGui::TextUnformatted(name.c_str());
+
+                ImGui::TableSetColumnIndex(1);
+                ImGui::AlignTextToFramePadding();
+                ImGui::TextUnformatted(inst.module.info->name);
+
+                ImGui::TableSetColumnIndex(2);
+                if (ImGui::Button(("-##module_mgr_" + name).c_str(), ImVec2(btnSize, 0))) {
+                    toBeRemoved = name;
+                    confirmOpened = true;
+                }
+            }
+            ImGui::EndTable();
+        }
+
+        if (ImGui::GenericDialog("module_mgr_confirm_", confirmOpened, GENERIC_DIALOG_BUTTONS_YES_NO, []() {
+                ImGui::Text("Deleting \"%s\". Are you sure?", toBeRemoved.c_str());
+            }) == GENERIC_DIALOG_BUTTON_YES) {
+            core::moduleManager.deleteInstance(toBeRemoved);
+            modified = true;
+        }
+
+        ImGui::GenericDialog("module_mgr_error_", errorOpen, GENERIC_DIALOG_BUTTONS_OK, []() {
+            ImGui::TextUnformatted(errorMessage.c_str());
+        });
+
+        // Add module row with slightly different settings
+        if (ImGui::BeginTable("Module Manager Add Table", 3)) {
+            ImGui::TableSetupColumn("Name");
+            ImGui::TableSetupColumn("Type");
+            ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, btnSize + cellpad.x);
+            
+            ImGui::TableNextRow();
+
+            ImGui::TableSetColumnIndex(0);
+            ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x + cellpad.x);
+            ImGui::InputText("##module_mod_name", modName, 1000);
+
+            ImGui::TableSetColumnIndex(1);
+            ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x + cellpad.x);
+            ImGui::Combo("##module_mgr_type", &modTypeId, modTypesTxt.c_str());
+
+            ImGui::TableSetColumnIndex(2);
+            if (strlen(modName) == 0) { style::beginDisabled(); }
+            if (ImGui::Button("+##module_mgr_add_btn", ImVec2(btnSize, 0))) {
+                if (!core::moduleManager.createInstance(modName, modTypes[modTypeId])) {
+                    core::moduleManager.postInit(modName);
+                    modified = true;
+                }
+                else {
+                    errorMessage = "Could not create new instance of " + modTypes[modTypeId];
+                    errorOpen = true;
+                }
+            }
+            if (strlen(modName) == 0) { style::endDisabled(); }
+            ImGui::EndTable();
+        }
+
+        if (modified) {
+            // Update enabled and disabled modules
+            json instances = json::object();
+            for (auto [_name, inst] : core::moduleManager.instances) {
+                instances[_name]["module"] = inst.module.info->name;
+                instances[_name]["enabled"] = inst.instance->isEnabled();
+            }
+            core::configManager.edit().set("moduleInstances", instances);
+        }
+    }
+}
