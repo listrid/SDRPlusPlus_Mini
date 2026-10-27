@@ -472,7 +472,7 @@ private:
             volk_32f_s32f_convert_16i((int16_t*)_this->buffer.GetBuf(size), (float*)data, 32768.0f, count*2);
             break;
         case SAMPLE_TYPE_INT32:
-            size = sizeof(int32_t)*2*size;
+            size = sizeof(int32_t)*2*count;
             volk_32f_s32f_convert_32i((int32_t*)_this->buffer.GetBuf(size), (float*)data, 2147483647.0f, count*2);
             break;
         case SAMPLE_TYPE_FLOAT32:

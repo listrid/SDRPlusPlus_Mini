@@ -3,8 +3,8 @@
 #ifndef _MSC_VER
 
 // Define to the attribute for default visibility.
-#define DEFAULT_VISIBILITY __attribute__ ((visibility ("default")))
-
+//#define DEFAULT_VISIBILITY __attribute__ ((visibility ("default")))
+#define DEFAULT_VISIBILITY
 #else
 
 /* Visual Studio 2013 or later is required */
@@ -77,7 +77,7 @@
 // Define to 1 if you have the `pthread_setname_np' function.
 #define HAVE_PTHREAD_SETNAME_NP 1
 //Define to 1 if you have the `udev' library (-ludev). 
-#define HAVE_LIBUDEV 1
+//xx #define HAVE_LIBUDEV 1
 
 #define _GNU_SOURCE 1
 

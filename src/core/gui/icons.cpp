@@ -16,7 +16,7 @@
 #include "./res/png_muted.h"
 #include "./res/png_normal_tuning.h"
 #include "./res/png_play.h"
-#include "./res/png_sdriak.h"
+#include "./res/png_sdrpp_mini.h"
 #include "./res/png_stop.h"
 #include "./res/png_unmuted.h"
 

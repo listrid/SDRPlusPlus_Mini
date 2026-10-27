@@ -107,7 +107,7 @@ namespace backend {
 
         // Create window with graphics context
         monitor = glfwGetPrimaryMonitor();
-        window = glfwCreateWindow(winWidth, winHeight, "SDRIAK v" VERSION_STR " (Built at " __TIME__ ", " __DATE__ ")", NULL, NULL);
+        window = glfwCreateWindow(winWidth, winHeight, "SDRPP_MINI (fork SDRIAK) v" VERSION_STR " (Built at " __TIME__ ", " __DATE__ ")", NULL, NULL);
         if (window == NULL)
             return 1;
         glfwMakeContextCurrent(window);
@@ -118,11 +118,11 @@ namespace backend {
         // for the shell to bind the window to sdriak.desktop and pick up the
         // hicolor icon. X11 keys off WM_CLASS, Wayland off the xdg app ID.
     #if defined(SDRPP_GLFW_UNIX_DESKTOP) && (GLFW_VERSION_MAJOR > 3 || (GLFW_VERSION_MAJOR == 3 && GLFW_VERSION_MINOR >= 3))
-        glfwWindowHintString(GLFW_X11_CLASS_NAME, "sdriak");
-        glfwWindowHintString(GLFW_X11_INSTANCE_NAME, "sdriak");
+        glfwWindowHintString(GLFW_X11_CLASS_NAME, "sdrpp_mini");
+        glfwWindowHintString(GLFW_X11_INSTANCE_NAME, "sdrpp_mini");
     #endif
     #if defined(SDRPP_GLFW_UNIX_DESKTOP) && (GLFW_VERSION_MAJOR > 3 || (GLFW_VERSION_MAJOR == 3 && GLFW_VERSION_MINOR >= 4))
-        glfwWindowHintString(GLFW_WAYLAND_APP_ID, "sdriak");
+        glfwWindowHintString(GLFW_WAYLAND_APP_ID, "sdrpp_mini");
     #endif
         for (int i = 0; i < OPENGL_VERSION_COUNT; i++) {
             glsl_version = OPENGL_VERSIONS_GLSL[i];
@@ -132,7 +132,7 @@ namespace backend {
             
             // Create window with graphics context
             monitor = glfwGetPrimaryMonitor();
-            window = glfwCreateWindow(winWidth, winHeight, "SDRIAK v" VERSION_STR " (Built at " __TIME__ ", " __DATE__ ")", NULL, NULL);
+            window = glfwCreateWindow(winWidth, winHeight, "SDRPP_MINI v" VERSION_STR " (Built at " __TIME__ ", " __DATE__ ")", NULL, NULL);
             if (window == NULL) {
                 flog::info("OpenGL {0}.{1} {2}was not supported", OPENGL_VERSIONS_MAJOR[i], OPENGL_VERSIONS_MINOR[i], OPENGL_VERSIONS_IS_ES[i] ? "ES " : "");
                 continue;
@@ -155,7 +155,7 @@ namespace backend {
         // X11 needs _NET_WM_ICON data on the window. Wayland instead
         // identifies the application through its desktop-file ID. Windows uses
         // the embedded ICO resource and macOS uses the application bundle's ICNS.
-        const std::string iconPath = resDir + "/icons/sdriak.png";
+        const std::string iconPath = resDir + "/icons/sdrpp_mini.png";
         GLFWimage icon = {};
         icon.pixels = stbi_load(iconPath.c_str(), &icon.width, &icon.height, 0, 4);
         if (icon.pixels == nullptr) {

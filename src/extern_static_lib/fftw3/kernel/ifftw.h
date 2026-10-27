@@ -261,12 +261,12 @@ IFFTW_EXTERN void X(assertion_failed)(const char *s,
 
 /* always check */
 #define CK(ex)						 \
-      (void)((ex) || (X(assertion_failed)(#ex, __LINE__, __FILE__), 0))
+      (void)((ex) || (X(assertion_failed)(#ex, __LINE__, ""), 0))
 
 #ifdef FFTW_DEBUG
 /* check only if debug enabled */
 #define A(ex)						 \
-      (void)((ex) || (X(assertion_failed)(#ex, __LINE__, __FILE__), 0))
+      (void)((ex) || (X(assertion_failed)(#ex, __LINE__, ""), 0))
 #else
 #define A(ex) /* nothing */
 #endif

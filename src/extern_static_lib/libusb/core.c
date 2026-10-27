@@ -2687,6 +2687,9 @@ int usbi_snprintf(char *str, size_t size, const char *format, ...)
 	return ret;
 }
 
+#ifndef _WIN32
+#define _vsnprintf vsnprintf
+#endif
 int usbi_vsnprintf(char *str, size_t size, const char *format, va_list args)
 {
 	int ret;

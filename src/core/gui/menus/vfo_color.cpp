@@ -94,10 +94,10 @@ namespace vfo_color_menu {
 
         // Iterate existing VFOs and set their color if in the config, if not set to
         // default. In memory only -- the entry is written when the user picks a colour.
-        for (auto& [name, vfo] : gui::waterfall.vfos) {
+        for (auto& [name, vfo] : gui::waterfall.m_map_vfos) {
             if (vfoColors.find(name) == vfoColors.end()) {
                 vfoColors[name] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-                vfo->color = IM_COL32(255, 255, 255, 50);
+                vfo->m_color = IM_COL32(255, 255, 255, 50);
             }
         }
 
@@ -111,15 +111,15 @@ namespace vfo_color_menu {
 
         ImGui::TableSetColumnIndex(0);
         if (ImGui::Button("Auto Color##vfo_color", ImVec2(ImGui::GetContentRegionAvail().x, 0))) {
-            float delta = 1.0f / (float)gui::waterfall.vfos.size();
+            float delta = 1.0f / (float)gui::waterfall.m_map_vfos.size();
             float hue = 0;
             std::vector<std::pair<std::string, std::string>> updates;
-            updates.reserve(gui::waterfall.vfos.size());
-            for (auto& [name, vfo] : gui::waterfall.vfos) {
+            updates.reserve(gui::waterfall.m_map_vfos.size());
+            for (auto& [name, vfo] : gui::waterfall.m_map_vfos) {
                 float r, g, b;
                 ImGui::ColorConvertHSVtoRGB(hue, 0.5f, 1.0f, r, g, b);
                 vfoColors[name] = ImVec4(r, g, b, 1.0f);
-                vfo->color = IM_COL32((int)roundf(r * 255), (int)roundf(g * 255), (int)roundf(b * 255), 50);
+                vfo->m_color = IM_COL32((int)roundf(r * 255), (int)roundf(g * 255), (int)roundf(b * 255), 50);
                 hue += delta;
                 char buf[16];
                 sprintf(buf, "#%02X%02X%02X", (int)roundf(r * 255), (int)roundf(g * 255), (int)roundf(b * 255));
@@ -131,10 +131,10 @@ namespace vfo_color_menu {
         ImGui::TableSetColumnIndex(1);
         if (ImGui::Button("Clear All##vfo_color", ImVec2(ImGui::GetContentRegionAvail().x, 0))) {
             std::vector<std::pair<std::string, std::string>> updates;
-            updates.reserve(gui::waterfall.vfos.size());
-            for (auto& [name, vfo] : gui::waterfall.vfos) {
+            updates.reserve(gui::waterfall.m_map_vfos.size());
+            for (auto& [name, vfo] : gui::waterfall.m_map_vfos) {
                 vfoColors[name] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-                vfo->color = IM_COL32(255, 255, 255, 50);
+                vfo->m_color = IM_COL32(255, 255, 255, 50);
                 updates.emplace_back(name, "#FFFFFF");
             }
             saveColors(updates);
@@ -143,7 +143,7 @@ namespace vfo_color_menu {
         ImGui::EndTable();
 
         ImGui::BeginTable("VFO Color table", 1, ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders);
-        for (auto& [name, vfo] : gui::waterfall.vfos) {
+        for (auto& [name, vfo] : gui::waterfall.m_map_vfos) {
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             ImVec4 col(1.0f, 1.0f, 1.0f, 1.0f);
@@ -152,7 +152,7 @@ namespace vfo_color_menu {
             }
             if (ImGui::ColorEdit3(("##vfo_color_" + name).c_str(), (float*)&col, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel)) {
                 vfoColors[name] = col;
-                vfo->color = IM_COL32((int)roundf(col.x * 255), (int)roundf(col.y * 255), (int)roundf(col.z * 255), 50);
+                vfo->m_color = IM_COL32((int)roundf(col.x * 255), (int)roundf(col.y * 255), (int)roundf(col.z * 255), 50);
                 char buf[16];
                 sprintf(buf, "#%02X%02X%02X", (int)roundf(col.x * 255), (int)roundf(col.y * 255), (int)roundf(col.z * 255));
                 core::configManager.edit().section("vfoColors").set(name, buf);

@@ -95,7 +95,7 @@ public:
         vfo = sigpath::vfoManager.createVFO(name, ImGui::WaterfallVFO::REF_CENTER, 0, 200000, 200000, 50000, 200000, false);
         onUserChangedBandwidthHandler.handler = vfoUserChangedBandwidthHandler;
         onUserChangedBandwidthHandler.ctx = this;
-        vfo->wtfVFO->onUserChangedBandwidth.bindHandler(&onUserChangedBandwidthHandler);
+        vfo->wtfVFO->m_onUserChangedBandwidth.bindHandler(&onUserChangedBandwidthHandler);
 
         // Initialize IF DSP chain
         ifChainOutputChanged.ctx = this;
@@ -165,7 +165,7 @@ public:
         enabled = true;
         if (!vfo) {
             vfo = sigpath::vfoManager.createVFO(name, ImGui::WaterfallVFO::REF_CENTER, 0, 200000, 200000, 50000, 200000, false);
-            vfo->wtfVFO->onUserChangedBandwidth.bindHandler(&onUserChangedBandwidthHandler);
+            vfo->wtfVFO->m_onUserChangedBandwidth.bindHandler(&onUserChangedBandwidthHandler);
         }
         ifChain.setInput(vfo->output, [=](dsp::stream<dsp::complex_t>* out) { ifChainOutputChangeHandler(out, this); });
         ifChain.start();
@@ -250,7 +250,7 @@ private:
                 changed = demod::showHzPresetInput(("_radio_bw_" + _this->name).c_str(), _this->bandwidth, _this->minBandwidth, _this->maxBandwidth, cwBandwidthPresets, 1.0f, 100.0f);
             }
             else {
-                ImGui::SetNextItemWidth(menuWidth - ImGui::GetCursorPosX());
+                ImGui::FillWidth();
                 if (ImGui::InputFloat(("##_radio_bw_" + _this->name).c_str(), &_this->bandwidth, 1, 100, "%.0f")) {
                     _this->bandwidth = std::clamp<float>(_this->bandwidth, _this->minBandwidth, _this->maxBandwidth);
                     changed = true;
@@ -263,7 +263,7 @@ private:
 
         // VFO snap interval
         ImGui::LeftLabel("Snap Interval");
-        ImGui::SetNextItemWidth(menuWidth - ImGui::GetCursorPosX());
+        ImGui::FillWidth();
         if (ImGui::InputInt(("##_radio_snap_" + _this->name).c_str(), &_this->snapInterval, 1, 100)) {
             if (_this->snapInterval < 1) { _this->snapInterval = 1; }
             _this->vfo->setSnapInterval(_this->snapInterval);
@@ -273,7 +273,7 @@ private:
         // Deemphasis mode
         if (_this->deempAllowed) {
             ImGui::LeftLabel("De-emphasis");
-            ImGui::SetNextItemWidth(menuWidth - ImGui::GetCursorPosX());
+            ImGui::FillWidth();
             if (ImGui::Combo(("##_radio_wfm_deemp_" + _this->name).c_str(), &_this->deempId, _this->deempModes.txt)) {
                 _this->setDeemphasisMode(_this->deempModes[_this->deempId]);
             }

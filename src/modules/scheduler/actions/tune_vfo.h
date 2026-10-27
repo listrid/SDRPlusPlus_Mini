@@ -45,7 +45,7 @@ namespace sched_action {
             vfoNames.clear();
             vfoNamesTxt.clear();
             int id = 0;
-            for (auto& [name, vfo] : gui::waterfall.vfos) {
+            for (auto& [name, vfo] : gui::waterfall.m_map_vfos) {
                 vfoNames.push_back(name);
                 vfoNamesTxt += name;
                 vfoNamesTxt += '\0';

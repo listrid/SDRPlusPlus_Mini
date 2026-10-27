@@ -23,15 +23,15 @@ namespace tuner {
         // Variant A: Keep the VFO reference line in the center of the view.
         // Variant B: Keep the VFO center frequency in the center of the view.
         // Variant C: Keep the VFO center frequency in the same relative position in the view.
-        gui::waterfall.setViewOffset(vfo->centerOffset);
+        gui::waterfall.setViewOffset(vfo->m_centerOffset);
         gui::freqSelect.setFrequency(freq);
         sigpath::sourceManager.tune(centerFreq);
     }
 
     void centerTuning(std::string vfoName, double freq) {
         if (vfoName != "") {
-            auto itVfo = gui::waterfall.vfos.find(vfoName);
-            if (itVfo == gui::waterfall.vfos.end())
+            auto itVfo = gui::waterfall.m_map_vfos.find(vfoName);
+            if (itVfo == gui::waterfall.m_map_vfos.end())
                 return;
             if (g_vfoLockedToCenter) {
                 panadapterTuning(vfoName, itVfo->second, freq, g_vfoToCenterOffsetHz);
@@ -52,12 +52,12 @@ namespace tuner {
         double viewBW = gui::waterfall.getViewBandwidth();
         double BW = gui::waterfall.getBandwidth();
 
-        double currentOff = vfo->centerOffset;
-        double currentTune = gui::waterfall.getCenterFrequency() + vfo->generalOffset;
+        double currentOff = vfo->m_centerOffset;
+        double currentTune = gui::waterfall.getCenterFrequency() + vfo->m_generalOffset;
         double delta = freq - currentTune;
 
         double newVFO = currentOff + delta;
-        double vfoBW = vfo->bandwidth;
+        double vfoBW = vfo->m_bandwidth;
         double vfoBottom = newVFO - (vfoBW / 2.0);
         double vfoTop = newVFO + (vfoBW / 2.0);
 
@@ -132,7 +132,7 @@ namespace tuner {
     void normalTuning(std::string vfoName, double freq) {
         if (vfoName.empty()) {
             centerTuning(vfoName, freq);
-        } else if (auto it = gui::waterfall.vfos.find(vfoName); it != gui::waterfall.vfos.end()) {
+        } else if (auto it = gui::waterfall.m_map_vfos.find(vfoName); it != gui::waterfall.m_map_vfos.end()) {
             ImGui::WaterfallVFO* vfo = it->second;
             if (g_vfoLockedToCenter) {
                 panadapterTuning(vfoName, vfo, freq, g_vfoToCenterOffsetHz);
@@ -144,7 +144,7 @@ namespace tuner {
 
     void iqTuning(double freq) {
         gui::waterfall.setCenterFrequency(freq);
-        gui::waterfall.centerFreqMoved = true;
+        gui::waterfall.m_centerFreqMoved = true;
         sigpath::sourceManager.tune(freq);
     }
 

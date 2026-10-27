@@ -255,7 +255,7 @@ void MainWindow::init() {
     // source and steps the module manager, which reach for the config themselves.
     double frequency = 0.0;
     bool stickyAutoRange = false;
-    float rawMenuWidth = 250.0f;
+    float rawMenuWidth = 270.0f;
     float rawFftHeight = 150.0f;
     bool centerTuning = false;
     {
@@ -282,31 +282,31 @@ void MainWindow::init() {
     sigpath::sourceManager.tune(frequency);
     gui::waterfall.setCenterFrequency(frequency);
     bw = 1.0;
-    gui::waterfall.vfoFreqChanged = false;
-    gui::waterfall.centerFreqMoved = false;
+    gui::waterfall.m_vfoFreqChanged = false;
+    gui::waterfall.m_centerFreqMoved = false;
     gui::waterfall.selectFirstVFO();
 
     // Current configs store logical units and are scaled here. Some test
     // builds wrote already-scaled physical widths without a version marker;
     // keep those as physical so they do not get multiplied again.
-    menuWidth = style::scaleOrPhysical(rawMenuWidth, 250.0f);
+    menuWidth = style::scaleOrPhysical(rawMenuWidth, 270.0f);
     newWidth = menuWidth;
 
     fftHeight = style::scale(rawFftHeight);
     gui::waterfall.setFFTHeight(fftHeight);
 
     tuningMode = centerTuning ? tuner::TUNER_MODE_CENTER : tuner::TUNER_MODE_NORMAL;
-    gui::waterfall.VFOMoveSingleClick = (tuningMode == tuner::TUNER_MODE_CENTER);
+    gui::waterfall.m_VFOMoveSingleClick = (tuningMode == tuner::TUNER_MODE_CENTER);
 
     // Correct the offset of all VFOs so that they fit on the screen
     float finalBwHalf = gui::waterfall.getBandwidth() / 2.0;
-    for (auto& [_name, _vfo] : gui::waterfall.vfos) {
-        if (_vfo->lowerOffset < -finalBwHalf) {
-            sigpath::vfoManager.setCenterOffset(_name, (_vfo->bandwidth / 2) - finalBwHalf);
+    for (auto& [_name, _vfo] : gui::waterfall.m_map_vfos) {
+        if (_vfo->m_lowerOffset < -finalBwHalf) {
+            sigpath::vfoManager.setCenterOffset(_name, (_vfo->m_bandwidth / 2) - finalBwHalf);
             continue;
         }
-        if (_vfo->upperOffset > finalBwHalf) {
-            sigpath::vfoManager.setCenterOffset(_name, finalBwHalf - (_vfo->bandwidth / 2));
+        if (_vfo->m_upperOffset > finalBwHalf) {
+            sigpath::vfoManager.setCenterOffset(_name, finalBwHalf - (_vfo->m_bandwidth / 2));
             continue;
         }
     }
@@ -381,26 +381,26 @@ void MainWindow::draw() {
     }
 
     ImGui::WaterfallVFO* vfo = NULL;
-    if (gui::waterfall.selectedVFO != "") {
-        vfo = gui::waterfall.vfos[gui::waterfall.selectedVFO];
+    if (gui::waterfall.m_selectedVFO != "") {
+        vfo = gui::waterfall.m_map_vfos[gui::waterfall.m_selectedVFO];
     }
 
     // Handle VFO movement
     if (vfo != NULL) {
-        if (vfo->centerOffsetChanged) {
+        if (vfo->m_centerOffsetChanged) {
             if (tuningMode == tuner::TUNER_MODE_CENTER) {
-                tuner::tune(tuner::TUNER_MODE_CENTER, gui::waterfall.selectedVFO, gui::waterfall.getCenterFrequency() + vfo->generalOffset);
+                tuner::tune(tuner::TUNER_MODE_CENTER, gui::waterfall.m_selectedVFO, gui::waterfall.getCenterFrequency() + vfo->m_generalOffset);
             } else if (tuningMode == tuner::TUNER_MODE_NORMAL && tuner::vfoLockedToCenter()) {
                 // If the VFO is locked to IQ center frequency, then dragging a VFO should be suppressed.
-                assert(gui::waterfall.VFOMoveSingleClick);
+                assert(gui::waterfall.m_VFOMoveSingleClick);
                 // The tuner will synchronize VFO with the IQ center frequency.
-                tuner::tune(tuner::TUNER_MODE_NORMAL, gui::waterfall.selectedVFO, gui::waterfall.getCenterFrequency() + vfo->generalOffset);
+                tuner::tune(tuner::TUNER_MODE_NORMAL, gui::waterfall.m_selectedVFO, gui::waterfall.getCenterFrequency() + vfo->m_generalOffset);
             }
-            gui::freqSelect.setFrequency(gui::waterfall.getCenterFrequency() + vfo->generalOffset);
+            gui::freqSelect.setFrequency(gui::waterfall.getCenterFrequency() + vfo->m_generalOffset);
             gui::freqSelect.frequencyChanged = false;
             core::configManager.edit()
                 .section("vfoOffsets")
-                .set(gui::waterfall.selectedVFO, vfo->generalOffset);
+                .set(gui::waterfall.m_selectedVFO, vfo->m_generalOffset);
         }
     }
 
@@ -408,33 +408,33 @@ void MainWindow::draw() {
     sigpath::vfoManager.updateFromWaterfall(&gui::waterfall);
 
     // Handle selection of another VFO
-    if (gui::waterfall.selectedVFOChanged) {
-        gui::freqSelect.setFrequency((vfo != NULL) ? (vfo->generalOffset + gui::waterfall.getCenterFrequency()) : gui::waterfall.getCenterFrequency());
-        gui::waterfall.selectedVFOChanged = false;
+    if (gui::waterfall.m_selectedVFOChanged) {
+        gui::freqSelect.setFrequency((vfo != NULL) ? (vfo->m_generalOffset + gui::waterfall.getCenterFrequency()) : gui::waterfall.getCenterFrequency());
+        gui::waterfall.m_selectedVFOChanged = false;
         gui::freqSelect.frequencyChanged = false;
     }
 
     // Handle change in selected frequency
     if (gui::freqSelect.frequencyChanged) {
         gui::freqSelect.frequencyChanged = false;
-        tuner::tune(tuningMode, gui::waterfall.selectedVFO, gui::freqSelect.frequency);
+        tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, gui::freqSelect.frequency);
         if (vfo != NULL) {
-            vfo->centerOffsetChanged = false;
-            vfo->lowerOffsetChanged = false;
-            vfo->upperOffsetChanged = false;
+            vfo->m_centerOffsetChanged = false;
+            vfo->m_lowerOffsetChanged = false;
+            vfo->m_upperOffsetChanged = false;
         }
         auto configAccess = core::configManager.edit();
         configAccess.set("frequency", gui::waterfall.getCenterFrequency());
         if (vfo != NULL) {
-            configAccess.section("vfoOffsets").set(gui::waterfall.selectedVFO, vfo->generalOffset);
+            configAccess.section("vfoOffsets").set(gui::waterfall.m_selectedVFO, vfo->m_generalOffset);
         }
     }
 
     // Handle dragging the frequency scale
-    if (gui::waterfall.centerFreqMoved) {
-        gui::waterfall.centerFreqMoved = false;
+    if (gui::waterfall.m_centerFreqMoved) {
+        gui::waterfall.m_centerFreqMoved = false;
         sigpath::sourceManager.tune(gui::waterfall.getCenterFrequency());
-        gui::freqSelect.setFrequency(gui::waterfall.getCenterFrequency() + (vfo == NULL ? 0 : vfo->generalOffset));
+        gui::freqSelect.setFrequency(gui::waterfall.getCenterFrequency() + (vfo == NULL ? 0 : vfo->m_generalOffset));
         core::configManager.edit().set("frequency", gui::waterfall.getCenterFrequency());
     }
 
@@ -575,7 +575,7 @@ void MainWindow::draw() {
         // the row. meterMin wins if the labels need more than 350 dp.
         meterDrawWidth = std::min(meterWidth, std::max(350.0f * style::uiScale, meterMin));
     }
-    sigpath::sinkManager.showVolumeSlider(gui::waterfall.selectedVFO, "##_sdrpp_main_volume_", volumeWidth, btnSize.x, toolbarButtonPadding, true);
+    sigpath::sinkManager.showVolumeSlider(gui::waterfall.m_selectedVFO, "##_sdrpp_main_volume_", volumeWidth, btnSize.x, toolbarButtonPadding, true);
 
     ImGui::SameLine();
 
@@ -599,7 +599,7 @@ void MainWindow::draw() {
         ImGui::PushID(ImGui::GetID("sdrpp_ena_st_btn"));
         if (ImGui::ImageButton(icons::CENTER_TUNING, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol)) {
             tuningMode = tuner::TUNER_MODE_NORMAL;
-            gui::waterfall.VFOMoveSingleClick = false;
+            gui::waterfall.m_VFOMoveSingleClick = false;
             core::configManager.edit().set("centerTuning", false);
         }
         ImGui::PopID();
@@ -608,8 +608,8 @@ void MainWindow::draw() {
         ImGui::PushID(ImGui::GetID("sdrpp_dis_st_btn"));
         if (ImGui::ImageButton(icons::NORMAL_TUNING, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol)) {
             tuningMode = tuner::TUNER_MODE_CENTER;
-            gui::waterfall.VFOMoveSingleClick = true;
-            tuner::tune(tuner::TUNER_MODE_CENTER, gui::waterfall.selectedVFO, gui::freqSelect.frequency);
+            gui::waterfall.m_VFOMoveSingleClick = true;
+            tuner::tune(tuner::TUNER_MODE_CENTER, gui::waterfall.m_selectedVFO, gui::freqSelect.frequency);
             core::configManager.edit().set("centerTuning", true);
         }
         ImGui::PopID();
@@ -629,7 +629,7 @@ void MainWindow::draw() {
     centerInRow(ImGui::GetLevelMeterHeight());
     ImGui::SetNextItemWidth(meterDrawWidth);
     if (vfo != NULL) {
-        ImGui::LevelMeter(gui::waterfall.selectedVFOLevel, gui::waterfall.selectedVFOLevelMax, gui::waterfall.selectedVFOSNR);
+        ImGui::LevelMeter(gui::waterfall.m_selectedVFOLevel, gui::waterfall.m_selectedVFOLevelMax, gui::waterfall.m_selectedVFOSNR);
     }
     else {
         ImGui::LevelMeter(-INFINITY, -INFINITY, NAN);
@@ -659,7 +659,7 @@ void MainWindow::draw() {
     bool isWindowHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem);
 #endif
     if (showMenu && !grabbingMenu) {
-        int clampedMenuWidth = style::clampSplit(menuWidth, winSize.x, 250.0f, 250.0f);
+        int clampedMenuWidth = style::clampSplit(menuWidth, winSize.x, 270.0f, 270.0f);
         if (clampedMenuWidth != menuWidth) {
             menuWidth = clampedMenuWidth;
             newWidth = clampedMenuWidth;
@@ -679,7 +679,7 @@ void MainWindow::draw() {
         float splitBottom = winSize.y - style::dp(10.0f);
         if (grabbingMenu) {
             newWidth = mousePos.x + menuGrabOffset;
-            newWidth = style::clampSplit(newWidth, winSize.x, 250.0f, 250.0f);
+            newWidth = style::clampSplit(newWidth, winSize.x, 270.0f, 270.0f);
             ImGui::GetForegroundDrawList()->AddLine(ImVec2(newWidth, curY), ImVec2(newWidth, splitBottom), ImGui::GetColorU32(ImGuiCol_SeparatorActive));
         }
         // Touch handling. A full-length fat hit band fights with the menu
@@ -830,7 +830,7 @@ void MainWindow::draw() {
                 firstMenuRender = true;
             }
 
-            ImGui::Checkbox("WF Single Click", &gui::waterfall.VFOMoveSingleClick);
+            ImGui::Checkbox("WF Single Click", &gui::waterfall.m_VFOMoveSingleClick);
             ImGui::Checkbox("Lock Menu Order", &gui::menu.locked);
 
             ImGui::Spacing();
@@ -876,25 +876,25 @@ void MainWindow::draw() {
 
     if (!lockWaterfallControls) {
         // Handle arrow keys
-        if (vfo != NULL && (gui::waterfall.mouseInFFT || gui::waterfall.mouseInWaterfall)) {
+        if (vfo != NULL && (gui::waterfall.m_mouseInFFT || gui::waterfall.m_mouseInWaterfall)) {
             bool freqChanged = false;
             if (ImGui::IsKeyPressed(ImGuiKey_LeftArrow) && !gui::freqSelect.digitHovered) {
-                double nfreq = gui::waterfall.getCenterFrequency() + vfo->generalOffset - vfo->snapInterval;
-                nfreq = roundl(nfreq / vfo->snapInterval) * vfo->snapInterval;
-                tuner::tune(tuningMode, gui::waterfall.selectedVFO, nfreq);
+                double nfreq = gui::waterfall.getCenterFrequency() + vfo->m_generalOffset - vfo->m_snapInterval;
+                nfreq = roundl(nfreq / vfo->m_snapInterval) * vfo->m_snapInterval;
+                tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, nfreq);
                 freqChanged = true;
             }
             if (ImGui::IsKeyPressed(ImGuiKey_RightArrow) && !gui::freqSelect.digitHovered) {
-                double nfreq = gui::waterfall.getCenterFrequency() + vfo->generalOffset + vfo->snapInterval;
-                nfreq = roundl(nfreq / vfo->snapInterval) * vfo->snapInterval;
-                tuner::tune(tuningMode, gui::waterfall.selectedVFO, nfreq);
+                double nfreq = gui::waterfall.getCenterFrequency() + vfo->m_generalOffset + vfo->m_snapInterval;
+                nfreq = roundl(nfreq / vfo->m_snapInterval) * vfo->m_snapInterval;
+                tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, nfreq);
                 freqChanged = true;
             }
             if (freqChanged) {
                 auto configAccess = core::configManager.edit();
                 configAccess.set("frequency", gui::waterfall.getCenterFrequency());
                 if (vfo != NULL) {
-                    configAccess.section("vfoOffsets").set(gui::waterfall.selectedVFO, vfo->generalOffset);
+                    configAccess.section("vfoOffsets").set(gui::waterfall.m_selectedVFO, vfo->m_generalOffset);
                 }
             }
         }
@@ -904,7 +904,7 @@ void MainWindow::draw() {
         // accumulate and only tune on whole steps. The accumulator is
         // cleared outside the FFT/waterfall area (and while Ctrl-zooming)
         // so partial scrolls elsewhere can't discharge into a tune later.
-        if (!ImGui::GetIO().KeyCtrl && (gui::waterfall.mouseInFFT || gui::waterfall.mouseInWaterfall)) {
+        if (!ImGui::GetIO().KeyCtrl && (gui::waterfall.m_mouseInFFT || gui::waterfall.m_mouseInWaterfall)) {
             wheelAccum += ImGui::GetIO().MouseWheel;
         }
         else {
@@ -918,27 +918,27 @@ void MainWindow::draw() {
                 // Select factor depending on modifier keys
                 double interval;
                 if (ImGui::IsKeyDown(ImGuiKey_LeftShift)) {
-                    interval = vfo->snapInterval * 10.0;
+                    interval = vfo->m_snapInterval * 10.0;
                 }
                 else if (ImGui::IsKeyDown(ImGuiKey_LeftAlt)) {
-                    interval = vfo->snapInterval * 0.1;
+                    interval = vfo->m_snapInterval * 0.1;
                 }
                 else {
-                    interval = vfo->snapInterval;
+                    interval = vfo->m_snapInterval;
                 }
 
-                nfreq = gui::waterfall.getCenterFrequency() + vfo->generalOffset + (interval * wheel);
+                nfreq = gui::waterfall.getCenterFrequency() + vfo->m_generalOffset + (interval * wheel);
                 nfreq = roundl(nfreq / interval) * interval;
             }
             else {
                 nfreq = gui::waterfall.getCenterFrequency() - (gui::waterfall.getViewBandwidth() * wheel / 20.0);
             }
-            tuner::tune(tuningMode, gui::waterfall.selectedVFO, nfreq);
+            tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, nfreq);
             gui::freqSelect.setFrequency(nfreq);
             auto configAccess = core::configManager.edit();
             configAccess.set("frequency", gui::waterfall.getCenterFrequency());
             if (vfo != NULL) {
-                configAccess.section("vfoOffsets").set(gui::waterfall.selectedVFO, vfo->generalOffset);
+                configAccess.section("vfoOffsets").set(gui::waterfall.m_selectedVFO, vfo->m_generalOffset);
             }
         }
     }
@@ -1090,7 +1090,7 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
 
         gui::waterfall.setViewBandwidth(finalBw);
         if (vfo != NULL) {
-            gui::waterfall.setViewOffset(vfo->centerOffset); // center vfo on screen
+            gui::waterfall.setViewOffset(vfo->m_centerOffset); // center vfo on screen
         }
     }
 

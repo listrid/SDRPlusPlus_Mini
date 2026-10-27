@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="core">
       <UniqueIdentifier>{b355c2ba-4a50-4bce-878d-074b1e09b7e8}</UniqueIdentifier>
     </Filter>
@@ -224,9 +220,6 @@
       <Filter>core\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\src\core\utils\proto\http.cpp">
-      <Filter>core\utils\proto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\core\utils\proto\kiwisdr.cpp">
       <Filter>core\utils\proto</Filter>
     </ClCompile>
     <ClCompile Include="..\src\core\utils\proto\rigctl.cpp">
@@ -584,9 +577,6 @@
       <Filter>core\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\src\core\utils\proto\http.h">
-      <Filter>core\utils\proto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\core\utils\proto\kiwisdr.h">
       <Filter>core\utils\proto</Filter>
     </ClInclude>
     <ClInclude Include="..\src\core\utils\proto\pbkdf2_sha256.h">

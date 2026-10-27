@@ -67,12 +67,12 @@ namespace bandplanmenu {
         {
             bandplanId = static_cast<int>(std::distance(
                 bandplan::bandplanNames.begin(), selectedName));
-            gui::waterfall.bandplan = &selectedPlan->second;
+            gui::waterfall.m_bandplan = &selectedPlan->second;
         }
         else {
             bandplanId = 0;
-            gui::waterfall.bandplan = getPlan(bandplanId);
-            if (!gui::waterfall.bandplan) {
+            gui::waterfall.m_bandplan = getPlan(bandplanId);
+            if (!gui::waterfall.m_bandplan) {
                 gui::waterfall.hideBandplan();
                 return;
             }
@@ -94,7 +94,7 @@ namespace bandplanmenu {
         ImGui::PushItemWidth(menuColumnWidth);
         if (ImGui::Combo("##_bandplan_name_", &bandplanId, bandplan::bandplanNameTxt.c_str())) {
             if (bandplan::BandPlan_t* plan = getPlan(bandplanId)) {
-                gui::waterfall.bandplan = plan;
+                gui::waterfall.m_bandplan = plan;
                 core::configManager.edit().set("bandPlan", bandplan::bandplanNames[bandplanId]);
             }
         }

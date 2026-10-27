@@ -18,7 +18,7 @@
 
 static ModuleManager::ModuleInfo_t audio_sink_INFO{
     /* Name:            */ "audio_sink",
-    /* Description:     */ "Audio sink module for SDRIAK",
+    /* Description:     */ "Audio sink module",
     /* Author:          */ "Ryzerth",
     /* Version:         */ 0, 1, 0,
     /* Max instances    */ 1

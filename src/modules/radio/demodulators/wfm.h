@@ -51,7 +51,7 @@ namespace demod {
 
         ~WFM() {
             stop();
-            gui::waterfall.onFFTRedraw.unbindHandler(&fftRedrawHandler);
+            gui::waterfall.m_onFFTRedraw.unbindHandler(&fftRedrawHandler);
             
             // Cleanup FFT resources
             if (fftInitialized) {
@@ -73,7 +73,7 @@ namespace demod {
             // Register FFT draw handler
             fftRedrawHandler.handler = fftRedraw;
             fftRedrawHandler.ctx = this;
-            gui::waterfall.onFFTRedraw.bindHandler(&fftRedrawHandler);
+            gui::waterfall.m_onFFTRedraw.bindHandler(&fftRedrawHandler);
 
             // Default
             std::string rdsRegionStr = "eu";

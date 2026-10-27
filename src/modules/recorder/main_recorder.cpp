@@ -31,7 +31,7 @@
 
 static ModuleManager::ModuleInfo_t recorder_INFO{
     /* Name:            */ "recorder",
-    /* Description:     */ "Recorder module for SDRIAK",
+    /* Description:     */ "Recorder module",
     /* Author:          */ "Ryzerth",
     /* Version:         */ 0, 3, 0,
     /* Max instances    */ -1
@@ -517,8 +517,8 @@ private:
         time_t now = time(0);
         tm* ltm = (timezones[timezoneId] == TIME_ZONE_UTC) ? gmtime(&now) : localtime(&now);
         double freq = gui::waterfall.getCenterFrequency();
-        if (gui::waterfall.vfos.find(name) != gui::waterfall.vfos.end()) {
-            freq += gui::waterfall.vfos[name]->generalOffset;
+        if (gui::waterfall.m_map_vfos.find(name) != gui::waterfall.m_map_vfos.end()) {
+            freq += gui::waterfall.m_map_vfos[name]->m_generalOffset;
         }
 
         // Select the recording type string

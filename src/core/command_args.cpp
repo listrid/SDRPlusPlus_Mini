@@ -9,15 +9,15 @@ void CommandArgsParser::defineAll() {
         std::string root = core::getExecutableDirectory().string();
         define('c', "con", "Show console on Windows");
 #elif defined(IS_MACOS_BUNDLE)
-        std::string root = (std::string)getenv("HOME") + "/Library/Application Support/sdriak";
+        std::string root = (std::string)getenv("HOME") + "/Library/Application Support/sdrpp_mini";
 #elif defined(__ANDROID__)
-        std::string root = "/storage/self/primary/sdriak";
+        std::string root = "/storage/self/primary/sdrpp_mini";
 #elif defined(__linux__) && defined(BUILD_APPIMAGE)
         // AppImage builds use an isolated config dir so settings, module
         // selection, etc. do not collide with a side-by-side .deb install.
-        std::string root = (std::string)getenv("HOME") + "/.config/sdriak-appimage";
+        std::string root = (std::string)getenv("HOME") + "/.config/sdrpp_mini-appimage";
 #else
-        std::string root = (std::string)getenv("HOME") + "/.config/sdriak";
+        std::string root = (std::string)getenv("HOME") + "/.config/sdrpp_mini";
 #endif
 
         define('a', "addr", "Server mode address", "0.0.0.0");
@@ -96,7 +96,7 @@ int CommandArgsParser::parse(int argc, char* argv[]) {
             try {
                 carg.ival = std::stoi(arg);
             }
-            catch (const std::exception& e) {
+            catch (const std::exception& ) {
                 printf("Invalid argument, failed to parse integer\n");
                 showHelp();
                 return -1;
@@ -106,7 +106,7 @@ int CommandArgsParser::parse(int argc, char* argv[]) {
             try {
                 carg.fval = std::stod(arg);
             }
-            catch (const std::exception& e) {
+            catch (const std::exception& ) {
                 printf("Invalid argument, failed to parse float\n");
                 showHelp();
                 return -1;

@@ -258,7 +258,7 @@ private:
     void worker() {
         // Compute sizes
         int blockSize = samplerate / 200;
-        int sampleSize = SAMPLE_TYPE_SIZE[sampType];
+        int sampleSize = (int)SAMPLE_TYPE_SIZE[sampType];
 
         // Chose amount of bytes to attempt to read
         bool forceSize = (proto != PROTOCOL_UDP);

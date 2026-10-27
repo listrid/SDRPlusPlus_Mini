@@ -16,7 +16,7 @@
 
 static ModuleManager::ModuleInfo_t network_sink_INFO{
     /* Name:            */ "network_sink",
-    /* Description:     */ "Network sink module for SDRIAK",
+    /* Description:     */ "Network sink module",
     /* Author:          */ "Ryzerth",
     /* Version:         */ 0, 1, 0,
     /* Max instances    */ 1

@@ -167,7 +167,7 @@ BandRegisterPopupSnapshot BandStack::openRegisters(
     double defaultFrequency,
     const freq_input::BandMapping* activeMapping)
 {
-    const bandplan::BandPlan_t* plan = gui::waterfall.bandplan;
+    const bandplan::BandPlan_t* plan = gui::waterfall.m_bandplan;
     if (!plan) { return {}; }
 
     const double currentFrequency = (double)gui::freqSelect.frequency;
@@ -195,7 +195,7 @@ const freq_input::BandMapping* BandStack::resolveBandForServices(
     double frequency) const
 {
     return resolveBandInServices(
-        gui::waterfall.bandplan,
+        gui::waterfall.m_bandplan,
         frequency,
         services,
         preferredService);
@@ -306,7 +306,7 @@ void BandStack::selectLegacySegment(
         auto configAccess = core::configManager.edit();
         storeVisibleBand(
             freq_memory::stackingRegisters(configAccess),
-            gui::waterfall.bandplan,
+            gui::waterfall.m_bandplan,
             activeMapping,
             currentFrequency,
             curMode);
@@ -323,7 +323,7 @@ void BandStack::selectBand(
     double defaultFrequency,
     const freq_input::BandMapping* activeMapping)
 {
-    const bandplan::BandPlan_t* plan = gui::waterfall.bandplan;
+    const bandplan::BandPlan_t* plan = gui::waterfall.m_bandplan;
     if (!plan) { return; }
     const int curMode = currentMode();
     const double currentFrequency = (double)gui::freqSelect.frequency;
@@ -386,7 +386,7 @@ BandRecallResult BandStack::recallRegister(
     const freq_input::BandMapping* activeMapping,
     const BandRegisterPopupSnapshot& openedSnapshot)
 {
-    const bandplan::BandPlan_t* plan = gui::waterfall.bandplan;
+    const bandplan::BandPlan_t* plan = gui::waterfall.m_bandplan;
     if (!plan || index < 0 || index >= (int)BandRegisterSet::SIZE) {
         return BandRecallResult::NoTarget;
     }
@@ -478,7 +478,7 @@ void BandStack::commitCurrentBand() {
                 freq_memory::PREFERRED_SERVICE,
                 "other"));
     // Shutdown may search only the current service.
-    const bandplan::BandPlan_t* plan = gui::waterfall.bandplan;
+    const bandplan::BandPlan_t* plan = gui::waterfall.m_bandplan;
     const freq_input::BandMapping* current = resolveBandInServices(
         plan,
         currentFrequency,
@@ -498,7 +498,7 @@ void BandStack::applyTarget(
 {
     assert(target.freq > 0.0);
     if (target.freq <= 0.0) { return; }
-    const bandplan::BandPlan_t* plan = gui::waterfall.bandplan;
+    const bandplan::BandPlan_t* plan = gui::waterfall.m_bandplan;
     assert(plan);
     if (!plan) { return; }
     const bandplan::Band_t* segment =
@@ -516,7 +516,7 @@ void BandStack::applySegmentTarget(
     assert(freq > 0.0 && segment.containsFrequency(freq));
     mode = resolvedMode(segment, freq, mode);
 
-    std::string vfoName = gui::waterfall.selectedVFO;
+    std::string vfoName = gui::waterfall.m_selectedVFO;
     // RADIO_IFACE_CMD_SET_MODE has no early-out on the radio side: selectDemodByID()
     // rebuilds the whole demodulator chain even for the mode already selected,
     // which is an audible click on every band tap. Only send it on a change.
@@ -526,8 +526,8 @@ void BandStack::applySegmentTarget(
     // Channelized bands set the VFO snap after the mode change, which would
     // otherwise reset the snap to the mode default.
     if (segment.chan > 0.0 && !vfoName.empty()) {
-        auto vit = gui::waterfall.vfos.find(vfoName);
-        if (vit != gui::waterfall.vfos.end() && vit->second) {
+        auto vit = gui::waterfall.m_map_vfos.find(vfoName);
+        if (vit != gui::waterfall.m_map_vfos.end() && vit->second) {
             vit->second->setSnapInterval(segment.chan);
         }
     }
@@ -539,7 +539,7 @@ void BandStack::applySegmentTarget(
 
 // Resolve current VFO's demodulator mode. Return -1 for non-radio VFO (such as some decoder like Radiosonde)
 int BandStack::currentMode() const {
-    std::string vfoName = gui::waterfall.selectedVFO;
+    std::string vfoName = gui::waterfall.m_selectedVFO;
     if (!isRadioVFO(vfoName)) { return -1; }
     int mode = -1;
     core::modComManager.callInterface(vfoName, RADIO_IFACE_CMD_GET_MODE, NULL, &mode);

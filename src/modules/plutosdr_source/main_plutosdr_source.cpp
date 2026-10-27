@@ -15,7 +15,7 @@
 
 static ModuleManager::ModuleInfo_t plutosdr_source_INFO{
     /* Name:            */ "plutosdr_source",
-    /* Description:     */ "PlutoSDR source module for SDRIAK",
+    /* Description:     */ "PlutoSDR source module",
     /* Author:          */ "Ryzerth;F5OEO",
     /* Version:         */ 0, 2, 1,
     /* Max instances    */ 1
@@ -309,21 +309,30 @@ private:
         }
         _this->rxLO = iio_device_find_channel(_this->phy, "altvoltage0", true);
 
+
         // Enable RX LO and disable TX
         iio_channel_attr_write_bool(iio_device_find_channel(_this->phy, "altvoltage1", true), "powerdown", true);
         iio_channel_attr_write_bool(_this->rxLO, "powerdown", false);
 
+        // Configure the ADC filters
+        ad9361_set_bb_rate(_this->phy, _this->samplerate);
+
+        iio_channel_attr_write_bool(_this->rxChan, "quadrature_tracking_en", true);  // Убирает зеркалки
+        iio_channel_attr_write_bool(_this->rxChan, "bb_dc_offset_tracking_en", true); // Убирает палку по центру
+        iio_channel_attr_write_bool(_this->rxChan, "rf_dc_offset_tracking_en", true);
+
         // Configure RX channel
         iio_channel_attr_write(_this->rxChan, "rf_port_select", "A_BALANCED");
-        iio_channel_attr_write_longlong(_this->rxLO, "frequency", round(_this->freq));                              // Freq
-        iio_channel_attr_write_bool(_this->rxChan, "filter_fir_en", true);                                          // Digital filter
-        iio_channel_attr_write_longlong(_this->rxChan, "sampling_frequency", round(_this->samplerate));             // Sample rate
+        iio_channel_attr_write_longlong(_this->rxLO, "frequency", llround(_this->freq));          // Freq
+//        iio_channel_attr_write_bool(_this->rxChan, "filter_fir_en", true);                      // Digital filter
+        iio_channel_attr_write_longlong(_this->rxChan, "sampling_frequency", _this->samplerate);  // Sample rate
+        _this->setBandwidth(_this->bandwidth);
+
+        ad9361_set_trx_fir_enable(_this->phy, 1);
+
         iio_channel_attr_write_double(_this->rxChan, "hardwaregain", _this->gain);                                  // Gain
         iio_channel_attr_write(_this->rxChan, "gain_control_mode", _this->gainModes.value(_this->gmId).c_str());    // Gain mode
-        _this->setBandwidth(_this->bandwidth);
-        
-        // Configure the ADC filters
-        ad9361_set_bb_rate(_this->phy, round(_this->samplerate));
+
 
         // Start worker thread
         _this->underflow = false;
@@ -373,7 +382,7 @@ private:
             core::setInputSampleRate(_this->samplerate);
             config.edit().set("device", _this->devices.key(_this->devId));
         }
-
+        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
         if (SmGui::Combo(CONCAT("##_pluto_sr_", _this->name), &_this->srId, _this->samplerates.txt)) {
             _this->samplerate = _this->samplerates.value(_this->srId);
             core::setInputSampleRate(_this->samplerate);
@@ -386,12 +395,12 @@ private:
         SmGui::SameLine();
         SmGui::FillWidth();
         SmGui::ForceSync();
+
         if (SmGui::Button(CONCAT("Refresh##_pluto_refr_", _this->name))) {
             _this->refresh();
             _this->select(_this->devDesc);
             core::setInputSampleRate(_this->samplerate);
         }
-        if (_this->running) { SmGui::EndDisabled(); }
 
         // Manual IP configuration section
         if (SmGui::Checkbox(CONCAT("Use Manual IP##_pluto_manual_ip_", _this->name), &_this->useManualIP)) {
@@ -402,6 +411,7 @@ private:
             _this->select(_this->devDesc);
             core::setInputSampleRate(_this->samplerate);
         }
+        if (_this->running) { SmGui::EndDisabled(); }
 
         if (_this->useManualIP) {
             SmGui::LeftLabel("IP Address");
@@ -526,6 +536,10 @@ private:
         if (!iio_device_reg_read(_this->dev, 0x80000088, &status)) {
             iio_device_reg_write(_this->dev, 0x80000088, status);
         }
+
+        iio_channel_attr_write_double(_this->rxChan, "hardwaregain", _this->gain);                                  // Gain
+        iio_channel_attr_write(_this->rxChan, "gain_control_mode", _this->gainModes.value(_this->gmId).c_str());    // Gain mode
+        iio_device_attr_write(_this->phy, "calibrate", "rx_quad_cal");
 
         // Receive loop
         while (true) {

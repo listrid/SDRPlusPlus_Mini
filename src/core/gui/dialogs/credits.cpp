@@ -61,10 +61,10 @@ namespace credits {
         }
 
         ImGui::PushFont(style::hugeFont);
-        ImGui::TextUnformatted("SDRIAK");
+        ImGui::TextUnformatted("SDRPP_MINI");
         ImGui::PopFont();
-        ImGui::SameLine(ImGui::GetContentRegionMax().x - imageSize.x, 0.0f);
-        ImGui::Image(icons::LOGO, imageSize);
+        //ImGui::SameLine(ImGui::GetContentRegionMax().x - imageSize.x, 0.0f);
+      //  ImGui::Image(icons::LOGO, imageSize);
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();
@@ -101,7 +101,7 @@ namespace credits {
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();
-        ImGui::TextUnformatted("SDRIAK v" VERSION_STR " (Built at " __TIME__ ", " __DATE__ ")");
+        ImGui::TextUnformatted("SDRPP_MINI v" VERSION_STR " (Built at " __TIME__ ", " __DATE__ ")");
 
         ImGuiIO& io = ImGui::GetIO();
         float dragThreshold = std::max(io.MouseDragThreshold, style::dp(6.0f));

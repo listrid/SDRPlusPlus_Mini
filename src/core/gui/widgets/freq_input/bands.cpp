@@ -802,7 +802,7 @@ namespace freq_input {
 
         // Use exactly the plan selected for the waterfall ruler. The display
         // toggle controls visibility, not the picker's data source.
-        const bandplan::BandPlan_t* plan = gui::waterfall.bandplan;
+        const bandplan::BandPlan_t* plan = gui::waterfall.m_bandplan;
         if (!plan) {
             ImGui::TextDisabled("No band plan loaded");
             return out;

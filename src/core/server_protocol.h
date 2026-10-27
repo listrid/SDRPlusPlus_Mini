@@ -14,11 +14,11 @@ namespace server {
     inline constexpr uint32_t SERVER_PROTOCOL_CAP_HEARTBEAT = 1u << 0;
     inline constexpr uint32_t SERVER_PROTOCOL_CAP_AUTH = 1u << 1;
     inline constexpr int SERVER_PROTOCOL_FORK_ID_SIZE = 32;
-    inline constexpr char SERVER_PROTOCOL_FORK_ID[] = "sdriak";
+    inline constexpr char SERVER_PROTOCOL_FORK_ID[] = "sdrpp_mini";
     inline constexpr int SERVER_AUTH_CHALLENGE_SIZE = 32;
     inline constexpr int SERVER_AUTH_RESPONSE_SIZE = 32;
     inline constexpr uint32_t SERVER_AUTH_PBKDF2_ITERATIONS = 20000;
-    inline constexpr char SERVER_AUTH_SALT[] = "sdriak-server-auth-v1";
+    inline constexpr char SERVER_AUTH_SALT[] = "sdrpp_mini-server-auth-v1";
 
     enum PacketType {
         // Client to Server

@@ -49,7 +49,7 @@ public:
     }
 
     int size() const {
-        return keys.size();
+        return (int)keys.size();
     }
 
     bool empty() const {

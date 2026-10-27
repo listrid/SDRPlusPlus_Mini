@@ -14,7 +14,7 @@
 
 static ModuleManager::ModuleInfo_t audio_source_INFO{
     /* Name:            */ "audio_source",
-    /* Description:     */ "Audio source module for SDRIAK",
+    /* Description:     */ "Audio source module",
     /* Author:          */ "Ryzerth",
     /* Version:         */ 0, 1, 0,
     /* Max instances    */ 1
@@ -187,7 +187,7 @@ private:
         unsigned int bufferFrames = _this->sampleRate / 200;
         RtAudio::StreamOptions opts;
         opts.flags = RTAUDIO_MINIMIZE_LATENCY;
-        opts.streamName = "SDRIAK Audio Source";
+        opts.streamName = "Audio Source";
 
         // Open and start stream
         try {

@@ -218,11 +218,14 @@ private:
                 if (ifnrProcessor.percentUsage > 80) {
                     ImGui::PopStyleColor(1);
                 }
+            }else{
+                ImGui::NewLine();
             }
         }
 
         for (auto& [k, v] : afnrProcessors2) {
             // Track the sink's audio rate (cheap; applied by the DSP thread only on change)
+            
             v->setAudioSampleRate((int)sigpath::sinkManager.getStreamSampleRate(k));
             if (ImGui::Checkbox(("Audio NR (OMLSA) " + k + "##_radio_omlsa_nr_" + k).c_str(), &v->allowed)) {
                 core::modComManager.callInterface(k, v->allowed ? RADIO_IFACE_CMD_ENABLE_IN_AFCHAIN : RADIO_IFACE_CMD_DISABLE_IN_AFCHAIN, v.get(), NULL);

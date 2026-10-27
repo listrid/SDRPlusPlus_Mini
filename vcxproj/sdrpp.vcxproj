@@ -5,6 +5,10 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_MinSize|x64">
+      <Configuration>Release_MinSize</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
@@ -64,6 +68,7 @@
     <ClCompile Include="..\src\core\imgui\imgui_demo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\src\core\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\src\core\imgui\imgui_impl_opengl3.cpp" />
@@ -107,7 +112,6 @@
     <ClCompile Include="..\src\core\utils\net.cpp" />
     <ClCompile Include="..\src\core\utils\networking.cpp" />
     <ClCompile Include="..\src\core\utils\proto\http.cpp" />
-    <ClCompile Include="..\src\core\utils\proto\kiwisdr.cpp" />
     <ClCompile Include="..\src\core\utils\proto\rigctl.cpp" />
     <ClCompile Include="..\src\core\utils\proto\websock.cpp" />
     <ClCompile Include="..\src\core\utils\riff.cpp" />
@@ -370,7 +374,6 @@
     <ClInclude Include="..\src\core\utils\opengl_include_code.h" />
     <ClInclude Include="..\src\core\utils\optionlist.h" />
     <ClInclude Include="..\src\core\utils\proto\http.h" />
-    <ClInclude Include="..\src\core\utils\proto\kiwisdr.h" />
     <ClInclude Include="..\src\core\utils\proto\pbkdf2_sha256.h" />
     <ClInclude Include="..\src\core\utils\proto\picohash.h" />
     <ClInclude Include="..\src\core\utils\proto\rigctl.h" />
@@ -411,6 +414,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -418,6 +428,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -428,6 +441,12 @@
     <OutDir>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\</LocalDebuggerWorkingDirectory>
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">
     <LocalDebuggerWorkingDirectory>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\</LocalDebuggerWorkingDirectory>
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(SolutionDir)build\$(Configuration)_$(PlatformTarget)\$(ProjectName)</IntDir>
@@ -467,12 +486,57 @@
       <ExceptionHandling>false</ExceptionHandling>
       <DisableSpecificWarnings>4018;4244;4251;4267;4309;4530</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>dsound.lib;dxguid.lib;opengl32.lib;wsock32.lib;ws2_32.lib;iphlpapi.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>.\lib\libucrt.lib;.\lib\vcruntime.lib;.\lib\libvcruntime.lib;dsound.lib;dxguid.lib;opengl32.lib;wsock32.lib;ws2_32.lib;iphlpapi.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>vcruntime.lib;libvcruntime.lib;libucrt.lib</IgnoreSpecificDefaultLibraries>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
+      <FixedBaseAddress>true</FixedBaseAddress>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MinSpace</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SDRPP_IS_CORE;LIBAD9361_STATIC;LIBIIO_STATIC;FLAC__NO_DLL;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\src\core\imgui;..\src\backends\glfw;..\src\backends\glfw\imgui;..\src\libcorrect\include;..\src\include;..\src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <SDLCheck>false</SDLCheck>
+      <GuardEHContMetadata>false</GuardEHContMetadata>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <ExceptionHandling>false</ExceptionHandling>
+      <DisableSpecificWarnings>4018;4244;4251;4267;4309;4530</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <StringPooling>true</StringPooling>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>.\lib\libucrt.lib;.\lib\vcruntime.lib;.\lib\libvcruntime.lib;dsound.lib;dxguid.lib;opengl32.lib;wsock32.lib;ws2_32.lib;iphlpapi.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>vcruntime.lib;libvcruntime.lib;libucrt.lib</IgnoreSpecificDefaultLibraries>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
+      <FixedBaseAddress>true</FixedBaseAddress>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

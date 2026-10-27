@@ -8,7 +8,7 @@
 
 static ModuleManager::ModuleInfo_t scanner_INFO{
     /* Name:            */ "scanner",
-    /* Description:     */ "Frequency scanner for SDRIAK",
+    /* Description:     */ "Frequency scanner",
     /* Author:          */ "Ryzerth",
     /* Version:         */ 0, 1, 0,
     /* Max instances    */ 1
@@ -157,11 +157,11 @@ private:
                 auto now = std::chrono::high_resolution_clock::now();
 
                 // Enforce tuning
-                if (gui::waterfall.selectedVFO.empty()) {
+                if (gui::waterfall.m_selectedVFO.empty()) {
                     running = false;
                     return;
                 }
-                tuner::tune(tuner::TUNER_MODE_NORMAL, gui::waterfall.selectedVFO, current);
+                tuner::tune(tuner::TUNER_MODE_NORMAL, gui::waterfall.m_selectedVFO, current);
 
                 // Check if we are waiting for a tune
                 if (tuning) {
@@ -184,7 +184,7 @@ private:
                 double wfEnd = wfCenter + (wfWidth / 2.0);
 
                 // Gather VFO data
-                double vfoWidth = sigpath::vfoManager.getBandwidth(gui::waterfall.selectedVFO);
+                double vfoWidth = sigpath::vfoManager.getBandwidth(gui::waterfall.m_selectedVFO);
 
                 if (receiving) {
                     flog::warn("Receiving");

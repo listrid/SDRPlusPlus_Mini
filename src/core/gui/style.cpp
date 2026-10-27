@@ -92,7 +92,7 @@ namespace style {
 
         // Create huge font range
         ImFontGlyphRangesBuilder hugeBuilder;
-        hugeBuilder.AddText("SDRIAK");
+        hugeBuilder.AddText("SDRPP_MINI");
         hugeBuilder.BuildRanges(&hugeRanges);
         
         // Add bigger fonts for grid keys, frequency select and title. Rasterize

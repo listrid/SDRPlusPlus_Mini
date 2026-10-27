@@ -124,7 +124,7 @@ namespace displaymenu {
             colorMapNamesTxt += name;
             colorMapNamesTxt += '\0';
             if (name == colormapName) {
-                colorMapId = (colorMapNames.size() - 1);
+                colorMapId = (int)(colorMapNames.size() - 1);
                 colorMapAuthor = map.author;
             }
         }
@@ -243,7 +243,7 @@ namespace displaymenu {
         if(ImGui::CollapsingHeader("MPX Analysis Settings")) {
             ImGui::Indent(20.0f);
             ImGui::LeftLabel("MPX Refresh Rate");
-            ImGui::SetNextItemWidth(menuWidth - ImGui::GetCursorPosX());
+            ImGui::FillWidth();
             if(ImGui::InputInt("##sdrpp_mpx_rate", &mpxRefreshRate, 1, 10)) {
                 mpxRefreshRate = std::max<int>(1, mpxRefreshRate);
                 mpxRefreshRate = std::min<int>(60, mpxRefreshRate);  // Limit to 60 Hz max
@@ -251,13 +251,13 @@ namespace displaymenu {
             }
 
             ImGui::LeftLabel("MPX Line Width");
-            ImGui::SetNextItemWidth(menuWidth - ImGui::GetCursorPosX());
+            ImGui::FillWidth();
             if(ImGui::SliderFloat("##sdrpp_mpx_width", &mpxLineWidth, 0.5f, 5.0f, "%.1f px")) {
                 core::configManager.edit().set("mpxLineWidth", mpxLineWidth);
             }
 
             ImGui::LeftLabel("MPX Smoothing");
-            ImGui::SetNextItemWidth(menuWidth - ImGui::GetCursorPosX());
+            ImGui::FillWidth();
             if(ImGui::SliderInt("##sdrpp_mpx_smooth", &mpxSmoothingFactor, 1, 10, "%d")) {
                 core::configManager.edit().set("mpxSmoothingFactor", mpxSmoothingFactor);
             }

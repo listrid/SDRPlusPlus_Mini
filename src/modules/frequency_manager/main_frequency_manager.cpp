@@ -22,7 +22,7 @@
 
 static ModuleManager::ModuleInfo_t frequency_manager_INFO{
     /* Name:            */ "frequency_manager",
-    /* Description:     */ "Frequency manager module for SDRIAK",
+    /* Description:     */ "Frequency manager module",
     /* Author:          */ "Ryzerth;Zimm;Darau Ble;Davide Rovelli",
     /* Version:         */ 0, 4, 0,
     /* Max instances    */ 1
@@ -71,14 +71,14 @@ public:
         inputHandler.handler = fftInput;
 
         gui::menu.registerEntry(name, menuHandler, this, NULL);
-        gui::waterfall.onFFTRedraw.bindHandler(&fftRedrawHandler);
-        gui::waterfall.onInputProcess.bindHandler(&inputHandler);
+        gui::waterfall.m_onFFTRedraw.bindHandler(&fftRedrawHandler);
+        gui::waterfall.m_onInputProcess.bindHandler(&inputHandler);
     }
 
     ~FrequencyManagerModule() {
         gui::menu.removeEntry(name);
-        gui::waterfall.onFFTRedraw.unbindHandler(&fftRedrawHandler);
-        gui::waterfall.onInputProcess.unbindHandler(&inputHandler);
+        gui::waterfall.m_onFFTRedraw.unbindHandler(&fftRedrawHandler);
+        gui::waterfall.m_onInputProcess.unbindHandler(&inputHandler);
     }
 
     void postInit() {}
@@ -99,8 +99,8 @@ private:
     static void applyBookmark(FrequencyBookmark bm, std::string vfoName) {
         if (vfoName == "") {
             // TODO: Replace with proper tune call
+            gui::waterfall.m_centerFreqMoved = true;
             gui::waterfall.setCenterFrequency(bm.frequency);
-            gui::waterfall.centerFreqMoved = true;
         }
         else {
             if (core::modComManager.interfaceExists(vfoName)) {
@@ -135,16 +135,16 @@ private:
     void currentBookmarkBwMode(double& bandwidth, int& mode) {
         bandwidth = 0;
         mode = -1;
-        if (gui::waterfall.selectedVFO == "") { return; }
-        bandwidth = sigpath::vfoManager.getBandwidth(gui::waterfall.selectedVFO);
-        if (core::modComManager.getModuleName(gui::waterfall.selectedVFO) == "radio") {
+        if (gui::waterfall.m_selectedVFO == "") { return; }
+        bandwidth = sigpath::vfoManager.getBandwidth(gui::waterfall.m_selectedVFO);
+        if (core::modComManager.getModuleName(gui::waterfall.m_selectedVFO) == "radio") {
             // Seeded rather than merely assigned to: callInterface() invokes no
             // handler at all when the interface is not registered, and the radio
             // ignores the command while it has no demodulator selected. Reading
             // an uninitialized `m` in either case stored stack garbage as the
             // bookmark's mode.
             int m = -1;
-            core::modComManager.callInterface(gui::waterfall.selectedVFO, RADIO_IFACE_CMD_GET_MODE, NULL, &m);
+            core::modComManager.callInterface(gui::waterfall.m_selectedVFO, RADIO_IFACE_CMD_GET_MODE, NULL, &m);
             mode = m;
         }
     }
@@ -653,9 +653,9 @@ private:
             double bw;
             int mode;
             _this->currentBookmarkBwMode(bw, mode);
-            double freq = (gui::waterfall.selectedVFO == "")
+            double freq = (gui::waterfall.m_selectedVFO == "")
                               ? gui::waterfall.getCenterFrequency()
-                              : gui::waterfall.getCenterFrequency() + sigpath::vfoManager.getOffset(gui::waterfall.selectedVFO);
+                              : gui::waterfall.getCenterFrequency() + sigpath::vfoManager.getOffset(gui::waterfall.m_selectedVFO);
             _this->beginCreateBookmark(freq, bw, mode);
         }
 
@@ -735,7 +735,7 @@ private:
                     }
                 }
                 if (ImGui::TableGetHoveredColumn() >= 0 && ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
-                    applyBookmark(cbm, gui::waterfall.selectedVFO);
+                    applyBookmark(cbm, gui::waterfall.m_selectedVFO);
                     cbm.selected = true;
                 }
 
@@ -754,7 +754,7 @@ private:
         if (selectedNames.size() != 1 && _this->selectedListName != "") { style::beginDisabled(); }
         if (ImGui::ActionButton(("Apply##_freq_mgr_apply_" + _this->name).c_str())) {
             FrequencyBookmark& bm = _this->bookmarks[selectedNames[0]];
-            applyBookmark(bm, gui::waterfall.selectedVFO);
+            applyBookmark(bm, gui::waterfall.m_selectedVFO);
             bm.selected = false;
         }
         if (selectedNames.size() != 1 && _this->selectedListName != "") { style::endDisabled(); }
@@ -791,13 +791,13 @@ private:
         }
 
         ImGui::LeftLabel("Bookmark display mode");
-        ImGui::SetNextItemWidth(menuWidth - ImGui::GetCursorPosX());
+        ImGui::FillWidth();
         if (ImGui::Combo(("##_freq_mgr_dms_" + _this->name).c_str(), &_this->bookmarkDisplayMode, bookmarkDisplayModesTxt)) {
             config.edit().set("bookmarkDisplayMode", _this->bookmarkDisplayMode);
         }
 
         ImGui::LeftLabel("Rows of bookmarks");
-        ImGui::SetNextItemWidth(menuWidth - ImGui::GetCursorPosX());
+        ImGui::FillWidth();
         if (ImGui::Combo(("##_freq_mgr_rob_" + _this->name).c_str(), &_this->bookmarkRows, bookmarkRowsTxt)) {
             config.edit().set("bookmarkRows", _this->bookmarkRows);
         }
@@ -955,8 +955,8 @@ private:
                 double freq = args.lowFreq + ((double)mp.x - args.fftRectMin.x) * args.pixelToFreqRatio;
 
                 // Snap to the selected VFO's grid when there is one
-                if (gui::waterfall.selectedVFO != "") {
-                    double snap = gui::waterfall.vfos[gui::waterfall.selectedVFO]->snapInterval;
+                if (gui::waterfall.m_selectedVFO != "") {
+                    double snap = gui::waterfall.m_map_vfos[gui::waterfall.m_selectedVFO]->m_snapInterval;
                     if (snap > 0) { freq = std::round(freq / snap) * snap; }
                 }
 
@@ -966,7 +966,7 @@ private:
                 _this->beginCreateBookmark(freq, bw, mode);
                 _this->ensureMenuExpanded();
 
-                gui::waterfall.inputHandled = true;
+                gui::waterfall.m_inputHandled = true;
                 return;
             }
         }
@@ -977,7 +977,7 @@ private:
             if (!ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
                 _this->mouseClickedInLabel = false;
             }
-            gui::waterfall.inputHandled = true;
+            gui::waterfall.m_inputHandled = true;
             return;
         }
 
@@ -1007,11 +1007,11 @@ private:
         // If yes, cancel
         if (_this->mouseAlreadyDown || !inALabel) { return; }
 
-        gui::waterfall.inputHandled = true;
+        gui::waterfall.m_inputHandled = true;
 
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
             _this->mouseClickedInLabel = true;
-            applyBookmark(hoveredBookmark.bookmark, gui::waterfall.selectedVFO);
+            applyBookmark(hoveredBookmark.bookmark, gui::waterfall.m_selectedVFO);
 
             // If the clicked bookmark belongs to another list, switch to it
             if (hoveredBookmark.listName != _this->selectedListName) {

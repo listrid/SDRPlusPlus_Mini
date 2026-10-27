@@ -84,7 +84,7 @@ namespace core {
     std::string getModulesDirectory() {
 #if defined(__linux__) && defined(BUILD_APPIMAGE)
         if (const char* appdir = getenv("APPDIR")) {
-            return std::string(appdir) + "/usr/lib/sdriak/plugins";
+            return std::string(appdir) + "/usr/lib/sdrpp_mini/plugins";
         }
 #endif
         return resolveConfigPath(core::configManager.read().value("modulesDirectory", std::string()));
@@ -93,7 +93,7 @@ namespace core {
     std::string getResourcesDirectory() {
 #if defined(__linux__) && defined(BUILD_APPIMAGE)
         if (const char* appdir = getenv("APPDIR")) {
-            return std::string(appdir) + "/usr/share/sdriak";
+            return std::string(appdir) + "/usr/share/sdrpp_mini";
         }
 #endif
         return resolveConfigPath(core::configManager.read().value("resourcesDirectory", std::string()));
@@ -108,7 +108,7 @@ int sdrpp_main(int argc, char* argv[]) {
     SetConsoleOutputCP(CP_UTF8);
 #endif
 
-    flog::info("SDRIAK v" VERSION_STR);
+    flog::info("SDRPP_MINI v" VERSION_STR);
 
     // Define command line options and parse arguments
     core::args.defineAll();
@@ -238,7 +238,7 @@ int sdrpp_main(int argc, char* argv[]) {
     defConfig["menuElements"][10]["name"] = "Scanner";
     defConfig["menuElements"][10]["open"] = false;
 
-    defConfig["menuWidth"] = 300;
+    defConfig["menuWidth"] = 400;
     defConfig["menuWidthLogical"] = true;
     defConfig["min"] = -70.0;
 
@@ -249,8 +249,8 @@ int sdrpp_main(int argc, char* argv[]) {
     defConfig["moduleInstances"]["File Source"]["enabled"]  = true;
     defConfig["moduleInstances"]["Network Source"]["module"] = "network_source";
     defConfig["moduleInstances"]["Network Source"]["enabled"]  = true;
-    defConfig["moduleInstances"]["SDRIAK Server Source"]["module"] = "sdriak_server_source";
-    defConfig["moduleInstances"]["SDRIAK Server Source"]["enabled"]  = true;
+    defConfig["moduleInstances"]["SDRPP_MINI Server Source"]["module"] = "sdrpp_mini_server_source";
+    defConfig["moduleInstances"]["SDRPP_MINI Server Source"]["enabled"]  = true;
     defConfig["moduleInstances"]["HackRF Source"]["module"] = "hackrf_source";
     defConfig["moduleInstances"]["HackRF Source"]["enabled"]  = true;
     defConfig["moduleInstances"]["PlutoSDR Source"]["module"] = "plutosdr_source";
@@ -385,8 +385,8 @@ int sdrpp_main(int argc, char* argv[]) {
     defConfig["resourcesDirectory"] = root + "/res";
 #else
     // Linux, BSD, etc.
-    defConfig["modulesDirectory"] = INSTALL_PREFIX "/lib/sdriak/plugins";
-    defConfig["resourcesDirectory"] = INSTALL_PREFIX "/share/sdriak";
+    defConfig["modulesDirectory"] = INSTALL_PREFIX "/lib/sdrpp_mini/plugins";
+    defConfig["resourcesDirectory"] = INSTALL_PREFIX "/share/sdrpp_mini";
 #endif
 
     // Load config
@@ -416,7 +416,7 @@ int sdrpp_main(int argc, char* argv[]) {
             "rfspace_source.so",
             "rtl_sdr_source.so",
             "rtl_tcp_source.so",
-            "sdriak_server_source.so",
+            "sdrpp_mini_server_source.so",
             "spyserver_source.so",
             "kiwisdr_source.so",
 
@@ -544,7 +544,7 @@ int sdrpp_main(int argc, char* argv[]) {
     }
 
     if (firstStart) {
-        core::configManager.edit().set("menuWidth", 300);
+        core::configManager.edit().set("menuWidth", 400);
     }
 
     // Initialize SmGui in normal mode

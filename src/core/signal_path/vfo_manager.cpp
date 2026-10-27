@@ -10,17 +10,17 @@ VFOManager::VFO::VFO(std::string name, int reference, double offset, double band
     wtfVFO->setReference(reference);
     wtfVFO->setBandwidth(bandwidth);
     wtfVFO->setOffset(offset);
-    wtfVFO->minBandwidth = minBandwidth;
-    wtfVFO->maxBandwidth = maxBandwidth;
-    wtfVFO->bandwidthLocked = bandwidthLocked;
+    wtfVFO->m_minBandwidth = minBandwidth;
+    wtfVFO->m_maxBandwidth = maxBandwidth;
+    wtfVFO->m_bandwidthLocked = bandwidthLocked;
     output = &dspVFO->out;
-    gui::waterfall.vfos[name] = wtfVFO;
+    gui::waterfall.m_map_vfos[name] = wtfVFO;
 }
 
 VFOManager::VFO::~VFO() {
     dspVFO->stop();
-    gui::waterfall.vfos.erase(name);
-    if (gui::waterfall.selectedVFO == name) {
+    gui::waterfall.m_map_vfos.erase(name);
+    if (gui::waterfall.m_selectedVFO == name) {
         gui::waterfall.selectFirstVFO();
     }
     sigpath::iqFrontEnd.removeVFO(name);
@@ -29,11 +29,11 @@ VFOManager::VFO::~VFO() {
 
 void VFOManager::VFO::setOffset(double offset) {
     wtfVFO->setOffset(offset);
-    dspVFO->setOffset(wtfVFO->centerOffset);
+    dspVFO->setOffset(wtfVFO->m_centerOffset);
 }
 
 double VFOManager::VFO::getOffset() {
-    return wtfVFO->generalOffset;
+    return wtfVFO->m_generalOffset;
 }
 
 void VFOManager::VFO::setCenterOffset(double offset) {
@@ -62,27 +62,27 @@ void VFOManager::VFO::setSnapInterval(double interval) {
 }
 
 void VFOManager::VFO::setBandwidthLimits(double minBandwidth, double maxBandwidth, bool bandwidthLocked) {
-    wtfVFO->minBandwidth = minBandwidth;
-    wtfVFO->maxBandwidth = maxBandwidth;
-    wtfVFO->bandwidthLocked = bandwidthLocked;
+    wtfVFO->m_minBandwidth = minBandwidth;
+    wtfVFO->m_maxBandwidth = maxBandwidth;
+    wtfVFO->m_bandwidthLocked = bandwidthLocked;
 }
 
 bool VFOManager::VFO::getBandwidthChanged(bool erase) {
-    bool val = wtfVFO->bandwidthChanged;
-    if (erase) { wtfVFO->bandwidthChanged = false; }
+    bool val = wtfVFO->m_bandwidthChanged;
+    if (erase) { wtfVFO->m_bandwidthChanged = false; }
     return val;
 }
 
 double VFOManager::VFO::getBandwidth() {
-    return wtfVFO->bandwidth;
+    return wtfVFO->m_bandwidth;
 }
 
 int VFOManager::VFO::getReference() {
-    return wtfVFO->reference;
+    return wtfVFO->m_reference;
 }
 
 void VFOManager::VFO::setColor(ImU32 color) {
-    wtfVFO->color = color;
+    wtfVFO->m_color = color;
 }
 
 std::string VFOManager::VFO::getName() {
@@ -202,9 +202,9 @@ bool VFOManager::vfoExists(std::string name) {
 
 void VFOManager::updateFromWaterfall(ImGui::WaterFall* wtf) {
     for (auto const& [name, vfo] : vfos) {
-        if (vfo->wtfVFO->centerOffsetChanged) {
-            vfo->wtfVFO->centerOffsetChanged = false;
-            vfo->dspVFO->setOffset(vfo->wtfVFO->centerOffset);
+        if (vfo->wtfVFO->m_centerOffsetChanged) {
+            vfo->wtfVFO->m_centerOffsetChanged = false;
+            vfo->dspVFO->setOffset(vfo->wtfVFO->m_centerOffset);
         }
     }
 }

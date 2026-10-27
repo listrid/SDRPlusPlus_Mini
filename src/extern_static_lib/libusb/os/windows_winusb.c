@@ -1356,6 +1356,20 @@ static void get_api_type(HDEVINFO *dev_info, SP_DEVINFO_DATA *dev_info_data,
 			}
 		}
 	}
+
+    // это PlutoSDR, принудительно выставляем API WinUSB
+    if(dev_info_data->DevInst != 0) {
+        char check_id[MAX_PATH_LENGTH];
+        if(pSetupDiGetDeviceInstanceIdA(*dev_info, dev_info_data, check_id, sizeof(check_id), NULL)) {
+            if(strstr(check_id, "VID_0456&PID_B673") != NULL && strstr(check_id, "MI_05") != NULL) {
+                *api = USB_API_WINUSBX;   // Переключаем на класс WinUSB-подобных API
+                *sub_api = 2;             // Индекс 2 соответствует "WinUSB" в массиве winusbx_driver_names
+                return;
+            }
+        }
+    }
+
+
 }
 
 static int set_composite_interface(struct libusb_context *ctx, struct libusb_device *dev,
@@ -1986,7 +2000,7 @@ static int winusb_get_device_list(struct libusb_context *ctx, struct discovered_
 				break;
 			case HID_PASS:
 			case EXT_PASS:
-				if (parent_priv->apib->id == USB_API_HID || parent_priv->apib->id == USB_API_COMPOSITE) {
+				if (parent_priv != NULL && parent_priv->apib != NULL && (parent_priv->apib->id == USB_API_HID || parent_priv->apib->id == USB_API_COMPOSITE)) {
 					if (parent_priv->apib->id == USB_API_HID) {
 						usbi_dbg(ctx, "setting HID interface for [%lX]:", parent_dev->session_data);
 						r = set_hid_interface(ctx, parent_dev, dev_interface_path);

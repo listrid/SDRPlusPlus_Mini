@@ -22,7 +22,7 @@
 
 static ModuleManager::ModuleInfo_t file_source_INFO{
     /* Name:            */ "file_source",
-    /* Description:     */ "Wav file source module for SDRIAK",
+    /* Description:     */ "Wav file source module",
     /* Author:          */ "Ryzerth",
     /* Version:         */ 0, 1, 2,
     /* Max instances    */ 1
@@ -147,7 +147,7 @@ private:
         core::setInputSampleRate(_this->sampleRate);
         tuner::tune(tuner::TUNER_MODE_IQ_ONLY, "", _this->centerFreq);
         sigpath::iqFrontEnd.setBuffering(false);
-        gui::waterfall.centerFrequencyLocked = true;
+        gui::waterfall.m_centerFrequencyLocked = true;
         //gui::freqSelect.minFreq = _this->centerFreq - (_this->sampleRate/2);
         //gui::freqSelect.maxFreq = _this->centerFreq + (_this->sampleRate/2);
         //gui::freqSelect.limitFreq = true;
@@ -158,7 +158,7 @@ private:
         FileSourceModule* _this = (FileSourceModule*)ctx;
         sigpath::iqFrontEnd.setBuffering(true);
         //gui::freqSelect.limitFreq = false;
-        gui::waterfall.centerFrequencyLocked = false;
+        gui::waterfall.m_centerFrequencyLocked = false;
         flog::info("FileSourceModule '{0}': Menu Deselect!", _this->name);
     }
 

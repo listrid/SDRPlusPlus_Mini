@@ -281,7 +281,7 @@ inline void _picohash_md5_update(_picohash_md5_ctx_t *ctx, const void *data, siz
     saved_lo = ctx->lo;
     if ((ctx->lo = (saved_lo + size) & 0x1fffffff) < saved_lo)
         ctx->hi++;
-    ctx->hi += size >> 29;
+    ctx->hi += uint_fast32_t(size >> 29);
 
     used = saved_lo & 0x3f;
 
@@ -592,7 +592,7 @@ inline void _picohash_sha256_init(_picohash_sha256_ctx_t *ctx)
 inline void _picohash_sha256_update(_picohash_sha256_ctx_t *ctx, const void *data, size_t len)
 {
     const unsigned char *in = (const unsigned char *)data;
-    size_t n;
+    uint32_t n;
 
     while (len > 0) {
         if (ctx->curlen == 0 && len >= PICOHASH_SHA256_BLOCK_LENGTH) {
@@ -603,8 +603,8 @@ inline void _picohash_sha256_update(_picohash_sha256_ctx_t *ctx, const void *dat
         } else {
             n = PICOHASH_SHA256_BLOCK_LENGTH - ctx->curlen;
             if (n > len)
-                n = len;
-            memcpy(ctx->buf + ctx->curlen, in, (size_t)n);
+                n = (uint32_t)len;
+            memcpy(ctx->buf + ctx->curlen, in, n);
             ctx->curlen += n;
             in += n;
             len -= n;

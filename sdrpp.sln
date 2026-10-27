@@ -17,23 +17,32 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Release_MinSize|x64 = Release_MinSize|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7B8CA692-8D00-4E43-9F38-29C367D112DD}.Debug|x64.ActiveCfg = Debug|x64
 		{7B8CA692-8D00-4E43-9F38-29C367D112DD}.Debug|x64.Build.0 = Debug|x64
+		{7B8CA692-8D00-4E43-9F38-29C367D112DD}.Release_MinSize|x64.ActiveCfg = Release_MinSize|x64
+		{7B8CA692-8D00-4E43-9F38-29C367D112DD}.Release_MinSize|x64.Build.0 = Release_MinSize|x64
 		{7B8CA692-8D00-4E43-9F38-29C367D112DD}.Release|x64.ActiveCfg = Release|x64
 		{7B8CA692-8D00-4E43-9F38-29C367D112DD}.Release|x64.Build.0 = Release|x64
 		{E9B9866D-3042-4498-A274-49E5F1283D2F}.Debug|x64.ActiveCfg = Debug|x64
 		{E9B9866D-3042-4498-A274-49E5F1283D2F}.Debug|x64.Build.0 = Debug|x64
+		{E9B9866D-3042-4498-A274-49E5F1283D2F}.Release_MinSize|x64.ActiveCfg = Release_MinSize|x64
+		{E9B9866D-3042-4498-A274-49E5F1283D2F}.Release_MinSize|x64.Build.0 = Release_MinSize|x64
 		{E9B9866D-3042-4498-A274-49E5F1283D2F}.Release|x64.ActiveCfg = Release|x64
 		{E9B9866D-3042-4498-A274-49E5F1283D2F}.Release|x64.Build.0 = Release|x64
 		{84EADA8E-008D-45C9-B84B-6113F6EDC985}.Debug|x64.ActiveCfg = Debug|x64
 		{84EADA8E-008D-45C9-B84B-6113F6EDC985}.Debug|x64.Build.0 = Debug|x64
+		{84EADA8E-008D-45C9-B84B-6113F6EDC985}.Release_MinSize|x64.ActiveCfg = Release_MinSize|x64
+		{84EADA8E-008D-45C9-B84B-6113F6EDC985}.Release_MinSize|x64.Build.0 = Release_MinSize|x64
 		{84EADA8E-008D-45C9-B84B-6113F6EDC985}.Release|x64.ActiveCfg = Release|x64
 		{84EADA8E-008D-45C9-B84B-6113F6EDC985}.Release|x64.Build.0 = Release|x64
 		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Debug|x64.ActiveCfg = Debug|x64
 		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Debug|x64.Build.0 = Debug|x64
+		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Release_MinSize|x64.ActiveCfg = Release_MinSize|x64
+		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Release_MinSize|x64.Build.0 = Release_MinSize|x64
 		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Release|x64.ActiveCfg = Release|x64
 		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection

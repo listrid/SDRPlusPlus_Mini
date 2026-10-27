@@ -65,7 +65,7 @@ namespace SmGui {
     #define SET_DIFF_STRING(id, st) diffId = id; diffValue.type = DRAW_LIST_ELEM_TYPE_STRING; diffValue.str = st; syncRequired = elem.forceSync;
 
     void DrawList::draw(std::string& diffId, DrawListElem& diffValue, bool& syncRequired) {
-        int elemCount = elements.size();
+        int elemCount = (int)elements.size();
         nextItemFillWidth = false;
 
         for (int i = 0; i < elemCount;) {
@@ -372,7 +372,7 @@ namespace SmGui {
             i += (int)sizeof(elem.d);
         }
         else if (elem.type == DRAW_LIST_ELEM_TYPE_STRING) {
-            int slen = elem.str.size();
+            int slen = (int)elem.str.size();
             if (len < slen + 2) { return -1; }
             *(uint16_t*)&buf[i] = slen;
             memcpy(&buf[i + 2], elem.str.c_str(), slen);
@@ -406,7 +406,7 @@ namespace SmGui {
         else if (elem.type == DRAW_LIST_ELEM_TYPE_INT) { return 5; }
         else if (elem.type == DRAW_LIST_ELEM_TYPE_FLOAT) { return 5; }
         else if (elem.type == DRAW_LIST_ELEM_TYPE_DOUBLE) { return 9; }
-        else if (elem.type == DRAW_LIST_ELEM_TYPE_STRING) { return 3 + elem.str.size(); }
+        else if (elem.type == DRAW_LIST_ELEM_TYPE_STRING) { return 3 + (int)elem.str.size(); }
         return -1;
     }
 
@@ -447,7 +447,7 @@ namespace SmGui {
     #define E_VALIDATE_WIDGET(n, ws, ...)   else VALIDATE_WIDGET(n, ws, __VA_ARGS__)
 
     bool DrawList::validate() {
-        int count = elements.size();
+        int count = (int)elements.size();
         for (int i = 0; i < count;) {
             if (elements[i].type != DRAW_LIST_ELEM_TYPE_DRAW_STEP) { return false; }
             DrawStep step = elements[i++].step;
@@ -765,7 +765,7 @@ namespace SmGui {
             rdl->pushStep(DRAW_STEP_INPUT_TEXT, forceSyncForNext);
             rdl->pushString(label);
             rdl->pushString(buf);
-            rdl->pushInt(buf_size);
+            rdl->pushInt((int)buf_size);
             rdl->pushInt(flags);
             forceSyncForNext = false;
         }

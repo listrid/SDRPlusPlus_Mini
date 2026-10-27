@@ -7,7 +7,7 @@
 
 static ModuleManager::ModuleInfo_t scheduler_INFO{
     /* Name:            */ "scheduler",
-    /* Description:     */ "SDRIAK Scheduler",
+    /* Description:     */ "Scheduler",
     /* Author:          */ "Ryzerth",
     /* Version:         */ 0, 1, 0,
     /* Max instances    */ -1

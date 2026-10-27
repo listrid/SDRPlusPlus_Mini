@@ -27,10 +27,10 @@ namespace LoadingScreen {
         ImGui::BeginPopupModal("Credits", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground);
 
         ImGui::PushFont(style::hugeFont);
-        ImGui::TextUnformatted("SDRIAK");
+        ImGui::TextUnformatted("SDRPP_MINI");
         ImGui::PopFont();
-        ImGui::SameLine(0.0f, style::dp(40.0f));
-        ImGui::Image(icons::LOGO, imageSize);
+        //ImGui::SameLine(0.0f, style::dp(40.0f));
+       // ImGui::Image(icons::LOGO, imageSize);
 
         ImVec2 origPos = ImGui::GetCursorPos();
         ImGui::SetCursorPosY(origPos.y + style::dp(50.0f));

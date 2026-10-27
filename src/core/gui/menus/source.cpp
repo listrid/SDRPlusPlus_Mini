@@ -288,7 +288,7 @@ namespace sourcemenu {
         }
 
         ImGui::LeftLabel("Offset mode");
-        ImGui::SetNextItemWidth(itemWidth - ImGui::GetCursorPosX() - 2.0f*(lineHeight + 1.5f*spacing));
+        ImGui::SetNextItemWidth(itemWidth - ImGui::GetCursorPosX() - 1.3*(lineHeight + spacing));
         if (ImGui::Combo("##_sdrpp_offset", &offsetId, offsets.txt)) {
             selectOffsetById(offsetId);
             core::configManager.edit().set("selectedOffset", offsets.key(offsetId));
@@ -303,7 +303,7 @@ namespace sourcemenu {
         if (offsetId < OFFSET_ID_CUSTOM_BASE) { ImGui::EndDisabled(); }
         ImGui::SameLine();
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() - spacing);
-        if (ImGui::Button("+##_sdrpp_offset_add_", ImVec2(lineHeight + 0.5f*spacing, 0))) {
+        if (ImGui::Button("+##_sdrpp_offset_add_", ImVec2(lineHeight + 1.5f*spacing, 0))) {
             strcpy(newOffsetName, "New Offset");
             addOffsetDlg.request();
         }
