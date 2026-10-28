@@ -91,7 +91,7 @@ private:
         afnrProcessors2[instanceName] = afnromlsa;
         afnromlsa->setAudioSampleRate((int)sigpath::sinkManager.getStreamSampleRate(instanceName));
 
-        bool afnr2 = config.read().value("AF_NR2_" + instanceName, false);
+        bool afnr2 = config.read().value(("AF_NR2_" + instanceName).c_str(), false);
         afnromlsa->allowed = afnr2;
 
         // Only splice the block into the running AF chain when the feature is
@@ -263,9 +263,10 @@ private:
 };
 
 
-static void noise_reduction_logmmse_INIT() {
-    config.setPath(core::args["root"].s() + "/noise_reduction_logmmse_config.json");
-    config.load(json::object());
+static void noise_reduction_logmmse_INIT()
+{
+    config.setFile( "noise_reduction_logmmse.json");
+    config.load();
     config.enableAutoSave();
 }
 

@@ -397,7 +397,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7B8CA692-8D00-4E43-9F38-29C367D112DD}</ProjectGuid>
     <Keyword>Win64Proj</Keyword>
-    <RootNamespace>sdrpp</RootNamespace>
+    <RootNamespace>SDRPP_mini</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -466,6 +466,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>dsound.lib;dxguid.lib;opengl32.lib;wsock32.lib;ws2_32.lib;iphlpapi.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>$(SolutionDir)src/sdrpp_mini.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -501,6 +502,7 @@
       <FixedBaseAddress>true</FixedBaseAddress>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ModuleDefinitionFile>$(SolutionDir)src/sdrpp_mini.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">
@@ -537,6 +539,7 @@
       <FixedBaseAddress>true</FixedBaseAddress>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ModuleDefinitionFile>$(SolutionDir)src/sdrpp_mini.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

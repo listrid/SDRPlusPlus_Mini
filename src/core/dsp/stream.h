@@ -7,7 +7,7 @@
 #include "buffer/buffer.h"
 
 // 1MSample buffer
-#define STREAM_BUFFER_SIZE 1000000 / 2
+#define STREAM_BUFFER_SIZE 1000000
 
 namespace dsp {
     class untyped_stream {

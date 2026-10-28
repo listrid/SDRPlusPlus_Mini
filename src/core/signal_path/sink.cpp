@@ -314,7 +314,7 @@ void SinkManager::loadStreamConfig(std::string name) {
     json conf;
     {
         auto configAccess = core::configManager.read();
-        conf = configAccess.section("streams").value(name, json());
+        conf = configAccess.section("streams").value(name.c_str(), json());
     }
     if (!conf.is_object()) { return; }
 

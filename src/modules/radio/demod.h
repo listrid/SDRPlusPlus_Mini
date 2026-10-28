@@ -151,7 +151,7 @@ namespace demod {
         virtual void setInput(dsp::stream<dsp::complex_t>* input) = 0;
         virtual void AFSampRateChanged(double newSR) = 0;
         // Canonical mode name, from RADIO_IFACE_MODE_NAMES. Doubles as this
-        // demodulator's key into radio_config.json, so it must stay the same
+        // demodulator's key into radio.json, so it must stay the same
         // string the rest of the app shows.
         virtual const char* getName() = 0;
         virtual double getIFSampleRate() = 0;

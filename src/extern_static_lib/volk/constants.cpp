@@ -18,8 +18,7 @@
 #endif
 #include <volk/constants.h>
 
-const char*
-volk_prefix()
+const char* volk_prefix()
 {
 #ifndef VOLK_STATIC_DISPATCH
   const char *prefix = getenv("VOLK_PREFIX");

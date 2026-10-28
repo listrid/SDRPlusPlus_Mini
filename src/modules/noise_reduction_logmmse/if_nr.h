@@ -52,7 +52,8 @@ namespace dsp {
             shouldReset = true;
         }
 
-        void process(complex_t* in, int count, complex_t* out, int& outCount) {
+        void process(complex_t* in, int count, complex_t* out, int& outCount)
+        {
             // Detect sample rate / decimation changes: the noise profile is
             // only valid for the rate it was sampled at.
             int curFreq = (int)sigpath::iqFrontEnd.getSampleRate();
@@ -68,10 +69,11 @@ namespace dsp {
             int noiseFrames = 12;
             int fram = freq / 100;
             int initialDemand = fram * 2;
-            if (params.Xk_prev.empty()) {
+            if (params.Xk_prev.empty()) 
                 initialDemand = fram * (noiseFrames + 2) * 2;
-            }
-            if (worker1c.size() < initialDemand) {
+
+            if (worker1c.size() < initialDemand)
+            {
                 outCount = 0;
                 return;
             }
@@ -83,9 +85,9 @@ namespace dsp {
             // logmmse_all() can flush a large startup/backlog burst. Bound one
             // pass so we never write past the fixed stream buffer: with
             // Slen >= fram * 2 the output is at most maxInput - Slen samples.
-            int maxProcessInput = count *2;// STREAM_BUFFER_SIZE + (fram * 2);
-            if(maxProcessInput > STREAM_BUFFER_SIZE - (fram * 2))
-                maxProcessInput = STREAM_BUFFER_SIZE - (fram * 2);
+            int maxProcessInput = outCount;// STREAM_BUFFER_SIZE + (fram * 2);
+//             if(maxProcessInput > (fram * 2))
+//                 maxProcessInput = (fram * 2);
             auto rv = LogMMSE::logmmse_all(worker1c, &params, maxProcessInput);
 
             int limit = (int)rv.size();
@@ -103,13 +105,14 @@ namespace dsp {
         int percentUsage = 0;
         int prevPercentUsage = 0;
 
-        int runMMSE(stream<complex_t>* _in, stream<complex_t>& out) {
+        int runMMSE(stream<complex_t>* _in, stream<complex_t>& out)
+        {
             int count = _in->read();
-            if (count < 0) { return -1; }
-            int outCount;
+            if (count < 0)
+                return -1;
             long long ctm0 = currentTimeMillis();
-
-            process(_in->GetRBuf(), count, out.GetWBuf(count*2), outCount);
+            int outCount = params.Slen*8;
+            process(_in->GetRBuf(), count, out.GetWBuf(outCount), outCount);
             long long ctm = currentTimeMillis();
             _in->flush();
             if (!out.swap(outCount)) {

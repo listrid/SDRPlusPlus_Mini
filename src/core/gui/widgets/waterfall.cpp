@@ -815,7 +815,7 @@ namespace ImGui {
     }
 
     void WaterFall::drawBandPlan() {
-        int count = m_bandplan->bands.size();
+        int count = (int)m_bandplan->bands.size();
         double horizScale = (double)m_dataWidth / m_viewBandwidth;
         double start, end, center, aPos, bPos, cPos, width;
         ImVec2 txtSz;

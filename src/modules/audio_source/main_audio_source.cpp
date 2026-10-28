@@ -291,11 +291,8 @@ private:
 };
 
 static void audio_source_INIT() {
-    json def = json({});
-    def["devices"] = json({});
-    def["device"] = "";
-    config.setPath(core::args["root"].s() + "/audio_source_config.json");
-    config.load(def);
+    config.setFile("audio_source.json");
+    config.load();
     config.enableAutoSave();
 }
 

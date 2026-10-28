@@ -41,7 +41,7 @@ namespace vfo_color_menu {
         ConfigManager::EditSection colors = configAccess.section("vfoColors");
         for (const auto& [name, observed] : repairs) {
             // Preserve a value replaced after the read snapshot.
-            if (colors.contains(name) && colors.value(name, json()) == observed) {
+            if (colors.contains(name.c_str()) && colors.value(name.c_str(), json()) == observed) {
                 colors.set(name, "#FFFFFF");
             }
         }

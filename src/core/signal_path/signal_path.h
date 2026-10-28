@@ -15,4 +15,13 @@ namespace sigpath {
     // Emitted on transmit state changes (true = TX active). Consumed e.g. by
     // noise reduction to freeze its noise profile while transmitting.
     extern Event<bool> txState;
+
+
 };
+
+void SourceManager_registerSource(const char* name, SourceManager::SourceHandler* handler);
+void SourceManager_unregisterSource(const char* name);
+void SourceManager_setTuningLimits(double minFreq, double maxFreq);
+void SourceManager_clearTuningLimits();
+
+

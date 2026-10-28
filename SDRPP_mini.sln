@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sdrpp", "vcxproj\sdrpp.vcxproj", "{7B8CA692-8D00-4E43-9F38-29C367D112DD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sdrpp_mini", "vcxproj\sdrpp_mini.vcxproj", "{7B8CA692-8D00-4E43-9F38-29C367D112DD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E9B9866D-3042-4498-A274-49E5F1283D2F} = {E9B9866D-3042-4498-A274-49E5F1283D2F}
 	EndProjectSection
@@ -13,6 +13,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "extern_static_lib2", "vcxproj\extern_static_lib2.vcxproj", "{84EADA8E-008D-45C9-B84B-6113F6EDC985}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "extern_static_lib3", "vcxproj\extern_static_lib3.vcxproj", "{852F3329-24D9-4EF8-805E-3DF8BADA8365}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules_source", "modules_source", "{C5B23C21-F940-4CE0-9384-D1DBB196D7F4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hackrf_source", "vcxproj\modules_source\hackrf_source.vcxproj", "{EB00C348-BDD3-4E8C-862B-B099DAA003C5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "airspyhf_source", "vcxproj\modules_source\airspyhf_source.vcxproj", "{08B9FE26-1C5A-48E2-B645-B46BE20F792F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +51,25 @@ Global
 		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Release_MinSize|x64.Build.0 = Release_MinSize|x64
 		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Release|x64.ActiveCfg = Release|x64
 		{852F3329-24D9-4EF8-805E-3DF8BADA8365}.Release|x64.Build.0 = Release|x64
+		{EB00C348-BDD3-4E8C-862B-B099DAA003C5}.Debug|x64.ActiveCfg = Debug|x64
+		{EB00C348-BDD3-4E8C-862B-B099DAA003C5}.Debug|x64.Build.0 = Debug|x64
+		{EB00C348-BDD3-4E8C-862B-B099DAA003C5}.Release_MinSize|x64.ActiveCfg = Release|x64
+		{EB00C348-BDD3-4E8C-862B-B099DAA003C5}.Release_MinSize|x64.Build.0 = Release|x64
+		{EB00C348-BDD3-4E8C-862B-B099DAA003C5}.Release|x64.ActiveCfg = Release|x64
+		{EB00C348-BDD3-4E8C-862B-B099DAA003C5}.Release|x64.Build.0 = Release|x64
+		{08B9FE26-1C5A-48E2-B645-B46BE20F792F}.Debug|x64.ActiveCfg = Debug|x64
+		{08B9FE26-1C5A-48E2-B645-B46BE20F792F}.Debug|x64.Build.0 = Debug|x64
+		{08B9FE26-1C5A-48E2-B645-B46BE20F792F}.Release_MinSize|x64.ActiveCfg = Release|x64
+		{08B9FE26-1C5A-48E2-B645-B46BE20F792F}.Release_MinSize|x64.Build.0 = Release|x64
+		{08B9FE26-1C5A-48E2-B645-B46BE20F792F}.Release|x64.ActiveCfg = Release|x64
+		{08B9FE26-1C5A-48E2-B645-B46BE20F792F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EB00C348-BDD3-4E8C-862B-B099DAA003C5} = {C5B23C21-F940-4CE0-9384-D1DBB196D7F4}
+		{08B9FE26-1C5A-48E2-B645-B46BE20F792F} = {C5B23C21-F940-4CE0-9384-D1DBB196D7F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE84161B-757C-49E8-8E29-532A52F998FD}

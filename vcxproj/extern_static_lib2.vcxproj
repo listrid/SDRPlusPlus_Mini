@@ -4287,7 +4287,7 @@
     <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\sve.cpp" />
     <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\taint.cpp" />
     <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\vsx.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\constants.c" />
+    <ClCompile Include="..\src\extern_static_lib\volk\constants.cpp" />
     <ClCompile Include="..\src\extern_static_lib\volk\volk.cpp" />
     <ClCompile Include="..\src\extern_static_lib\volk\volk_cpu.cpp" />
     <ClCompile Include="..\src\extern_static_lib\volk\volk_machines.cpp" />

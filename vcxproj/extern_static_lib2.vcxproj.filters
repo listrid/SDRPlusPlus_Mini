@@ -75,7 +75,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\extern_static_lib\volk\constants.c">
+    <ClCompile Include="..\src\extern_static_lib\volk\constants.cpp">
       <Filter>volk</Filter>
     </ClCompile>
     <ClCompile Include="..\src\extern_static_lib\volk\volk.cpp">

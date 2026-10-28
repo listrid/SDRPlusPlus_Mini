@@ -182,8 +182,8 @@ namespace bandplan {
             Band_t band;
             band.name = band_internal.name;
             band.type = band_internal.type;
-            band.start = band_internal.start;
-            band.end = band_internal.end;
+            band.start = (double)band_internal.start;
+            band.end = (double)band_internal.end;
             const freq_input::LegacyBandClassification classification = freq_input::classifyLegacyBand(band.type, band.name, band.start, band.end);
 
             band.resolved.legacy = classification;

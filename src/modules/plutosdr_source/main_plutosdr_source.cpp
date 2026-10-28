@@ -628,8 +628,8 @@ static void plutosdr_source_INIT() {
     defConf["devices"] = {};
     defConf["manualIP"] = "192.168.2.1";
     defConf["useManualIP"] = false;
-    config.setPath(core::args["root"].s() + "/plutosdr_source_config.json");
-    config.load(defConf);
+    config.setFile("plutosdr_source.json");
+    config.load(&defConf);
     config.enableAutoSave();
 
     // Reset the configuration if the old format is still used

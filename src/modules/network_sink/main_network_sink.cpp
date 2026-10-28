@@ -331,9 +331,8 @@ private:
 };
 
 static void network_sink_INIT() {
-    json def = json({});
-    config.setPath(core::args["root"].s() + "/network_sink_config.json");
-    config.load(def);
+    config.setFile("network_sink.json");
+    config.load();
     config.enableAutoSave();
 }
 

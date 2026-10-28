@@ -1,5 +1,0 @@
-LIBRARY sdrpp_core
-EXPORTS
-
-    ?sdrpp_main@@YAHHQEAPEAD@Z ;"int __cdecl sdrpp_main(int,char * * const)"
-

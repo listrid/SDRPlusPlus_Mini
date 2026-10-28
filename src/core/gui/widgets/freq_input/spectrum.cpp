@@ -85,7 +85,7 @@ namespace freq_input {
             const AvailableSpectrumRange& range)
         {
             double remembered = 0.0;
-            if (!memory.tryGet(range.range->rangeId, remembered) ||
+            if (!memory.tryGet(range.range->rangeId.data(), remembered) ||
                 !range.containsFrequency(remembered))
             {
                 return midpoint(range);

@@ -167,10 +167,12 @@ namespace dsp {
             // so a large backlog can be drained in bounded chunks without copying.
             static ComplexArray logmmse_all(const ComplexArray &x, SavedParamsC *params, int maxInput = -1) {
                 int inputLen = (int)x.size();
-                if (maxInput >= 0 && maxInput < inputLen) {
+                if (maxInput >= 0 && maxInput < inputLen)
                     inputLen = maxInput;
-                }
+
                 auto Nframes = floor(inputLen / params->len2) - floor(params->Slen / params->len2);
+                if(Nframes < 0)
+                    return ComplexArray();
                 params->update_noise_mu2();
                 auto xfinal = npzeros_c(Nframes * params->len2);
                 for (int k = 0; k < Nframes * params->len2; k += params->len2) {

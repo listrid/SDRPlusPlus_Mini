@@ -99,7 +99,9 @@ void MainWindow::init() {
     json menuElements = core::configManager.read().value("menuElements", json::array());
     std::string modulesDir = core::getModulesDirectory();
     std::string resourcesDir = core::getResourcesDirectory();
-
+#ifdef _DEBUG
+    modulesDir = ".";
+#endif
     for(size_t i = 0; modules[i]; i++) {
         core::moduleManager.addModule(*modules[i]);
     }
@@ -343,7 +345,7 @@ void MainWindow::vfoAddedHandler(VFOManager::VFO* vfo, void* ctx) {
     double offset;
     {
         auto configAccess = core::configManager.read();
-        if (!configAccess.section("vfoOffsets").tryGet(name, offset)) { return; }
+        if (!configAccess.section("vfoOffsets").tryGet(name.c_str(), offset)) { return; }
     }
 
     double viewBW = gui::waterfall.getViewBandwidth();
@@ -797,7 +799,7 @@ void MainWindow::draw() {
             // Update enabled and disabled modules
             ConfigManager::EditSection instances = configAccess.section("moduleInstances");
             for (const auto& [_name, enabled] : instanceStates) {
-                if (!instances.contains(_name)) { continue; }
+                if (!instances.contains(_name.c_str())) { continue; }
                 instances.section(_name).set("enabled", enabled);
             }
         }

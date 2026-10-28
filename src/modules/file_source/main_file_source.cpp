@@ -340,10 +340,8 @@ private:
 };
 
 static void file_source_INIT() {
-    json def = json({});
-    def["path"] = "";
-    config.setPath(core::args["root"].s() + "/file_source_config.json");
-    config.load(def);
+    config.setFile("file_source.json");
+    config.load();
     config.enableAutoSave();
 }
 

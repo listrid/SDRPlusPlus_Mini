@@ -108,7 +108,7 @@ private:
                     // Unrecorded fields are left alone rather than imposed. The
                     // bandwidth guard is not cosmetic: setBandwidth() clamps a 0
                     // to the demodulator's minimum and *persists* it into
-                    // radio_config.json, so recalling a bookmark taken without a
+                    // radio.json, so recalling a bookmark taken without a
                     // radio VFO used to destroy the saved bandwidth of whatever
                     // mode it had just switched to.
                     if (bm.mode >= 0) {
@@ -368,7 +368,7 @@ private:
             bool nameExists;
             if (targetListName != selectedListName) {
                 auto configAccess = config.read();
-                nameExists = configAccess.section("lists", targetListName, "bookmarks").contains(editedBookmarkName);
+                nameExists = configAccess.section("lists", targetListName, "bookmarks").contains(editedBookmarkName.c_str());
             }
             else {
                 nameExists = (bookmarks.find(editedBookmarkName) != bookmarks.end()) && (editedBookmarkName != firstEditedBookmarkName);
@@ -416,7 +416,7 @@ private:
                     ConfigManager::EditSection lists = configAccess.section("lists");
                     if (listDialogMode == ListDialogMode::Rename) {
                         if (editedListName != firstEditedListName) {
-                            lists.set(editedListName, lists.value(firstEditedListName, json::object()));
+                            lists.set(editedListName, lists.value(firstEditedListName.c_str(), json::object()));
                             lists.erase(firstEditedListName);
                         }
                     }
@@ -777,7 +777,7 @@ private:
                 auto configAccess = config.read();
                 ConfigManager::ReadSection bms = configAccess.section("lists", _this->selectedListName, "bookmarks");
                 for (auto& _name : selectedNames) {
-                    _this->exportedBookmarks["bookmarks"][_name] = bms.value(_name, json::object());
+                    _this->exportedBookmarks["bookmarks"][_name] = bms.value(_name.c_str(), json::object());
                 }
             }
             _this->exportOpen = true;
@@ -1176,8 +1176,8 @@ static void frequency_manager_INIT() {
     def["lists"]["General"]["showOnWaterfall"] = true;
     def["lists"]["General"]["bookmarks"] = json::object();
 
-    config.setPath(core::args["root"].s() + "/frequency_manager_config.json");
-    config.load(def);
+    config.setFile("frequency_manager.json");
+    config.load(&def);
     config.enableAutoSave();
 
     // Fill in missing options and convert lists of the old type

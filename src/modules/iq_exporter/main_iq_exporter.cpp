@@ -531,10 +531,8 @@ private:
 };
 
 static void iq_exporter_INIT() {
-    json def = json({});
-    std::string root = (std::string)core::args["root"];
-    config.setPath(root + "/iq_exporter_config.json");
-    config.load(def);
+    config.setFile("iq_exporter.json");
+    config.load();
     config.enableAutoSave();
 }
 

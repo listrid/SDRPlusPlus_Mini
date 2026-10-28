@@ -122,7 +122,7 @@ public:
             auto configAccess = config.edit();
             ConfigManager::EditSection devices = configAccess.section(_streamName, "devices");
             devices.ensure(devList[id].name, devList[id].preferredSampleRate);
-            devices.tryGet(devList[id].name, sampleRate);
+            devices.tryGet(devList[id].name.c_str(), sampleRate);
         }
 
         sampleRates = devList[id].sampleRates;
@@ -395,9 +395,8 @@ private:
 };
 
 static void audio_sink_INIT() {
-    json def = json({});
-    config.setPath(core::args["root"].s() + "/audio_sink_config.json");
-    config.load(def);
+    config.setFile("audio_sink.json");
+    config.load(NULL);
     config.enableAutoSave();
 }
 

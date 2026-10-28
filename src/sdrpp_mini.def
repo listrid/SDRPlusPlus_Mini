@@ -1,0 +1,59 @@
+EXPORTS
+    SourceManager_registerSource
+    SourceManager_unregisterSource
+    SourceManager_setTuningLimits
+    SourceManager_clearTuningLimits
+    ConfigManager_Create
+    ConfigManager_Destroy
+   
+    Volk_8i_s32f_convert_32f
+
+    volk_get_alignment
+    volk_free
+    volk_malloc
+
+    libusb_init
+    libusb_exit
+    libusb_strerror
+    libusb_get_device_list
+    libusb_free_device_list
+    libusb_get_configuration
+    libusb_get_device_descriptor
+    libusb_get_active_config_descriptor
+    libusb_free_config_descriptor
+    libusb_get_bus_number
+    libusb_get_parent
+    libusb_open
+    libusb_close
+    libusb_clear_halt
+    libusb_get_device
+    libusb_set_configuration
+    libusb_set_interface_alt_setting
+    libusb_claim_interface
+    libusb_release_interface
+    libusb_open_device_with_vid_pid
+    libusb_kernel_driver_active
+    libusb_detach_kernel_driver
+    libusb_alloc_transfer
+    libusb_submit_transfer
+    libusb_cancel_transfer
+    libusb_free_transfer
+    libusb_control_transfer
+    libusb_bulk_transfer
+    libusb_get_string_descriptor_ascii
+    libusb_interrupt_event_handler
+    libusb_handle_events_timeout
+    libusb_handle_events_timeout_completed
+
+    ?ForceSync@SmGui@@YAXXZ  ;void __cdecl SmGui::ForceSync(void)
+    ?FillWidth@SmGui@@YAXXZ  ;void __cdecl SmGui::FillWidth(void)
+    ?SameLine@SmGui@@YAXXZ   ;void __cdecl SmGui::SameLine(void)
+    ?BeginDisabled@SmGui@@YAXXZ  ;void __cdecl SmGui::BeginDisabled(void)
+    ?EndDisabled@SmGui@@YAXXZ    ;void __cdecl SmGui::EndDisabled(void)
+    ?Combo@SmGui@@YA_NPEBDPEAH0H@Z      ;bool __cdecl SmGui::Combo(char const *,int *,char const *,int)
+    ?Button@SmGui@@YA_NPEBDUImVec2@@@Z  ;bool __cdecl SmGui::Button(char const *,struct ImVec2)
+    ?LeftLabel@SmGui@@YAXPEBD@Z         ;void __cdecl SmGui::LeftLabel(char const *)
+    ?SliderFloatWithSteps@SmGui@@YA_NPEBDPEAMMMMW4FormatString@1@@Z  ;bool __cdecl SmGui::SliderFloatWithSteps(char const *,float *,float,float,float,enum SmGui::FormatString)
+    ?Checkbox@SmGui@@YA_NPEBDPEA_N@Z    ;bool __cdecl SmGui::Checkbox(char const *,bool *)
+
+

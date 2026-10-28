@@ -48,7 +48,7 @@ namespace icons {
 
     GLuint loadTexture(const void* buf, size_t buf_size) {
         int w, h, n;
-        stbi_uc* data = stbi_load_from_memory((const stbi_uc*) buf, buf_size, &w, &h, &n, 0);
+        stbi_uc* data = stbi_load_from_memory((const stbi_uc*) buf, (int)buf_size, &w, &h, &n, 0);
         GLuint texId;
         glGenTextures(1, &texId);
         glBindTexture(GL_TEXTURE_2D, texId);

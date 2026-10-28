@@ -31,7 +31,7 @@ namespace ImGui {
             _REF_COUNT
         };
 
-        double m_generalOffset; //смещение от центра (что овырезать)
+        double m_generalOffset; //СЃРјРµС‰РµРЅРёРµ РѕС‚ С†РµРЅС‚СЂР° (С‡С‚Рѕ РѕРІС‹СЂРµР·Р°С‚СЊ)
         double m_centerOffset;
         double m_lowerOffset;
         double m_upperOffset;
@@ -271,11 +271,11 @@ namespace ImGui {
         size_t m_flagsFreqMoved = 0;
 
         // Absolute values
-        double m_centerFreq;     //центральная частота
-        double m_wholeBandwidth; //окно приема
+        double m_centerFreq;     //С†РµРЅС‚СЂР°Р»СЊРЅР°СЏ С‡Р°СЃС‚РѕС‚Р°
+        double m_wholeBandwidth; //РѕРєРЅРѕ РїСЂРёРµРјР°
 
-        double m_lowerFreq; //минимальная частота (левая)
-        double m_upperFreq; //максимальная частота (правая)
+        double m_lowerFreq; //РјРёРЅРёРјР°Р»СЊРЅР°СЏ С‡Р°СЃС‚РѕС‚Р° (Р»РµРІР°СЏ)
+        double m_upperFreq; //РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ С‡Р°СЃС‚РѕС‚Р° (РїСЂР°РІР°СЏ)
         double m_range;
 
         float m_lastDrag;

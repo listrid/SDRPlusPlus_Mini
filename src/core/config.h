@@ -20,22 +20,14 @@ class ConfigSaver;
 namespace config_detail {
     // Reported when a stored value can't be converted to the type the caller asked
     // for, i.e. a hand-edited or stale config file.
-    void logTypeMismatch(std::string_view key, const char* what);
-    void logDefaultRepair(std::string_view key);
+    SDRPP_API void logTypeMismatch(std::string_view key, const char* what);
+    SDRPP_API void logDefaultRepair(std::string_view key);
 
     // Lookup that never inserts. json::operator[] would leave a null behind on a
     // miss, which both bloats the file and flips the next run's contains() check.
-    inline json* find(json& node, std::string_view key) {
-        if (!node.is_object()) { return NULL; }
-        const auto it = node.find(key);
-        return (it == node.end()) ? NULL : &(*it);
-    }
+    SDRPP_API json* find(json& node, const char* key);
+    SDRPP_API const json* find(const json& node, const char* key);
 
-    inline const json* find(const json& node, std::string_view key) {
-        if (!node.is_object()) { return NULL; }
-        const auto it = node.find(key);
-        return (it == node.end()) ? NULL : &(*it);
-    }
 
     // Floating-point fields accept stored integers, but integer fields reject
     // stored floats so reads cannot silently truncate them.
@@ -116,7 +108,7 @@ namespace config_detail {
             std::decay_t<T>>>;
 
     template <class T>
-    bool getValue(const json* node, std::string_view key, T& out) {
+    bool getValue(const json* node, const char* key, T& out) {
         const json* v = node ? find(*node, key) : NULL;
         if (!v || v->is_null()) { return false; }
         try {
@@ -134,21 +126,22 @@ namespace config_detail {
         }
         return true;
     }
+
 }
 
 namespace config_detail {
     struct ConfigManagerTestAccess;
 }
 
-class SDRPP_API ConfigManager {
+class ConfigManager {
 public:
     ConfigManager();
     ~ConfigManager();
-    void setPath(std::string file);
-    void load(json def);
-    bool save();
-    void enableAutoSave();
-    void disableAutoSave();
+    virtual void setFile(const char* fileName, bool full = false);
+    virtual void load(json* def = NULL);
+    virtual bool save();
+    virtual void enableAutoSave();
+    virtual void disableAutoSave();
     // Synchronously saves every dirty manager currently registered for
     // autosave, without changing their lifecycle state. Intended for platforms
     // that may resume after a save-state event. It deliberately makes one save
@@ -159,7 +152,7 @@ public:
     // Terminal operation: rejects new access, drains the autosaver, and commits
     // the final dirty state. A failed shutdown may be retried, but the manager
     // remains frozen in between so only an external condition can unblock it.
-    bool shutdown();
+    virtual bool shutdown();
 
     // A read access owns the config mutex but exposes only operations that cannot
     // modify the document. An edit access adds writers and reports whether those
@@ -175,13 +168,13 @@ public:
     class ReadSection;
     class EditSection;
 
-    ReadAccess read();
-    EditAccess edit();
+    virtual ReadAccess read();
+    virtual EditAccess edit();
 
 private:
     json conf;
     void acquire(ReadAccess* access);
-    void release(ReadAccess* access, bool modified) noexcept;
+    virtual void release(ReadAccess* access, bool modified) noexcept;
     bool anyAccessHeldByCurrentThread() const noexcept;
     void disableAutoSaveImpl();
 
@@ -193,8 +186,7 @@ private:
     // Called only by the one process-wide ConfigSaver. The dirty flag is guarded
     // by mtx and is cleared only after a successful disk commit.
     bool saveIfDirty();
-    bool saveImpl(bool onlyIfDirty, bool allowClosing = false,
-                  SaveRetryMode retryMode = SaveRetryMode::SingleAttempt);
+    bool saveImpl(bool onlyIfDirty, bool allowClosing = false, SaveRetryMode retryMode = SaveRetryMode::SingleAttempt);
 
     friend class ConfigSaver;
     friend struct config_detail::ConfigManagerTestAccess;
@@ -241,18 +233,18 @@ public:
     }
 
     template <class T>
-    bool tryGet(std::string_view key, T& out) const {
+    bool tryGet(const char* key, T& out) const {
         return config_detail::getValue(&mgr->conf, key, out);
     }
 
     template <class T>
-    config_detail::ValueType<T> value(std::string_view key, const T& def) const {
+    config_detail::ValueType<T> value(const char* key, const T& def) const {
         config_detail::ValueType<T> out(def);
         config_detail::getValue(&mgr->conf, key, out);
         return out;
     }
 
-    bool contains(std::string_view key) const {
+    bool contains(const char* key) const {
         return config_detail::find(mgr->conf, key) != NULL;
     }
 
@@ -310,7 +302,8 @@ public:
         return wrote;
     }
 
-    bool erase(std::string_view key) {
+    bool erase(std::string_view key)
+    {
         bool wrote = false;
         if (mgr->conf.is_object()) {
             const auto it = mgr->conf.find(key);
@@ -345,18 +338,18 @@ class ConfigManager::ReadSection {
 
 public:
     template <class T>
-    bool tryGet(std::string_view key, T& out) const {
+    bool tryGet(const char* key, T& out) const {
         return config_detail::getValue(resolve(), key, out);
     }
 
     template <class T>
-    config_detail::ValueType<T> value(std::string_view key, const T& def) const {
+    config_detail::ValueType<T> value(const char* key, const T& def) const {
         config_detail::ValueType<T> out(def);
         config_detail::getValue(resolve(), key, out);
         return out;
     }
 
-    bool contains(std::string_view key) const {
+    bool contains(const char* key) const {
         const json* self = resolve();
         return self && config_detail::find(*self, key) != NULL;
     }
@@ -393,7 +386,7 @@ private:
     const json* resolve(const ReadAccess& owner) const {
         const json* node = &owner.mgr->conf;
         for (const auto& key : path) {
-            node = config_detail::find(*node, key);
+            node = config_detail::find(*node, key.c_str());
             if (!node) { return NULL; }
         }
         return node;
@@ -503,10 +496,20 @@ inline ConfigManager::EditSection ConfigManager::EditAccess::section(Keys&&... k
     return EditSection(this, lifetimeForSection(), std::move(path));
 }
 
-inline ConfigManager::ReadAccess ConfigManager::read() {
+inline ConfigManager::ReadAccess ConfigManager::read()
+{
     return ReadAccess(this);
 }
 
-inline ConfigManager::EditAccess ConfigManager::edit() {
+inline ConfigManager::EditAccess ConfigManager::edit()
+{
     return EditAccess(this);
 }
+
+
+
+SDRPP_API ConfigManager* ConfigManager_Create();
+SDRPP_API void ConfigManager_Destroy(ConfigManager*& mng);
+
+
+

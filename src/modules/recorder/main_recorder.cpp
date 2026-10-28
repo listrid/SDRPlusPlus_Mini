@@ -683,9 +683,8 @@ static void recorder_INIT() {
             flog::error("Could not create recordings directory");
         }
     }
-    json def = json({});
-    config.setPath(root + "/recorder_config.json");
-    config.load(def);
+    config.setFile("recorder.json");
+    config.load();
     config.enableAutoSave();
 }
 

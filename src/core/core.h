@@ -6,10 +6,10 @@
 #include "command_args.h"
 
 namespace core {
-    extern SDRPP_API ConfigManager configManager;
-    extern SDRPP_API ModuleManager moduleManager;
-    extern SDRPP_API ModuleComManager modComManager;
-    extern SDRPP_API CommandArgsParser args;
+    extern ConfigManager configManager;
+    extern ModuleManager moduleManager;
+    extern ModuleComManager modComManager;
+    extern CommandArgsParser args;
 
     SDRPP_API void setInputSampleRate(double samplerate);
 
@@ -31,5 +31,3 @@ namespace core {
     // executable's directory (see core.cpp for rationale).
     SDRPP_API std::string resolveConfigPath(const std::string& path);
 };
-
-int sdrpp_main(int argc, char* argv[]);

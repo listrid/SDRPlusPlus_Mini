@@ -327,9 +327,8 @@ private:
 };
 
 static void network_source_INIT() {
-    json def = json({});
-    config.setPath(core::args["root"].s() + "/network_source_config.json");
-    config.load(def);
+    config.setFile("network_source.json");
+    config.load();
     config.enableAutoSave();
 }
 

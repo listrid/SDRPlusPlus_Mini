@@ -99,7 +99,10 @@ namespace dsp {
             int count = _in->read();
             if (count < 0) { return -1; }
             int wrote;
-            process(_in->GetRBuf(), count, out.GetWBuf(count*4), wrote);
+            int size_wr = count*4;
+            if(size_wr < 0x10000)
+                size_wr = 0x10000;
+            process(_in->GetRBuf(), count, out.GetWBuf(size_wr), wrote);
             _in->flush();
             if (!out.swap(wrote)) {
                 return 0;

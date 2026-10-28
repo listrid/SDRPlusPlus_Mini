@@ -1,5 +1,6 @@
 #include <config.h>
 #include <utils/flog.h>
+#include <core.h>
 
 #include <algorithm>
 #include <atomic>
@@ -514,6 +515,24 @@ namespace config_detail {
         flog::warn("Config entry '{}' is incompatible; replacing it with its default",
                    std::string(key));
     }
+
+    json* find(json& node, const char* key)
+    {
+        if(!node.is_object()) { return NULL; }
+        const auto it = node.find(std::string_view(key));
+        return (it == node.end()) ? NULL : &(*it);
+    }
+
+    const json* find(const json& node, const char* key)
+    {
+        if(!node.is_object()) { return NULL; }
+        const auto it = node.find(std::string_view(key));
+        return (it == node.end()) ? NULL : &(*it);
+    }
+
+
+
+
 }
 
 namespace {
@@ -543,12 +562,18 @@ ConfigManager::~ConfigManager() {
     }
 }
 
-void ConfigManager::setPath(std::string file) {
-    if (anyAccessHeldByCurrentThread()) {
+void ConfigManager::setFile(const char* fileName, bool full)
+{
+    if (anyAccessHeldByCurrentThread())
         throw std::logic_error("ConfigManager::setPath called while a config access is active");
+    std::string file;
+    if(full)
+    {
+        file = fileName;
+    }else{
+        file = core::args["config"].s() + "/" + fileName;
     }
-    const std::string newPath =
-        std::filesystem::absolute(std::move(file)).lexically_normal().string();
+    const std::string newPath = std::filesystem::absolute(std::move(file)).lexically_normal().string();
     bool shouldSave = false;
     {
         std::lock_guard<std::mutex> persistenceGuard(persistenceMtx);
@@ -573,7 +598,8 @@ void ConfigManager::setPath(std::string file) {
     }
 }
 
-void ConfigManager::load(json def) {
+void ConfigManager::load(json* def)
+{
     if (anyAccessHeldByCurrentThread()) {
         throw std::logic_error("ConfigManager::load called while a config access is active");
     }
@@ -601,8 +627,10 @@ void ConfigManager::load(json def) {
     bool documentPersisted = false;
 #if OPT_CONFIG_MULTIPLE_INSTANCES
     ConfigCommitLock commitLock(filePath.parent_path());
-    if (!commitLock) {
-        document = std::move(def);
+    if (!commitLock)
+    {
+        if(def)
+            document = std::move(*def);
     }
     else
 #endif
@@ -620,8 +648,8 @@ void ConfigManager::load(json def) {
             else {
                 flog::error("Config file '{}' is not a valid JSON file, resetting it", loadPath);
             }
-
-            document = std::move(def);
+            if(def)
+                document = std::move(*def);
             documentPersisted = writeJsonAtomically(filePath, document);
         }
     }
@@ -829,3 +857,19 @@ void ConfigManager::release(ReadAccess* access, bool modified) noexcept {
 bool ConfigManager::anyAccessHeldByCurrentThread() const noexcept {
     return activeConfigAccess != NULL;
 }
+
+
+SDRPP_API ConfigManager* ConfigManager_Create()
+{
+    return new ConfigManager();
+}
+
+
+SDRPP_API void ConfigManager_Destroy(ConfigManager*& mng)
+{
+    if(!mng)
+        return;
+    delete mng;
+    mng = NULL;
+}
+

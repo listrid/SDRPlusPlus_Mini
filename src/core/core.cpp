@@ -77,7 +77,10 @@ namespace core {
     // matter where it is launched from.
     std::string resolveConfigPath(const std::string& path) {
         std::filesystem::path p(path);
-        if (!p.is_absolute()) { p = getExecutableDirectory() / p; }
+        if (!p.is_absolute())
+        { 
+            p =  (std::string)core::args["root"] / p;
+        }
         return p.lexically_normal().string();
     }
 
@@ -87,7 +90,12 @@ namespace core {
             return std::string(appdir) + "/usr/lib/sdrpp_mini/plugins";
         }
 #endif
-        return resolveConfigPath(core::configManager.read().value("modulesDirectory", std::string()));
+        std::string path = core::configManager.read().value("modulesDirectory", std::string());
+        std::filesystem::path p(path);
+        if(!p.is_absolute()) {
+            path = getExecutableDirectory().string() + path;
+        }
+        return resolveConfigPath(path);
     }
 
     std::string getResourcesDirectory() {
@@ -96,7 +104,9 @@ namespace core {
             return std::string(appdir) + "/usr/share/sdrpp_mini";
         }
 #endif
-        return resolveConfigPath(core::configManager.read().value("resourcesDirectory", std::string()));
+
+        std::string path = core::configManager.read().value("resourcesDirectory", std::string());
+        return resolveConfigPath(path);
     }
 };
 
@@ -151,10 +161,11 @@ int sdrpp_main(int argc, char* argv[]) {
             if(!std::filesystem::exists(root)) {
 
                 std::filesystem::create_directories(root);
+                std::filesystem::create_directories(root+"/recordings");
                 std::filesystem::create_directories(root+"/res");
-                std::filesystem::create_directories(root+"/bandplans");
-                std::filesystem::create_directories(root+"/colormaps");
-                std::filesystem::create_directories(root+"/themes");
+                std::filesystem::create_directories(root+"/res/bandplans");
+                std::filesystem::create_directories(root+"/res/colormaps");
+                std::filesystem::create_directories(root+"/res/themes");
             }
         }
     }
@@ -269,8 +280,8 @@ int sdrpp_main(int argc, char* argv[]) {
 
 //    defConfig["moduleInstances"]["Airspy Source"]["module"] = "airspy_source";
 //    defConfig["moduleInstances"]["Airspy Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["AirspyHF+ Source"]["module"] = "airspyhf_source";
-//    defConfig["moduleInstances"]["AirspyHF+ Source"]["enabled"] = true;
+    defConfig["moduleInstances"]["AirspyHF+ Source"]["module"] = "airspyhf_source";
+    defConfig["moduleInstances"]["AirspyHF+ Source"]["enabled"] = true;
 //    defConfig["moduleInstances"]["BladeRF Source"]["module"] = "bladerf_source";
 //    defConfig["moduleInstances"]["BladeRF Source"]["enabled"] = true;
 //    defConfig["moduleInstances"]["Dragon Labs Source"]["module"] = "dragonlabs_source";
@@ -307,8 +318,8 @@ int sdrpp_main(int argc, char* argv[]) {
 //    defConfig["moduleInstances"]["Spectran HTTP Source"]["enabled"] = true;
 //    defConfig["moduleInstances"]["SpyServer Source"]["module"] = "spyserver_source";
 //    defConfig["moduleInstances"]["SpyServer Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["USRP Source"]["module"] = "usrp_source";
-//    defConfig["moduleInstances"]["USRP Source"]["enabled"] = true;
+    defConfig["moduleInstances"]["USRP Source"]["module"] = "usrp_source";
+    defConfig["moduleInstances"]["USRP Source"]["enabled"] = true;
 
 
 //    defConfig["moduleInstances"]["Radiosonde Decoder"]["module"] = "radiosonde_decoder";
@@ -377,12 +388,17 @@ int sdrpp_main(int argc, char* argv[]) {
 #if defined(_WIN32)
     defConfig["modulesDirectory"] = "./modules";
     defConfig["resourcesDirectory"] = "./res";
+    defConfig["configDirectory"] = "./conf";
+
 #elif defined(IS_MACOS_BUNDLE)
     defConfig["modulesDirectory"] = "../Plugins";
     defConfig["resourcesDirectory"] = "../Resources";
+    defConfig["configDirectory"] =  "../Config";
 #elif defined(__ANDROID__)
     defConfig["modulesDirectory"] = root + "/modules";
     defConfig["resourcesDirectory"] = root + "/res";
+    defConfig["configDirectory"] = root + "/conf";
+
 #else
     // Linux, BSD, etc.
     defConfig["modulesDirectory"] = INSTALL_PREFIX "/lib/sdrpp_mini/plugins";
@@ -391,13 +407,19 @@ int sdrpp_main(int argc, char* argv[]) {
 
     // Load config
     flog::info("Loading config");
-    core::configManager.setPath(root + "/config.json");
+    core::configManager.setFile((root + "/config.json").c_str(), true);
     bool firstStart = !std::filesystem::exists(root + "/config.json");
-    core::configManager.load(defConfig);
-
-
+    core::configManager.load(&defConfig);
     core::configManager.enableAutoSave();
 
+    {//init config dir
+        std::string confDir;
+        core::configManager.read().tryGet("configDirectory", confDir);
+        confDir =  root + confDir;
+        if(!std::filesystem::exists(confDir))
+            std::filesystem::create_directories(confDir);
+        core::args.set("config", confDir);
+    }
     float uiScaleFactor = 1.0f;
     {
         auto configAccess = core::configManager.edit();
@@ -457,7 +479,7 @@ int sdrpp_main(int argc, char* argv[]) {
 
         // Fix missing elements in config
         for (auto const& item : defConfig.items()) {
-            const bool missing = !configAccess.contains(item.key());
+            const bool missing = !configAccess.contains(item.key().c_str());
             if (!configAccess.ensure(item.key(), item.value())) { continue; }
             if (missing) {
                 flog::info("Missing key in config {0}, repairing", item.key());

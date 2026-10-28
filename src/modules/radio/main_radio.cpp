@@ -969,9 +969,8 @@ static ModuleManager::ModuleInfo_t radio_INFO{
 };
 
 static void radio_INIT() {
-    json def = json({});
-    config.setPath(core::args["root"].s() + "/radio_config.json");
-    config.load(def);
+    config.setFile("radio.json");
+    config.load();
     config.enableAutoSave();
 }
 
