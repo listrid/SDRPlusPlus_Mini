@@ -317,8 +317,8 @@ private:
         // Configure the ADC filters
         ad9361_set_bb_rate(_this->phy, _this->samplerate);
 
-        iio_channel_attr_write_bool(_this->rxChan, "quadrature_tracking_en", true);  // Óáèðàåò çåðêàëêè
-        iio_channel_attr_write_bool(_this->rxChan, "bb_dc_offset_tracking_en", true); // Óáèðàåò ïàëêó ïî öåíòðó
+        iio_channel_attr_write_bool(_this->rxChan, "quadrature_tracking_en", true);  // Ð£Ð±Ð¸Ñ€Ð°ÐµÑ‚ Ð·ÐµÑ€ÐºÐ°Ð»ÐºÐ¸
+        iio_channel_attr_write_bool(_this->rxChan, "bb_dc_offset_tracking_en", true); // Ð£Ð±Ð¸Ñ€Ð°ÐµÑ‚ Ð¿Ð°Ð»ÐºÑƒ Ð¿Ð¾ Ñ†ÐµÐ½Ñ‚Ñ€Ñƒ
         iio_channel_attr_write_bool(_this->rxChan, "rf_dc_offset_tracking_en", true);
 
         // Configure RX channel

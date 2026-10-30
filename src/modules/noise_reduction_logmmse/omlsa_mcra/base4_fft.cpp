@@ -82,7 +82,7 @@ void MY_B4_FFT::Base4_Sort(){
 }
 
 short MY_B4_FFT::base4_fft(Complex_num *x, int sign) {
-	int i, j, k, tr, ti, wi2, wi3;
+	int i, j, k, wi2, wi3;
 	if (x == NULL) {
 		return -13;//
 	}

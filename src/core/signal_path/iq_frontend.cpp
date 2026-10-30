@@ -14,9 +14,9 @@ IQFrontEnd::~IQFrontEnd() {
     if (!_init) { return; }
     stop();
     dsp::buffer::free(fftWindowBuf);
-    fftwf_destroy_plan(fftwPlan);
-    fftwf_free(fftInBuf);
-    fftwf_free(fftOutBuf);
+    fft_destroy_plan(fftwPlan);
+    fft_free(fftInBuf);
+    fft_free(fftOutBuf);
 }
 
 void IQFrontEnd::init(dsp::stream<dsp::complex_t>* in, double sampleRate, bool buffering, int decimRatio, bool dcBlocking, int fftSize, double fftRate, FFTWindow fftWindow, float* (*acquireFFTBuffer)(void* ctx), void (*releaseFFTBuffer)(void* ctx), void* fftCtx) {
@@ -54,9 +54,10 @@ void IQFrontEnd::init(dsp::stream<dsp::complex_t>* in, double sampleRate, bool b
     fftWindowBuf = dsp::buffer::alloc<float>(_nzFFTSize);
     genFFTWindow(fftWindowBuf, _nzFFTSize);
 
-    fftInBuf = (fftwf_complex*)fftwf_malloc(_fftSize * sizeof(fftwf_complex));
-    fftOutBuf = (fftwf_complex*)fftwf_malloc(_fftSize * sizeof(fftwf_complex));
-    fftwPlan = fftwf_plan_dft_1d(_fftSize, fftInBuf, fftOutBuf, FFTW_FORWARD, FFTW_ESTIMATE);
+    init_fftSize = fftSize;
+    fftInBuf = fft_alloc(fftSize);
+    fftOutBuf = fft_alloc(fftSize);
+    fftwPlan = fft_create_plan_1d(_fftSize, fftInBuf, fftOutBuf, true);
 
     // Clear the rest of the FFT input buffer
     dsp::buffer::clear(fftInBuf, _fftSize - _nzFFTSize, _nzFFTSize);
@@ -260,14 +261,20 @@ double IQFrontEnd::getEffectiveSamplerate() {
     return effectiveSr;
 }
 
+#include <tdSync.hpp>
+
 void IQFrontEnd::handler(dsp::complex_t* data, int count, void* ctx) {
     IQFrontEnd* _this = (IQFrontEnd*)ctx;
 
     // Apply window
     volk_32fc_32f_multiply_32fc((lv_32fc_t*)_this->fftInBuf, (lv_32fc_t*)data, _this->fftWindowBuf, _this->_nzFFTSize);
-
+    tdTimeCpu _cpu; static uint64_t t_sum = 0; static size_t t_count = 0;;
     // Execute FFT
-    fftwf_execute(_this->fftwPlan);
+    fft_exec_1d(_this->fftwPlan, _this->fftInBuf, _this->fftOutBuf);
+
+
+    size_t t = _cpu.Delta(); t_sum += t; t_count++;
+    printf("fft %u mc  %u\n", t, t_sum/t_count);
 
     // Aquire buffer
     float* fftBuf = _this->_acquireFFTBuffer(_this->_fftCtx);
@@ -326,11 +333,16 @@ void IQFrontEnd::updateFFTPath(bool updateWaterfall) {
     genFFTWindow(fftWindowBuf, _nzFFTSize);
 
     // Update FFT plan
-    fftwf_free(fftInBuf);
-    fftwf_free(fftOutBuf);
-    fftInBuf = (fftwf_complex*)fftwf_malloc(_fftSize * sizeof(fftwf_complex));
-    fftOutBuf = (fftwf_complex*)fftwf_malloc(_fftSize * sizeof(fftwf_complex));
-    fftwPlan = fftwf_plan_dft_1d(_fftSize, fftInBuf, fftOutBuf, FFTW_FORWARD, FFTW_ESTIMATE);
+    if(init_fftSize != _fftSize)
+    {
+        init_fftSize = _fftSize;
+        fft_free(fftInBuf);
+        fft_free(fftOutBuf);
+        fft_destroy_plan(fftwPlan);
+        fftInBuf = fft_alloc(_fftSize);
+        fftOutBuf = fft_alloc(_fftSize);
+        fftwPlan = fft_create_plan_1d(_fftSize, fftInBuf, fftOutBuf, true);
+    }
 
     // Clear the rest of the FFT input buffer
     dsp::buffer::clear(fftInBuf, _fftSize - _nzFFTSize, _nzFFTSize);

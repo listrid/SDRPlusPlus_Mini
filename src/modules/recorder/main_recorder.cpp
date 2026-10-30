@@ -57,8 +57,10 @@ public:
 
         // Define option lists
         containers.define("WAV", wav::FORMAT_WAV);
+#ifdef FLAC__NO_DLL
         // containers.define("RF64", wav::FORMAT_RF64); // Disabled for now
         containers.define("FLAC", wav::FORMAT_FLAC);
+#endif
 #ifdef OPUS_ENABLE
         containers.define("Opus", wav::FORMAT_OPUS);
 #endif
@@ -414,7 +416,10 @@ private:
         sampleTypes.define(wav::SAMP_TYPE_INT16, "Int16", wav::SAMP_TYPE_INT16);
         sampleTypes.define(wav::SAMP_TYPE_INT24, "Int24", wav::SAMP_TYPE_INT24);
         sampleTypes.define(wav::SAMP_TYPE_INT32, "Int32", wav::SAMP_TYPE_INT32);
-        if (containers[containerId] != wav::FORMAT_FLAC) {
+#ifdef FLAC__NO_DLL
+        if (containers[containerId] != wav::FORMAT_FLAC)
+#endif
+        {
             sampleTypes.define(wav::SAMP_TYPE_FLOAT32, "Float32", wav::SAMP_TYPE_FLOAT32);
         }
         sampleTypeId = sampleTypes.valueExists(prev) ? sampleTypes.valueId(prev) : sampleTypes.valueId(wav::SAMP_TYPE_INT16);

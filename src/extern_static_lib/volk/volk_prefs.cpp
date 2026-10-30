@@ -20,6 +20,7 @@
 #endif
 #include <volk/volk_prefs.h>
 
+/*
 void volk_get_config_path(char* path, bool read)
 {
     if (!path)
@@ -105,3 +106,4 @@ size_t volk_load_preferences(volk_arch_pref_t** prefs_res)
     *prefs_res = prefs;
     return n_arch_prefs;
 }
+*/

@@ -7,7 +7,7 @@
 
 namespace dsp::multirate::decim {
     const unsigned int fir_2_2_len = 69;
-    const float fir_2_2_taps[] = {
+    inline const float fir_2_2_taps[] = {
         0.000400633624864,
         0.002075598505552,
         0.004856364956715,

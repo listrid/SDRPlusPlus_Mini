@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdint>
 #include <cstddef>
+#ifdef FLAC__NO_DLL
 
 namespace flac {
     // Streaming decoder for native .flac files (the recorder's FLAC container).
@@ -54,3 +55,4 @@ namespace flac {
         void* impl;
     };
 }
+#endif

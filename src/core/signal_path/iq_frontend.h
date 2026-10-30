@@ -8,7 +8,9 @@
 #include "../dsp/channel/rx_vfo.h"
 #include "../dsp/sink/handler_sink.h"
 #include "../dsp/math/conjugate.h"
-#include <fftw3.h>
+
+#include "../fft_config.h"
+
 
 class IQFrontEnd {
 public:
@@ -107,10 +109,13 @@ protected:
     // Processing data
     int _nzFFTSize;
     float* fftWindowBuf;
-    fftwf_complex *fftInBuf, *fftOutBuf;
-    fftwf_plan fftwPlan;
-    float* fftDbOut;
 
+    int init_fftSize;
+    fft_complex* fftInBuf;
+    fft_complex* fftOutBuf;
+    fft_plan     fftwPlan;
+
+    float* fftDbOut;
     double effectiveSr;
 
     bool _init = false;

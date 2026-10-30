@@ -4287,18 +4287,28 @@
     <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\sve.cpp" />
     <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\taint.cpp" />
     <ClCompile Include="..\src\extern_static_lib\fftw3\simd-support\vsx.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\muFFT\cpu.c" />
+    <ClCompile Include="..\src\extern_static_lib\muFFT\fft.c" />
+    <ClCompile Include="..\src\extern_static_lib\muFFT\kernel.c" />
+    <ClCompile Include="..\src\extern_static_lib\muFFT\x86\kernel.avx.c">
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\pffft\pffft.c">
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\pffft\pffft_common.c" />
     <ClCompile Include="..\src\extern_static_lib\volk\constants.cpp" />
     <ClCompile Include="..\src\extern_static_lib\volk\volk.cpp" />
     <ClCompile Include="..\src\extern_static_lib\volk\volk_cpu.cpp" />
     <ClCompile Include="..\src\extern_static_lib\volk\volk_machines.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx2.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_generic.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse2.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse3.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse4_1.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse4_2.cpp" />
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_ssse3.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx2.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">false</ExcludedFromBuild>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
     <ClCompile Include="..\src\extern_static_lib\volk\volk_malloc.cpp" />
     <ClCompile Include="..\src\extern_static_lib\volk\volk_prefs.cpp" />
     <ClCompile Include="..\src\extern_static_lib\volk\volk_rank_archs.cpp" />
@@ -4365,6 +4375,9 @@
     <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-sse2.h" />
     <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\simd-vsx.h" />
     <ClInclude Include="..\src\extern_static_lib\fftw3\simd-support\x86-cpuid.h" />
+    <ClInclude Include="..\src\extern_static_lib\muFFT\fft.h" />
+    <ClInclude Include="..\src\extern_static_lib\muFFT\fft_internal.h" />
+    <ClInclude Include="..\src\extern_static_lib\muFFT\x86\kernel.h" />
     <ClInclude Include="..\src\extern_static_lib\volk\volk_machines.h" />
     <ClInclude Include="..\src\extern_static_lib\volk\volk_rank_archs.h" />
   </ItemGroup>
@@ -4431,7 +4444,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>LV_MACHINE_GENERIC;LV_MACHINE_SSE2;LV_MACHINE_SSE3;LV_MACHINE_SSSE3;LV_MACHINE_SSE4_1;LV_MACHINE_SSE4_2;LV_MACHINE_AVX;LV_MACHINE_AVX2;_USE_MATH_DEFINES;WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LV_MACHINE_AVX2;_USE_MATH_DEFINES;WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../src/include;../src/extern_static_lib/volk;../src/extern_static_lib/fftw3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -4449,7 +4462,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>LV_MACHINE_GENERIC;LV_MACHINE_SSE2;LV_MACHINE_SSE3;LV_MACHINE_SSSE3;LV_MACHINE_SSE4_1;LV_MACHINE_SSE4_2;LV_MACHINE_AVX;LV_MACHINE_AVX2;_USE_MATH_DEFINES;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LV_MACHINE_AVX2;_USE_MATH_DEFINES;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../src/include;../src/extern_static_lib/volk;../src/extern_static_lib/fftw3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <DebugInformationFormat>None</DebugInformationFormat>
@@ -4475,7 +4488,7 @@
       <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>LV_MACHINE_GENERIC;LV_MACHINE_SSE2;LV_MACHINE_SSE3;LV_MACHINE_SSSE3;LV_MACHINE_SSE4_1;LV_MACHINE_SSE4_2;LV_MACHINE_AVX;LV_MACHINE_AVX2;_USE_MATH_DEFINES;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LV_MACHINE_AVX2;_USE_MATH_DEFINES;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../src/include;../src/extern_static_lib/volk;../src/extern_static_lib/fftw3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <DebugInformationFormat>None</DebugInformationFormat>

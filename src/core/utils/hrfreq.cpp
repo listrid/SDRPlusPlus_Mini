@@ -82,7 +82,7 @@ namespace hrfreq {
         try {
             num = std::stod(numeric);
         }
-        catch (const std::exception& e) {
+        catch (const std::exception&) {
             flog::error("Failed to parse numeric part: '{}'", numeric);
             return false;
         }

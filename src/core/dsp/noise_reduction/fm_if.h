@@ -1,7 +1,7 @@
 #pragma once
 #include "../processor.h"
 #include "../window/nuttall.h"
-#include <fftw3.h>
+#include "../fft_config.h"
 
 namespace dsp::noise_reduction {
     class FMIF : public Processor<complex_t, complex_t> {
@@ -33,7 +33,8 @@ namespace dsp::noise_reduction {
             base_type::tempStart();
         }
 
-        void reset() {
+        void reset()
+        {
             assert(base_type::_block_init);
             std::lock_guard<std::recursive_mutex> lck(base_type::ctrlMtx);
             base_type::tempStop();
@@ -42,18 +43,19 @@ namespace dsp::noise_reduction {
             base_type::tempStart();
         }
 
-        int process(int count, const complex_t* in, complex_t* out) {
+        int process(int count, const complex_t* in, complex_t* out)
+        {
             // Write new input data to buffer buffer
             memcpy(bufferStart, in, count * sizeof(complex_t));
             
             // Iterate the FFT
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++)
+            {
                 // Apply windows
                 volk_32fc_32f_multiply_32fc((lv_32fc_t*)forwFFTIn, (lv_32fc_t*)&buffer[i], fftWin, _bins);
 
                 // Do forward FFT
-                fftwf_execute(forwardPlan);
-
+                fft_exec_1d(forwardPlan, (fft_complex*)forwFFTIn, (fft_complex*)forwFFTOut);
                 // Process bins here
                 uint32_t idx;
                 volk_32fc_magnitude_32f(ampBuf, (lv_32fc_t*)forwFFTOut, _bins);
@@ -63,7 +65,8 @@ namespace dsp::noise_reduction {
                 backFFTIn[idx] = forwFFTOut[idx];
 
                 // Do reverse FFT and get first element
-                fftwf_execute(backwardPlan);
+                fft_exec_1d(backwardPlan, (fft_complex*)backFFTIn, (fft_complex*)backFFTOut);
+
                 out[i] = backFFTOut[_bins / 2];
 
                 // Reset the input buffer
@@ -89,12 +92,13 @@ namespace dsp::noise_reduction {
         }
 
     protected:
-        void initBuffers() {
+        void initBuffers()
+        {
             // Allocate FFT buffers
-            forwFFTIn = (complex_t*)fftwf_malloc(_bins * sizeof(complex_t));
-            forwFFTOut = (complex_t*)fftwf_malloc(_bins * sizeof(complex_t));
-            backFFTIn = (complex_t*)fftwf_malloc(_bins * sizeof(complex_t));
-            backFFTOut = (complex_t*)fftwf_malloc(_bins * sizeof(complex_t));
+            forwFFTIn  = (complex_t*)fft_alloc(_bins);
+            forwFFTOut = (complex_t*)fft_alloc(_bins);
+            backFFTIn  = (complex_t*)fft_alloc(_bins);
+            backFFTOut = (complex_t*)fft_alloc(_bins);
 
             // Allocate and clear delay buffer
             buffer = buffer::alloc<complex_t>(STREAM_BUFFER_SIZE + 64000);
@@ -109,20 +113,25 @@ namespace dsp::noise_reduction {
 
             // Allocate and generate Window
             fftWin = buffer::alloc<float>(_bins);
-            for (int i = 0; i < _bins; i++) { fftWin[i] = window::nuttall(i, _bins - 1); }
+            for (int i = 0; i < _bins; i++)
+            {
+                fftWin[i] = window::nuttall(i, _bins - 1);
+            }
 
             // Plan FFTs
-            forwardPlan = fftwf_plan_dft_1d(_bins, (fftwf_complex*)forwFFTIn, (fftwf_complex*)forwFFTOut, FFTW_FORWARD, FFTW_ESTIMATE);
-            backwardPlan = fftwf_plan_dft_1d(_bins, (fftwf_complex*)backFFTIn, (fftwf_complex*)backFFTOut, FFTW_BACKWARD, FFTW_ESTIMATE);
+            forwardPlan  = fft_create_plan_1d(_bins, (fft_complex*)forwFFTIn, (fft_complex*)forwFFTOut, true);
+            backwardPlan = fft_create_plan_1d(_bins, (fft_complex*)backFFTIn, (fft_complex*)backFFTOut, true);
         }
 
         void destroyBuffers() {
-            fftwf_destroy_plan(forwardPlan);
-            fftwf_destroy_plan(backwardPlan);
-            fftwf_free(forwFFTIn);
-            fftwf_free(forwFFTOut);
-            fftwf_free(backFFTIn);
-            fftwf_free(backFFTOut);
+
+            fft_destroy_plan(forwardPlan);
+            fft_destroy_plan(backwardPlan);
+            fft_free((fft_complex*)forwFFTIn);
+            fft_free((fft_complex*)forwFFTOut);
+            fft_free((fft_complex*)backFFTIn);
+            fft_free((fft_complex*)backFFTOut);
+
             buffer::free(buffer);
             buffer::free(ampBuf);
             buffer::free(fftWin);
@@ -133,8 +142,8 @@ namespace dsp::noise_reduction {
         complex_t* backFFTIn;
         complex_t* backFFTOut;
 
-        fftwf_plan forwardPlan;
-        fftwf_plan backwardPlan;
+        fft_plan forwardPlan;
+        fft_plan backwardPlan;
 
         complex_t* buffer;
         complex_t* bufferStart;

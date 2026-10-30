@@ -21,7 +21,7 @@
 #define NOMINMAX
 #endif
 #endif
-#include <fftw3.h>
+#include "fft_config.h"
 #ifdef _WIN32
 #ifdef min
 #undef min
@@ -55,9 +55,9 @@ namespace demod {
             
             // Cleanup FFT resources
             if (fftInitialized) {
-                fftwf_destroy_plan(fftPlan);
-                fftwf_free(fftInput);
-                fftwf_free(fftOutput);
+                fft_destroy_plan(fftPlan);
+                fft_free((fft_complex*)fftInput);
+                fft_free(fftOutput);
                 fftInitialized = false;
             }
         }
@@ -289,9 +289,9 @@ namespace demod {
                 } else {
                     mpxHandler.stop();
                     if (fftInitialized) {
-                        fftwf_destroy_plan(fftPlan);
-                        fftwf_free(fftInput);
-                        fftwf_free(fftOutput);
+                        fft_destroy_plan(fftPlan);
+                        fft_free((fft_complex*)fftInput);
+                        fft_free(fftOutput);
                         fftInitialized = false;
                     }
                 }
@@ -639,9 +639,9 @@ namespace demod {
             fftInitialized = false;
             
             // Initialize FFT
-            fftInput = (float*)fftwf_malloc(sizeof(float) * FFT_SIZE);
-            fftOutput = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex) * (FFT_SIZE/2 + 1));
-            fftPlan = fftwf_plan_dft_r2c_1d(FFT_SIZE, fftInput, fftOutput, FFTW_ESTIMATE);
+            fftInput = (float*)fft_alloc(FFT_SIZE/2); //rel
+            fftOutput = fft_alloc((FFT_SIZE/2 + 1));
+            fftPlan = fft_create_plan_r1d(FFT_SIZE, fftInput, fftOutput);
             
             if (fftInput && fftOutput && fftPlan) {
                 fftInitialized = true;
@@ -694,12 +694,13 @@ namespace demod {
             }
             
             // Perform FFT
-            fftwf_execute(fftPlan);
-            
+            fft_exec_r1d(fftPlan, fftInput, fftOutput);
+   
             // Convert to magnitude spectrum (dB) and apply smoothing
-            for (int i = 0; i < FFT_SIZE/2; i++) {
-                float real = fftOutput[i][0];
-                float imag = fftOutput[i][1];
+            for (int i = 0; i < FFT_SIZE/2; i++)
+            {
+                float real = fftOutput[i].real;
+                float imag = fftOutput[i].imag;
                 float magnitude = sqrtf(real*real + imag*imag);
                 float newValue = 20.0f * log10f(magnitude + 1e-10f); // Add small value to avoid log(0)
                 
@@ -797,9 +798,10 @@ namespace demod {
         
         // FFT for MPX analysis
         static const int FFT_SIZE = 4096/2;
-        fftwf_plan fftPlan;
+        fft_plan fftPlan;
         float* fftInput;
-        fftwf_complex* fftOutput;
+        fft_complex* fftOutput;
+
         std::vector<float> window;
         bool fftInitialized;
 

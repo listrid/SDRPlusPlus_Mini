@@ -1,6 +1,5 @@
 #pragma once
 #include <imgui/imgui.h>
-#include <fftw3.h>
 #include <dsp/types.h>
 #include <dsp/stream.h>
 #include <signal_path/vfo_manager.h>
@@ -55,12 +54,6 @@ private:
     // Right-hand strip of the main window: Zoom / Range / Ref sliders and the
     // auto-range button. Drawn from draw(), into the third window column.
     void drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& textCol);
-
-    // FFT Variables
-    int fftSize = 8192 * 8;
-    std::mutex fft_mtx;
-    fftwf_complex *fft_in, *fft_out;
-    fftwf_plan fftwPlan;
 
     // GUI Variables
     bool firstMenuRender = true;

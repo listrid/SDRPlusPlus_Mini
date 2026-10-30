@@ -3,7 +3,6 @@
 #include "../demod/quadrature.h"
 #include "../filter/fir.h"
 #include "../taps/high_pass.h"
-#include <fftw3.h>
 #include <map>
 #include <atomic>
 

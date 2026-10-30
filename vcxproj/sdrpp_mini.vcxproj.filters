@@ -1236,6 +1236,9 @@
     <ClInclude Include="..\src\modules\scheduler\actions\tune_vfo.h">
       <Filter>modules\scheduler\actions</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\core\fft_config.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="..\src\utf8.manifest" />

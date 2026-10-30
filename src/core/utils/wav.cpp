@@ -11,8 +11,11 @@
 #include <ctime>
 #include <vector>
 #include <map>
+
+#ifdef FLAC__NO_DLL
 #include <FLAC/stream_encoder.h>
 #include <ogg/ogg.h>
+#endif
 
 #ifdef OPUS_ENABLE
 #include <opus/opus.h>
@@ -64,11 +67,13 @@ namespace wav {
         std::vector<unsigned char> packet;   // encoder output buffer
         bool errLogged = false;
     };
-#endif
     static void oggWritePage(FILE* f, ogg_page* og) {
         fwrite(og->header, 1, og->header_len, f);
         fwrite(og->body, 1, og->body_len, f);
     }
+#endif
+
+
 
     static void putLE16(std::vector<unsigned char>& v, uint16_t x) {
         v.push_back((unsigned char)(x & 0xff));
@@ -207,7 +212,7 @@ namespace wav {
         // at the cost of the deepest negative code staying unused. Computed in
         // double so the scale and products are exact for depths up to 32 bits.
         intScale = (double)((1ull << (bits - 1)) - 1);
-
+#ifdef FLAC__NO_DLL
         if (_format == FORMAT_FLAC) {
             // The FLAC codec takes integer samples only
             if (_type == SAMP_TYPE_FLOAT32) {
@@ -242,6 +247,7 @@ namespace wav {
             flacEnc = enc;
             return true;
         }
+#endif
 #ifdef OPUS_ENABLE
         if (_format == FORMAT_OPUS) {
             // Opus only accepts a fixed set of input sample rates and 1 or 2
@@ -365,7 +371,7 @@ namespace wav {
         std::lock_guard<std::recursive_mutex> lck(mtx);
         // Do nothing if the file is not open
         if (!isOpenInt()) { return; }
-
+#ifdef FLAC__NO_DLL
         if (flacEnc) {
             // Flush the encoder and finalize the file (rewrites STREAMINFO)
             FLAC__StreamEncoder* enc = (FLAC__StreamEncoder*)flacEnc;
@@ -375,6 +381,7 @@ namespace wav {
             FLAC__stream_encoder_delete(enc);
             flacEnc = NULL;
         }
+#endif
 #ifdef OPUS_ENABLE
         else if (opusState) {
             OggOpusEncoder* e = (OggOpusEncoder*)opusState;
@@ -485,7 +492,9 @@ namespace wav {
     std::string Writer::getFileExtension() {
         std::lock_guard<std::recursive_mutex> lck(mtx);
         switch (_format) {
+#ifdef FLAC__NO_DLL
         case FORMAT_FLAC: return ".flac";
+#endif
 #ifdef OPUS_ENABLE
         case FORMAT_OPUS: return ".opus";
 #endif
@@ -498,7 +507,7 @@ namespace wav {
 
         int tcount = count * _channels;
         int tbytes = count * bytesPerSamp;
-
+#ifdef FLAC__NO_DLL
         if (flacEnc) {
             int32_t* buf = bufI32.GetBuf(tcount);
             for (int i = 0; i < tcount; i++) {
@@ -517,6 +526,7 @@ namespace wav {
             samplesWritten += count;
             return;
         }
+#endif
 #ifdef OPUS_ENABLE
         if (opusState) {
             OggOpusEncoder* e = (OggOpusEncoder*)opusState;

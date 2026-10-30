@@ -1,5 +1,5 @@
 #include "arrays.h"
-#include <fftw3.h>
+#include "../fft_config.h"
 
 #include <algorithm>
 #include <array>
@@ -368,7 +368,7 @@ namespace dsp {
         struct fftwPlanImplFFTW : public FFTPlan {
             int nbuckets;
             bool reverse;
-            fftwf_plan_s* p;
+            fft_plan p;
             // Fixed-size working buffers the FFTW plan is bound to; they must
             // never reallocate.
             ComplexArray input;
@@ -382,7 +382,7 @@ namespace dsp {
                 // via getOutput() before the first execute.
                 input.assign(buckets, dsp::complex_t{ 0, 0 });
                 output.assign(buckets, dsp::complex_t{ 0, 0 });
-                p = fftwf_plan_dft_1d(buckets, (fftwf_complex*)input.data(), (fftwf_complex*)output.data(), backward ? FFTW_BACKWARD : FFTW_FORWARD, FFTW_ESTIMATE);
+                p = fft_create_plan_1d(buckets, (fft_complex*)input.data(), (fft_complex*)output.data(), backward != true);
             }
 
             const ComplexArray& getOutput() override {
@@ -394,15 +394,15 @@ namespace dsp {
                 auto limit = std::min(in.size(), (size_t)nbuckets);
                 std::copy(in.begin(), in.begin() + limit, input.begin());
                 std::fill(input.begin() + limit, input.end(), dsp::complex_t{ 0, 0 });
-                fftwf_execute(p);
-                if (reverse) {
+                fft_exec_1d(p, (fft_complex*)input.data(), (fft_complex*)output.data());
+                if (reverse)
                     volk_32fc_s32fc_multiply_32fc((lv_32fc_t*)output.data(), (lv_32fc_t*)output.data(), lv_32fc_t(1.0f / nbuckets, 0.0f), output.size());
-                }
                 return output;
             }
 
-            virtual ~fftwPlanImplFFTW() {
-                fftwf_destroy_plan(p);
+            virtual ~fftwPlanImplFFTW()
+            {
+                fft_destroy_plan(p);
             }
         };
 

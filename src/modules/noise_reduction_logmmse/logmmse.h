@@ -130,10 +130,21 @@ namespace dsp {
                     }
                 }
             };
+            static uint64_t normalize_to_pow2(uint64_t cap)
+            {
+                if(cap <= 1)
+                    return 1;
+                cap--;
+                cap |= cap >> 1; cap |= cap >> 2;  cap |= cap >> 4;
+                cap |= cap >> 8; cap |= cap >> 16; cap |= cap >> 32;
+                cap++;
+                return cap;
+            }
 
             static void logmmse_sample(const ComplexArray &x, int Srate, SavedParamsC *params, int noise_frames) {
                 params->Slen = floor(0.02 * Srate);
-                if (params->Slen % 2 == 1) params->Slen++;
+                params->Slen = normalize_to_pow2(params->Slen);
+                //if (params->Slen % 2 == 1) params->Slen++;
                 params->PERC = 50;
                 params->len1 = floor(params->Slen * params->PERC / 100);
                 params->noise_history.clear();

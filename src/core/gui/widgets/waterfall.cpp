@@ -1580,8 +1580,7 @@ namespace ImGui {
         int wfSize = std::max<int>(1, m_rawFFTHeight);
         if (m_rawFFTs != NULL) {
             m_rawFFTs = (float*)realloc(m_rawFFTs, m_rawFFTWidth * wfSize * sizeof(float));
-        }
-        else {
+        }else{
             m_rawFFTs = (float*)malloc(m_rawFFTWidth * wfSize * sizeof(float));
         }
         m_fftLines = 0;
@@ -1589,7 +1588,8 @@ namespace ImGui {
         updateWaterfallFb();
     }
 
-    void WaterFall::setBandPlanPos(int pos) {
+    void WaterFall::setBandPlanPos(int pos)
+    {
         m_bandPlanPos = pos;
     }
 

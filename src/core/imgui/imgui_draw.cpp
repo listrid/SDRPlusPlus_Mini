@@ -2106,40 +2106,40 @@ ImFont* ImFontAtlas::AddFont(const ImFontConfig* font_cfg)
 // Default font TTF is compressed with stb_compress then base85 encoded (see misc/fonts/binary_to_compressed_c.cpp for encoder)
 static unsigned int stb_decompress_length(const unsigned char* input);
 static unsigned int stb_decompress(unsigned char* output, const unsigned char* input, unsigned int length);
-static const char*  GetDefaultCompressedFontDataTTFBase85();
-static unsigned int Decode85Byte(char c)                                    { return c >= '\\' ? c-36 : c-35; }
-static void         Decode85(const unsigned char* src, unsigned char* dst)
-{
-    while (*src)
-    {
-        unsigned int tmp = Decode85Byte(src[0]) + 85 * (Decode85Byte(src[1]) + 85 * (Decode85Byte(src[2]) + 85 * (Decode85Byte(src[3]) + 85 * Decode85Byte(src[4]))));
-        dst[0] = ((tmp >> 0) & 0xFF); dst[1] = ((tmp >> 8) & 0xFF); dst[2] = ((tmp >> 16) & 0xFF); dst[3] = ((tmp >> 24) & 0xFF);   // We can't assume little-endianness.
-        src += 5;
-        dst += 4;
-    }
-}
+// static const char*  GetDefaultCompressedFontDataTTFBase85();
+// static unsigned int Decode85Byte(char c)                                    { return c >= '\\' ? c-36 : c-35; }
+// static void         Decode85(const unsigned char* src, unsigned char* dst)
+// {
+//     while (*src)
+//     {
+//         unsigned int tmp = Decode85Byte(src[0]) + 85 * (Decode85Byte(src[1]) + 85 * (Decode85Byte(src[2]) + 85 * (Decode85Byte(src[3]) + 85 * Decode85Byte(src[4]))));
+//         dst[0] = ((tmp >> 0) & 0xFF); dst[1] = ((tmp >> 8) & 0xFF); dst[2] = ((tmp >> 16) & 0xFF); dst[3] = ((tmp >> 24) & 0xFF);   // We can't assume little-endianness.
+//         src += 5;
+//         dst += 4;
+//     }
+// }
 
 // Load embedded ProggyClean.ttf at size 13, disable oversampling
-ImFont* ImFontAtlas::AddFontDefault(const ImFontConfig* font_cfg_template)
-{
-    ImFontConfig font_cfg = font_cfg_template ? *font_cfg_template : ImFontConfig();
-    if (!font_cfg_template)
-    {
-        font_cfg.OversampleH = font_cfg.OversampleV = 1;
-        font_cfg.PixelSnapH = true;
-    }
-    if (font_cfg.SizePixels <= 0.0f)
-        font_cfg.SizePixels = 13.0f * 1.0f;
-    if (font_cfg.Name[0] == '\0')
-        ImFormatString(font_cfg.Name, IM_ARRAYSIZE(font_cfg.Name), "ProggyClean.ttf, %dpx", (int)font_cfg.SizePixels);
-    font_cfg.EllipsisChar = (ImWchar)0x0085;
-    font_cfg.GlyphOffset.y = 1.0f * IM_FLOOR(font_cfg.SizePixels / 13.0f);  // Add +1 offset per 13 units
-
-    const char* ttf_compressed_base85 = GetDefaultCompressedFontDataTTFBase85();
-    const ImWchar* glyph_ranges = font_cfg.GlyphRanges != NULL ? font_cfg.GlyphRanges : GetGlyphRangesDefault();
-    ImFont* font = AddFontFromMemoryCompressedBase85TTF(ttf_compressed_base85, font_cfg.SizePixels, &font_cfg, glyph_ranges);
-    return font;
-}
+// ImFont* ImFontAtlas::AddFontDefault(const ImFontConfig* font_cfg_template)
+// {
+//     ImFontConfig font_cfg = font_cfg_template ? *font_cfg_template : ImFontConfig();
+//     if (!font_cfg_template)
+//     {
+//         font_cfg.OversampleH = font_cfg.OversampleV = 1;
+//         font_cfg.PixelSnapH = true;
+//     }
+//     if (font_cfg.SizePixels <= 0.0f)
+//         font_cfg.SizePixels = 13.0f * 1.0f;
+//     if (font_cfg.Name[0] == '\0')
+//         ImFormatString(font_cfg.Name, IM_ARRAYSIZE(font_cfg.Name), "ProggyClean.ttf, %dpx", (int)font_cfg.SizePixels);
+//     font_cfg.EllipsisChar = (ImWchar)0x0085;
+//     font_cfg.GlyphOffset.y = 1.0f * IM_FLOOR(font_cfg.SizePixels / 13.0f);  // Add +1 offset per 13 units
+// 
+//     const char* ttf_compressed_base85 = GetDefaultCompressedFontDataTTFBase85();
+//     const ImWchar* glyph_ranges = font_cfg.GlyphRanges != NULL ? font_cfg.GlyphRanges : GetGlyphRangesDefault();
+//     ImFont* font = AddFontFromMemoryCompressedBase85TTF(ttf_compressed_base85, font_cfg.SizePixels, &font_cfg, glyph_ranges);
+//     return font;
+// }
 
 ImFont* ImFontAtlas::AddFontFromFileTTF(const char* filename, float size_pixels, const ImFontConfig* font_cfg_template, const ImWchar* glyph_ranges)
 {
@@ -2188,15 +2188,15 @@ ImFont* ImFontAtlas::AddFontFromMemoryCompressedTTF(const void* compressed_ttf_d
     return AddFontFromMemoryTTF(buf_decompressed_data, (int)buf_decompressed_size, size_pixels, &font_cfg, glyph_ranges);
 }
 
-ImFont* ImFontAtlas::AddFontFromMemoryCompressedBase85TTF(const char* compressed_ttf_data_base85, float size_pixels, const ImFontConfig* font_cfg, const ImWchar* glyph_ranges)
-{
-    int compressed_ttf_size = (((int)strlen(compressed_ttf_data_base85) + 4) / 5) * 4;
-    void* compressed_ttf = IM_ALLOC((size_t)compressed_ttf_size);
-    Decode85((const unsigned char*)compressed_ttf_data_base85, (unsigned char*)compressed_ttf);
-    ImFont* font = AddFontFromMemoryCompressedTTF(compressed_ttf, compressed_ttf_size, size_pixels, font_cfg, glyph_ranges);
-    IM_FREE(compressed_ttf);
-    return font;
-}
+// ImFont* ImFontAtlas::AddFontFromMemoryCompressedBase85TTF(const char* compressed_ttf_data_base85, float size_pixels, const ImFontConfig* font_cfg, const ImWchar* glyph_ranges)
+// {
+//     int compressed_ttf_size = (((int)strlen(compressed_ttf_data_base85) + 4) / 5) * 4;
+//     void* compressed_ttf = IM_ALLOC((size_t)compressed_ttf_size);
+//     Decode85((const unsigned char*)compressed_ttf_data_base85, (unsigned char*)compressed_ttf);
+//     ImFont* font = AddFontFromMemoryCompressedTTF(compressed_ttf, compressed_ttf_size, size_pixels, font_cfg, glyph_ranges);
+//     IM_FREE(compressed_ttf);
+//     return font;
+// }
 
 int ImFontAtlas::AddCustomRectRegular(int width, int height)
 {
@@ -2262,8 +2262,8 @@ bool    ImFontAtlas::Build()
     IM_ASSERT(!Locked && "Cannot modify a locked ImFontAtlas between NewFrame() and EndFrame/Render()!");
 
     // Default font is none are specified
-    if (ConfigData.Size == 0)
-        AddFontDefault();
+    //if (ConfigData.Size == 0)
+    //    AddFontDefault();
 
     // Select builder
     // - Note that we do not reassign to atlas->FontBuilderIO, since it is likely to point to static data which
@@ -2816,7 +2816,7 @@ const ImWchar*   ImFontAtlas::GetGlyphRangesDefault()
     };
     return &ranges[0];
 }
-
+/*
 const ImWchar*  ImFontAtlas::GetGlyphRangesKorean()
 {
     static const ImWchar ranges[] =
@@ -2845,7 +2845,7 @@ const ImWchar*  ImFontAtlas::GetGlyphRangesChineseFull()
     };
     return &ranges[0];
 }
-
+*/
 static void UnpackAccumulativeOffsetsIntoRanges(int base_codepoint, const short* accumulative_offsets, int accumulative_offsets_count, ImWchar* out_ranges)
 {
     for (int n = 0; n < accumulative_offsets_count; n++, out_ranges += 2)
@@ -2859,7 +2859,7 @@ static void UnpackAccumulativeOffsetsIntoRanges(int base_codepoint, const short*
 //-------------------------------------------------------------------------
 // [SECTION] ImFontAtlas glyph ranges helpers
 //-------------------------------------------------------------------------
-
+/*
 const ImWchar*  ImFontAtlas::GetGlyphRangesChineseSimplifiedCommon()
 {
     // Store 2500 regularly used characters for Simplified Chinese.
@@ -3016,7 +3016,7 @@ const ImWchar*  ImFontAtlas::GetGlyphRangesJapanese()
         UnpackAccumulativeOffsetsIntoRanges(0x4E00, accumulative_offsets_from_0x4E00, IM_ARRAYSIZE(accumulative_offsets_from_0x4E00), full_ranges + IM_ARRAYSIZE(base_ranges));
     }
     return &full_ranges[0];
-}
+}*/
 
 const ImWchar*  ImFontAtlas::GetGlyphRangesCyrillic()
 {
@@ -3030,7 +3030,7 @@ const ImWchar*  ImFontAtlas::GetGlyphRangesCyrillic()
     };
     return &ranges[0];
 }
-
+/*
 const ImWchar*  ImFontAtlas::GetGlyphRangesThai()
 {
     static const ImWchar ranges[] =
@@ -3058,7 +3058,7 @@ const ImWchar*  ImFontAtlas::GetGlyphRangesVietnamese()
         0,
     };
     return &ranges[0];
-}
+}*/
 
 //-----------------------------------------------------------------------------
 // [SECTION] ImFontGlyphRangesBuilder
@@ -4075,7 +4075,7 @@ static unsigned int stb_decompress(unsigned char *output, const unsigned char *i
             return 0;
     }
 }
-
+/*
 //-----------------------------------------------------------------------------
 // [SECTION] Default font data (ProggyClean.ttf)
 //-----------------------------------------------------------------------------
@@ -4180,5 +4180,5 @@ static const char* GetDefaultCompressedFontDataTTFBase85()
 {
     return proggy_clean_ttf_compressed_data_base85;
 }
-
+*/
 #endif // #ifndef IMGUI_DISABLE

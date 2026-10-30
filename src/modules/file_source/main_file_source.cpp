@@ -86,7 +86,9 @@ static SampleConv getSampleConv(WAVE_FORMAT format, int bitDepth) {
 static SampleReader* openReader(const std::string& path) {
     uint8_t magic[4] = { 0 };
     std::ifstream(path, std::ios::binary).read((char*)magic, sizeof(magic));
+#ifdef FLAC__NO_DLL
     if (!memcmp(magic, "fLaC", 4)) { return new FlacReader(path); }
+#endif
     if (!memcmp(magic, "RIFF", 4) || !memcmp(magic, "RF64", 4)) { return new WavReader(path); }
     return NULL;
 }

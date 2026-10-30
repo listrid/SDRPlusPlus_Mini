@@ -1,3 +1,5 @@
+#ifdef FLAC__NO_DLL
+
 #include "flac_reader.h"
 #include <utils/flog.h>
 #include <FLAC/stream_decoder.h>
@@ -240,3 +242,5 @@ namespace flac {
         d->fifoRead = 0;
     }
 }
+
+#endif

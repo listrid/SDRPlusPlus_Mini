@@ -73,6 +73,15 @@
     <Filter Include="fftw3\rdft\simd\sse2">
       <UniqueIdentifier>{8aa0b07c-81c6-41d1-ab17-c98c1f3dbb79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="muFFT">
+      <UniqueIdentifier>{9f9553bd-61d9-427d-8198-86fa324b8d3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="muFFT\x86">
+      <UniqueIdentifier>{4f61cc6a-311d-496d-ae68-95413dbb3994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pffft">
+      <UniqueIdentifier>{f7e2adfd-b34c-4b08-87e8-de30ff85fb6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\extern_static_lib\volk\constants.cpp">
@@ -84,28 +93,7 @@
     <ClCompile Include="..\src\extern_static_lib\volk\volk_cpu.cpp">
       <Filter>volk</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx.cpp">
-      <Filter>volk</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx2.cpp">
-      <Filter>volk</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_generic.cpp">
-      <Filter>volk</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse2.cpp">
-      <Filter>volk</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse3.cpp">
-      <Filter>volk</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse4_1.cpp">
-      <Filter>volk</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_sse4_2.cpp">
-      <Filter>volk</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_ssse3.cpp">
       <Filter>volk</Filter>
     </ClCompile>
     <ClCompile Include="..\src\extern_static_lib\volk\volk_machines.cpp">
@@ -3720,6 +3708,24 @@
     <ClCompile Include="..\src\extern_static_lib\fftw3\rdft\simd\sse2\hc2cfdftv_32.cpp">
       <Filter>fftw3\rdft\simd\sse2</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\muFFT\cpu.c">
+      <Filter>muFFT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\muFFT\fft.c">
+      <Filter>muFFT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\muFFT\kernel.c">
+      <Filter>muFFT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\muFFT\x86\kernel.avx.c">
+      <Filter>muFFT\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\pffft\pffft.c">
+      <Filter>pffft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\pffft\pffft_common.c">
+      <Filter>pffft</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\extern_static_lib\volk\volk_machines.h">
@@ -3910,6 +3916,15 @@
     </ClInclude>
     <ClInclude Include="..\src\extern_static_lib\fftw3\reodft\reodft.h">
       <Filter>fftw3\reodft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\muFFT\fft.h">
+      <Filter>muFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\muFFT\fft_internal.h">
+      <Filter>muFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\muFFT\x86\kernel.h">
+      <Filter>muFFT\x86</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
