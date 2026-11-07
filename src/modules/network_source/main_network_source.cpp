@@ -20,7 +20,7 @@ static ModuleManager::ModuleInfo_t network_source_INFO{
     /* Max instances    */ 1
 };
 
-static ConfigManager config;
+static ConfigManagerImpl config;
 
 enum Protocol {
     PROTOCOL_TCP_SERVER,
@@ -206,13 +206,13 @@ private:
 
         // Hostname and port field
         if (SmGui::InputText(("##network_source_host_" + _this->name).c_str(), _this->hostname, sizeof(_this->hostname))) {
-            config.edit().section(_this->name).set("host", _this->hostname);
+            config.edit().section(_this->name)["host"] = _this->hostname;
         }
         SmGui::SameLine();
         SmGui::FillWidth();
         if (SmGui::InputInt(("##network_source_port_" + _this->name).c_str(), &_this->port, 0, 0)) {
             _this->port = std::clamp<int>(_this->port, 1, 65535);
-            config.edit().section(_this->name).set("port", _this->port);
+            config.edit().section(_this->name)["port"] = _this->port;
         }
 
         // Mode protocol selector
@@ -220,7 +220,7 @@ private:
         SmGui::FillWidth();
         if (SmGui::Combo(("##network_source_proto_" + _this->name).c_str(), &_this->protoId, _this->protocols.txt)) {
             _this->proto = _this->protocols.value(_this->protoId);
-            config.edit().section(_this->name).set("protocol", _this->protocols.key(_this->protoId));
+            config.edit().section(_this->name)["protocol"] = _this->protocols.key(_this->protoId);
         }
 
         // Sample type selector
@@ -228,7 +228,7 @@ private:
         SmGui::FillWidth();
         if (SmGui::Combo(("##network_source_samp_" + _this->name).c_str(), &_this->sampTypeId, _this->sampleTypes.txt)) {
             _this->sampType = _this->sampleTypes.value(_this->sampTypeId);
-            config.edit().section(_this->name).set("sampleType", _this->sampleTypes.key(_this->sampTypeId));
+            config.edit().section(_this->name)["sampleType"] = _this->sampleTypes.key(_this->sampTypeId);
         }
 
         // Samplerate selector
@@ -244,7 +244,7 @@ private:
         if (SmGui::Button(("Apply##network_source_apply_" + _this->name).c_str())) {
             _this->samplerate = _this->tempSamplerate;
             core::setInputSampleRate(_this->samplerate);
-            config.edit().section(_this->name).set("samplerate", _this->samplerate);
+            config.edit().section(_this->name)["samplerate"] = _this->samplerate;
         }
         if (!applyEn) { SmGui::EndDisabled(); }
 

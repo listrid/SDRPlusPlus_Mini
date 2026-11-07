@@ -159,8 +159,6 @@ namespace dsp {
         {
             if(m_wBuf_Size < max_size)
             {
-                if(max_size > STREAM_BUFFER_SIZE)
-                    max_size = STREAM_BUFFER_SIZE;
                 m_wBuf_Size = (max_size + 15) & ~15;
                 if(m_wBuf) { buffer::free(m_wBuf); }
                 m_wBuf = buffer::alloc<T>(m_wBuf_Size);

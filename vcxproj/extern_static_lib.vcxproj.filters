@@ -17,17 +17,20 @@
     <Filter Include="rtaudio\include">
       <UniqueIdentifier>{ccb67b05-7801-4985-87c7-79dfffc767ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="libFLAC">
-      <UniqueIdentifier>{2e47a0e0-644e-4a21-8f72-7e7eb155c317}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="libFLAC\share">
-      <UniqueIdentifier>{e0af4476-bf94-49cb-b1e3-7a2c841731ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="libogg">
-      <UniqueIdentifier>{7b89a55c-5396-48fd-97ed-3a76415bdc67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="glfw3">
       <UniqueIdentifier>{a01fd15e-3b77-4eb1-99f5-780a3e6e9bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="muFFT">
+      <UniqueIdentifier>{feca8c0c-0e53-4886-8104-1cf9ab0f2738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="muFFT\x86">
+      <UniqueIdentifier>{1f6993fb-c8a2-4d1c-ae03-6e63d599adfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pffft">
+      <UniqueIdentifier>{4e4fc5a7-9ba6-4e4a-a6de-dba9203d9909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="volk">
+      <UniqueIdentifier>{995dc081-4c11-4f17-8f2e-8c683e16470e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,114 +87,6 @@
     </ClCompile>
     <ClCompile Include="..\src\extern_static_lib\rtaudio\include\iasiothiscallresolver.cpp">
       <Filter>rtaudio\include</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitmath.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitreader.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitwriter.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\cpu.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\crc.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_avx2.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_sse2.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_sse42.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_ssse3.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\float.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\format.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_avx2.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_fma.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_neon.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_sse2.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_sse41.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\md5.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\memory.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\metadata_iterators.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\metadata_object.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_decoder_aspect.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_encoder_aspect.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_helper.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_mapping.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_decoder.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_framing.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_avx2.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_sse2.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_ssse3.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\window.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\win_utf8_io.c">
-      <Filter>libFLAC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libogg\bitwise.c">
-      <Filter>libogg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\extern_static_lib\libogg\framing.c">
-      <Filter>libogg</Filter>
     </ClCompile>
     <ClCompile Include="..\src\extern_static_lib\glfw3\context.c">
       <Filter>glfw3</Filter>
@@ -256,6 +151,48 @@
     <ClCompile Include="..\src\extern_static_lib\glfw3\window.c">
       <Filter>glfw3</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\muFFT\cpu.c">
+      <Filter>muFFT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\muFFT\fft.c">
+      <Filter>muFFT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\muFFT\kernel.c">
+      <Filter>muFFT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\muFFT\x86\kernel.avx.c">
+      <Filter>muFFT\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\pffft\pffft.c">
+      <Filter>pffft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\pffft\pffft_common.c">
+      <Filter>pffft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\constants.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_cpu.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machines.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx2.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_malloc.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_prefs.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_rank_archs.cpp">
+      <Filter>volk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\extern_static_lib\rtaudio\RtAudio.h">
@@ -297,9 +234,6 @@
     <ClInclude Include="..\src\extern_static_lib\rtaudio\include\soundcard.h">
       <Filter>rtaudio\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\extern_static_lib\libogg\crctable.h">
-      <Filter>libogg</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\extern_static_lib\glfw3\null_joystick.h">
       <Filter>glfw3</Filter>
     </ClInclude>
@@ -320,6 +254,21 @@
     </ClInclude>
     <ClInclude Include="..\src\extern_static_lib\glfw3\win32_time.h">
       <Filter>glfw3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\muFFT\fft.h">
+      <Filter>muFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\muFFT\fft_internal.h">
+      <Filter>muFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\muFFT\x86\kernel.h">
+      <Filter>muFFT\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\volk\volk_machines.h">
+      <Filter>volk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\extern_static_lib\volk\volk_rank_archs.h">
+      <Filter>volk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -51,7 +51,9 @@ std::vector<int> build_g_value_table()
 G_calculate::G_calculate()
 {
 }
-short G_calculate::Initialize(int wlen) {
+
+short G_calculate::Initialize(int wlen)
+{
 	m_lwlen = wlen ;
 	m_linc = m_lwlen >> 1;
 	m_linc_move = log(m_linc) / log(2);

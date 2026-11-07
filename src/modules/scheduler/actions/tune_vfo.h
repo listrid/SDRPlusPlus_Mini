@@ -103,22 +103,6 @@ namespace sched_action {
             return true;
         }
 
-        void loadFromConfig(json config) {
-            if (config.contains("vfo")) { vfoName = config["vfo"]; }
-            if (config.contains("frequency")) { frequency = config["frequency"]; }
-            if (config.contains("tuningMode")) { tuningMode = config["tuningMode"]; }
-
-            name = "Tune \"" + vfoName + "\" to " + utils::formatFreq(frequency);
-        }
-
-        json saveToConfig() {
-            json config;
-            config["vfo"] = vfoName;
-            config["frequency"] = frequency;
-            config["tuningMode"] = tuningMode;
-            return config;
-        }
-
         std::string getName() {
             return name;
         }
@@ -128,8 +112,8 @@ namespace sched_action {
         std::vector<std::string> vfoNames;
         std::string vfoNamesTxt;
 
-        std::string vfoName = "";
-        double frequency = 0;
+        std::string vfoName = "Radio";
+        double frequency = 103500000.0;
         int tuningMode = 0;
 
         double tmpFrequency;

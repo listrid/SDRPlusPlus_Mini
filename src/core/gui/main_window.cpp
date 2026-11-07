@@ -96,39 +96,31 @@ void MainWindow::init() {
 
     credits::init();
 
-    json menuElements = core::configManager.read().value("menuElements", json::array());
+    const auto menuElements = core::configManager.read().section("menuElements").peek();
     std::string modulesDir = core::getModulesDirectory();
     std::string resourcesDir = core::getResourcesDirectory();
 #ifdef _DEBUG
     modulesDir = ".";
 #endif
-    for(size_t i = 0; modules[i]; i++) {
+    for(size_t i = 0; modules[i]; i++) 
         core::moduleManager.addModule(*modules[i]);
-    }
     
     // Load menu elements
     gui::menu.order.clear();
-    for (auto& elem : menuElements) {
-        if (!elem.contains("name")) {
-            flog::error("Menu element is missing name key");
-            continue;
-        }
-        if (!elem["name"].is_string()) {
-            flog::error("Menu element name isn't a string");
-            continue;
-        }
-        if (!elem.contains("open")) {
-            flog::error("Menu element is missing open key");
-            continue;
-        }
-        if (!elem["open"].is_boolean()) {
-            flog::error("Menu element name isn't a string");
-            continue;
-        }
+    for (auto& o : menuElements) {
         Menu::MenuOption_t opt;
-        opt.name = elem["name"];
-        opt.open = elem["open"];
-        gui::menu.order.push_back(opt);
+        auto elem = o.toSection();
+        if (!elem.tryGet("name", opt.name))
+        {
+            flog::error("Menu element is missing name key (string)");
+            continue;
+        }
+        if (!elem.tryGet("open", opt.open))
+        {
+            flog::error("Menu element is missing open key (bool)");
+            continue;
+        }
+       gui::menu.order.push_back(opt);
     }
 
     gui::menu.registerEntry("Source", sourcemenu::draw, NULL);
@@ -175,13 +167,11 @@ void MainWindow::init() {
 
     // Read module config
     std::vector<std::string> modules;
-    json moduleInstances;
-    {
-        auto configAccess = core::configManager.read();
-        configAccess.tryGet("modules", modules);
-        moduleInstances = configAccess.value("moduleInstances", json::object());
-    }
-    auto modList = moduleInstances.items();
+    auto configAccess = core::configManager.read();
+    configAccess.tryGet("modules", modules);
+    auto moduleInstances = configAccess.section("moduleInstances");
+
+    auto modList = moduleInstances.peek();
 
     // Load additional modules specified through config. Relative paths are
     // interpreted relative to the executable's directory, like the module and
@@ -198,39 +188,48 @@ void MainWindow::init() {
     }
 
     // Create module instances
-    for (auto const& [name, _module] : modList) {
-        std::string mod = _module["module"];
-        bool enabled = _module["enabled"];
+    for (auto const& o : modList)
+    {
+        auto elem = o.toSection();
+        bool enabled;
+        std::string mod;
+        std::string name = o.GetName();
+        if(!elem.tryGet("module", mod))
+            continue;
+        if(!elem.tryGet("enabled", enabled))
+            continue;
         flog::info("Initializing {0} ({1})", name, mod);
-        LoadingScreen::show("Initializing " + name + " (" + mod + ")");
+        LoadingScreen::show(std::string("Initializing ") + name + " (" + mod + ")");
         core::moduleManager.createInstance(name, mod);
-        if (!enabled) { core::moduleManager.disableInstance(name); }
+        if (!enabled)
+            core::moduleManager.disableInstance(name);
     }
 
     // Load color maps
     LoadingScreen::show("Loading color maps");
     flog::info("Loading color maps");
     colormaps::loadDefMaps();
-    if (std::filesystem::is_directory(resourcesDir + "/colormaps")) {
-        for (const auto& file : std::filesystem::directory_iterator(resourcesDir + "/colormaps")) {
+    if (std::filesystem::is_directory(resourcesDir + "/colormaps"))
+    {
+        for (const auto& file : std::filesystem::directory_iterator(resourcesDir + "/colormaps"))
+        {
             std::string path = file.path().generic_string();
             LoadingScreen::show("Loading " + file.path().filename().string());
             flog::info("Loading {0}", path);
-            if (file.path().extension().generic_string() != ".json") {
+            if (file.path().extension().generic_string() != ".json")
                 continue;
-            }
-            if (!file.is_regular_file()) { continue; }
+            if (!file.is_regular_file())
+                continue;
             colormaps::loadMap(path);
         }
     }
 
     // Look the default up instead of indexing: maps[] would insert an empty
     // "Turbo" that then shows up as a selectable, unusable entry in the menu.
-    if (const auto turbo = colormaps::maps.find("Turbo"); turbo != colormaps::maps.end()) {
-        gui::waterfall.updatePalletteFromArray(
-            turbo->second.colors.data(), turbo->second.entryCount());
-    }
-    else {
+    if (const auto turbo = colormaps::g_maps.find("Turbo"); turbo != colormaps::g_maps.end())
+    {
+        gui::waterfall.updatePalletteFromArray(turbo->second.colors.data(), turbo->second.entryCount());
+    }else{
         flog::error("Default color map 'Turbo' is missing");
     }
 
@@ -253,8 +252,6 @@ void MainWindow::init() {
     // source and steps the module manager, which reach for the config themselves.
     double frequency = 0.0;
     bool stickyAutoRange = false;
-    float rawMenuWidth = 270.0f;
-    float rawFftHeight = 150.0f;
     bool centerTuning = false;
     {
         auto configAccess = core::configManager.read();
@@ -263,8 +260,8 @@ void MainWindow::init() {
         stickyAutoRange = configAccess.value("waterfallAutoRange", false);
         configAccess.tryGet("frequency", frequency);
         configAccess.tryGet("showMenu", showMenu);
-        rawMenuWidth = configAccess.value("menuWidth", rawMenuWidth);
-        rawFftHeight = configAccess.value("fftHeight", rawFftHeight);
+        menuWidth = style::scaleOrPhysical(configAccess.value("menuWidth", int64_t(270)), 270.0f);
+        fftHeight = style::scale(configAccess.value("fftHeight", int64_t(150)));
         centerTuning = configAccess.value("centerTuning", false);
     }
 
@@ -287,10 +284,8 @@ void MainWindow::init() {
     // Current configs store logical units and are scaled here. Some test
     // builds wrote already-scaled physical widths without a version marker;
     // keep those as physical so they do not get multiplied again.
-    menuWidth = style::scaleOrPhysical(rawMenuWidth, 270.0f);
     newWidth = menuWidth;
 
-    fftHeight = style::scale(rawFftHeight);
     gui::waterfall.setFFTHeight(fftHeight);
 
     tuningMode = centerTuning ? tuner::TUNER_MODE_CENTER : tuner::TUNER_MODE_NORMAL;
@@ -331,8 +326,8 @@ void MainWindow::onContentScaleChanged(float oldScale) {
     fftHeight = style::rescale(fftHeight, oldScale);
     gui::waterfall.setFFTHeight(fftHeight);
     auto configAccess = core::configManager.edit();
-    configAccess.set("menuWidth", style::unscale(menuWidth));
-    configAccess.set("fftHeight", style::unscale(fftHeight));
+    configAccess["menuWidth"] = style::unscale(menuWidth);
+    configAccess["fftHeight"] = style::unscale(fftHeight);
 }
 
 void MainWindow::vfoAddedHandler(VFOManager::VFO* vfo, void* ctx) {
@@ -396,9 +391,7 @@ void MainWindow::draw() {
             }
             gui::freqSelect.setFrequency(gui::waterfall.getCenterFrequency() + vfo->m_generalOffset);
             gui::freqSelect.frequencyChanged = false;
-            core::configManager.edit()
-                .section("vfoOffsets")
-                .set(gui::waterfall.m_selectedVFO, vfo->m_generalOffset);
+            core::configManager.edit().section("vfoOffsets")[gui::waterfall.m_selectedVFO] = vfo->m_generalOffset;
         }
     }
 
@@ -422,9 +415,9 @@ void MainWindow::draw() {
             vfo->m_upperOffsetChanged = false;
         }
         auto configAccess = core::configManager.edit();
-        configAccess.set("frequency", gui::waterfall.getCenterFrequency());
+        configAccess["frequency"] = gui::waterfall.getCenterFrequency();
         if (vfo != NULL) {
-            configAccess.section("vfoOffsets").set(gui::waterfall.m_selectedVFO, vfo->m_generalOffset);
+            configAccess.section("vfoOffsets")[gui::waterfall.m_selectedVFO] = vfo->m_generalOffset;
         }
     }
 
@@ -433,13 +426,13 @@ void MainWindow::draw() {
         gui::waterfall.m_centerFreqMoved = false;
         sigpath::sourceManager.tune(gui::waterfall.getCenterFrequency());
         gui::freqSelect.setFrequency(gui::waterfall.getCenterFrequency() + (vfo == NULL ? 0 : vfo->m_generalOffset));
-        core::configManager.edit().set("frequency", gui::waterfall.getCenterFrequency());
+        core::configManager.edit()["frequency"] = gui::waterfall.getCenterFrequency();
     }
 
     int _fftHeight = gui::waterfall.getFFTHeight();
     if (fftHeight != _fftHeight) {
         fftHeight = _fftHeight;
-        core::configManager.edit().set("fftHeight", style::unscale(fftHeight));
+        core::configManager.edit()["fftHeight"] = style::unscale(fftHeight);
     }
 
 #if 1
@@ -490,7 +483,7 @@ void MainWindow::draw() {
 #endif
     if (menuClicked) {
         showMenu = !showMenu;
-        core::configManager.edit().set("showMenu", showMenu);
+        core::configManager.edit()["showMenu"] = showMenu;
     }
     ImGui::PopID();
 
@@ -525,7 +518,7 @@ void MainWindow::draw() {
     // Logo geometry, needed here because the level meter is right-aligned
     // against the space the logo reserves: the logo plus the gap in front of it.
     const float logoSize       = (float)style::scale(32.0f);
-    const float logoRightInset = (float)style::scale(16.0f);
+    const float logoRightInset = (float)style::scale(4);// (float)style::scale(16.0f);
     const float meterOffset    = logoSize + logoRightInset + ImGui::GetStyle().ItemSpacing.x;
 
     // The volume slider and the level meter share the space left over after the
@@ -598,7 +591,7 @@ void MainWindow::draw() {
         if (ImGui::ImageButton(icons::CENTER_TUNING, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol)) {
             tuningMode = tuner::TUNER_MODE_NORMAL;
             gui::waterfall.m_VFOMoveSingleClick = false;
-            core::configManager.edit().set("centerTuning", false);
+            core::configManager.edit()["centerTuning"] = false;
         }
         ImGui::PopID();
     }
@@ -608,7 +601,7 @@ void MainWindow::draw() {
             tuningMode = tuner::TUNER_MODE_CENTER;
             gui::waterfall.m_VFOMoveSingleClick = true;
             tuner::tune(tuner::TUNER_MODE_CENTER, gui::waterfall.m_selectedVFO, gui::freqSelect.frequency);
-            core::configManager.edit().set("centerTuning", true);
+            core::configManager.edit()["centerTuning"] = true;
         }
         ImGui::PopID();
     }
@@ -755,7 +748,7 @@ void MainWindow::draw() {
         if (!down && grabbingMenu) {
             grabbingMenu = false;
             menuWidth = newWidth;
-            core::configManager.edit().set("menuWidth", style::unscale(menuWidth));
+            core::configManager.edit()["menuWidth"] = style::unscale(menuWidth);
 #ifdef __ANDROID__
             backend::hapticTick();
 #endif
@@ -764,20 +757,22 @@ void MainWindow::draw() {
 
     // Process menu keybinds
     displaymenu::checkKeybinds();
-
+    const float currentRightPanelWidth = 46.0f;
     // Left Column
     if (showMenu) {
         ImGui::Columns(3, "WindowColumns", false);
         ImGui::SetColumnWidth(0, menuWidth);
-        ImGui::SetColumnWidth(1, std::max<int>(winSize.x - menuWidth - (60.0f * style::uiScale), 100.0f * style::uiScale));
-        ImGui::SetColumnWidth(2, 60.0f * style::uiScale);
+        ImGui::SetColumnWidth(1, std::max<int>(winSize.x - menuWidth - (currentRightPanelWidth * style::uiScale), 100.0f * style::uiScale));
+        ImGui::SetColumnWidth(2, currentRightPanelWidth * style::uiScale);
         ImGui::BeginChild("Left Column");
 
         if (gui::menu.draw(firstMenuRender)) {
-            json arr = json::array();
-            for (int i = 0; i < gui::menu.order.size(); i++) {
-                arr[i]["name"] = gui::menu.order[i].name;
-                arr[i]["open"] = gui::menu.order[i].open;
+
+            auto arr = core::configManager.edit().array("menuElements");
+            for (int i = 0; i < gui::menu.order.size(); i++)
+            {
+                 arr[i]["name"] = gui::menu.order[i].name;
+                 arr[i]["open"] = gui::menu.order[i].open;
             }
 
             // isEnabled() is plugin-owned code. Query it before taking the core
@@ -785,24 +780,22 @@ void MainWindow::draw() {
             // access to its own ConfigManager.
             std::vector<std::pair<std::string, bool>> instanceStates;
             instanceStates.reserve(core::moduleManager.instances.size());
-            for (const auto& [_name, inst] : core::moduleManager.instances) {
+            for (const auto& [_name, inst] : core::moduleManager.instances)
                 instanceStates.emplace_back(_name, inst.instance->isEnabled());
-            }
-
-            auto configAccess = core::configManager.edit();
-            configAccess.set("menuElements", arr);
 
             // Update enabled and disabled modules
-            ConfigManager::EditSection instances = configAccess.section("moduleInstances");
-            for (const auto& [_name, enabled] : instanceStates) {
-                if (!instances.contains(_name.c_str())) { continue; }
-                instances.section(_name).set("enabled", enabled);
+            ConfigManager::EditSection instances = core::configManager.edit().section("moduleInstances");
+            for (const auto& [_name, enabled] : instanceStates)
+            {
+                if (!instances.contains(_name.c_str()))
+                    continue;
+                instances.section(_name)["enabled"] = enabled;
             }
         }
-        if (startedWithMenuClosed) {
+        if(startedWithMenuClosed)
+        {
             startedWithMenuClosed = false;
-        }
-        else {
+        }else{
             firstMenuRender = false;
         }
 
@@ -841,7 +834,7 @@ void MainWindow::draw() {
         // When hiding the menu bar
         ImGui::Columns(3, "WindowColumns", false);
         ImGui::SetColumnWidth(0, 8 * style::uiScale);
-        ImGui::SetColumnWidth(1, winSize.x - ((8 + 60) * style::uiScale));
+        ImGui::SetColumnWidth(1, winSize.x - ((8 + currentRightPanelWidth) * style::uiScale));
         ImGui::SetColumnWidth(2, 60.0f * style::uiScale);
     }
 
@@ -890,9 +883,9 @@ void MainWindow::draw() {
             }
             if (freqChanged) {
                 auto configAccess = core::configManager.edit();
-                configAccess.set("frequency", gui::waterfall.getCenterFrequency());
+                configAccess["frequency"] = gui::waterfall.getCenterFrequency();
                 if (vfo != NULL) {
-                    configAccess.section("vfoOffsets").set(gui::waterfall.m_selectedVFO, vfo->m_generalOffset);
+                    configAccess.section("vfoOffsets")[gui::waterfall.m_selectedVFO] = vfo->m_generalOffset;
                 }
             }
         }
@@ -934,15 +927,25 @@ void MainWindow::draw() {
             tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, nfreq);
             gui::freqSelect.setFrequency(nfreq);
             auto configAccess = core::configManager.edit();
-            configAccess.set("frequency", gui::waterfall.getCenterFrequency());
+            configAccess["frequency"] = gui::waterfall.getCenterFrequency();
             if (vfo != NULL) {
-                configAccess.section("vfoOffsets").set(gui::waterfall.m_selectedVFO, vfo->m_generalOffset);
+                configAccess.section("vfoOffsets")[gui::waterfall.m_selectedVFO] = vfo->m_generalOffset;
             }
         }
     }
 
+
+
+    float leftMenuWidth = ImGui::GetColumnWidth(0);
+    float exactWaterfallWidth = ImGui::GetWindowSize().x - leftMenuWidth - ((currentRightPanelWidth -2) * style::uiScale);
+    ImGui::SetColumnWidth(1, exactWaterfallWidth);
+
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
     ImGui::NextColumn();
     drawWaterfallControls(vfo, textCol);
+    ImGui::PopStyleVar();
+
+
 
     // Continuous ("sticky") auto-range steps here (outside the controls child)
     // so it keeps tracking even when the menu is collapsed.
@@ -1026,7 +1029,7 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
     // against a ~7.6 mm minimum touch target, in a column with 6 mm of unused
     // width either side -- so the touch style gets a much wider track, and the
     // grab is bumped with it where it is pushed below.
-    const float sliderW = std::floor(std::min(style::dp(style::touchStyle ? 40.0f : 20.0f), avail.x - 2.0f * style::dp(6.0f)));
+    const float sliderW = btnSide; // std::floor(std::min(style::dp(style::touchStyle ? 60.0f : 40.0f), avail.x - 2.0f * style::dp(2.0f)));
 
     // Fixed (non-slider) cost: one label per slider, the autoscale button, and
     // the gap ImGui inserts between consecutive items. That inter-item gap has
@@ -1106,8 +1109,8 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
     if (rangeSliderChanged) {
         fftMax = fftMin + wfRange;
         auto configAccess = core::configManager.edit();
-        configAccess.set("min", fftMin);
-        configAccess.set("max", fftMax);
+        configAccess["min"] = fftMin;
+        configAccess["max"] = fftMax;
     }
 
     if (sliderSeparators) ImGui::NewLine();
@@ -1129,8 +1132,8 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
             fftMin = wfRef;
             fftMax = wfRef + range;
             auto configAccess = core::configManager.edit();
-            configAccess.set("min", fftMin);
-            configAccess.set("max", fftMax);
+            configAccess["min"] = fftMin;
+            configAccess["max"] = fftMax;
         }
         ImGui::EndDisabled();
 

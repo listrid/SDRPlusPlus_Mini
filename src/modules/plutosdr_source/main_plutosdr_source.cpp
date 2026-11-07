@@ -21,7 +21,7 @@ static ModuleManager::ModuleInfo_t plutosdr_source_INFO{
     /* Max instances    */ 1
 };
 
-static ConfigManager config;
+static ConfigManagerImpl config;
 
 static const std::vector<const char*> deviceWhiteList = {
     "PlutoSDR",
@@ -65,16 +65,17 @@ public:
 
             // Load manual IP configuration
 
-            if (configAccess.contains("manualIP")) {
-                std::string ipStr = configAccess.value("manualIP", std::string());
-                strcpy(manualIP, ipStr.c_str());
+            if (configAccess.contains("manualIP"))
+            {
+                strcpy(manualIP, configAccess.value("manualIP", "").data());
             }
-            if (configAccess.contains("useManualIP")) {
-                useManualIP = configAccess.value("useManualIP", bool());
+            if (configAccess.contains("useManualIP"))
+            {
+                useManualIP = configAccess.value("useManualIP", false);
             }
 
             // Select device
-            devDesc = configAccess.value("device", std::string());
+            devDesc = std::string(configAccess.value("device", ""));
         }
         refresh();
         select(devDesc);
@@ -380,14 +381,14 @@ private:
         if (SmGui::Combo("##plutosdr_dev_sel", &_this->devId, _this->devices.txt)) {
             _this->select(_this->devices.key(_this->devId));
             core::setInputSampleRate(_this->samplerate);
-            config.edit().set("device", _this->devices.key(_this->devId));
+            config.edit()["device"] = _this->devices.key(_this->devId);
         }
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
         if (SmGui::Combo(CONCAT("##_pluto_sr_", _this->name), &_this->srId, _this->samplerates.txt)) {
             _this->samplerate = _this->samplerates.value(_this->srId);
             core::setInputSampleRate(_this->samplerate);
             if (!_this->devDesc.empty()) {
-                config.edit().section("devices", _this->devDesc).set("samplerate", _this->samplerate);
+                config.edit().section("devices", _this->devDesc)["samplerate"] = _this->samplerate;
             }
         }
 
@@ -404,7 +405,7 @@ private:
 
         // Manual IP configuration section
         if (SmGui::Checkbox(CONCAT("Use Manual IP##_pluto_manual_ip_", _this->name), &_this->useManualIP)) {
-            config.edit().set("useManualIP", _this->useManualIP);
+            config.edit()["useManualIP"] = _this->useManualIP;
 
             // Refresh device list to include/exclude manual IP entry
             _this->refresh();
@@ -418,7 +419,7 @@ private:
             SmGui::FillWidth();
             if (SmGui::InputText(CONCAT("##_pluto_manual_ip_input_", _this->name), _this->manualIP, 127)) {
 
-                config.edit().set("manualIP", std::string(_this->manualIP));
+                config.edit()["manualIP"] = std::string(_this->manualIP);
 
                 // Refresh device list to update manual IP entry
                 _this->refresh();
@@ -435,7 +436,7 @@ private:
                 _this->setBandwidth(_this->bandwidth);
             }
             if (!_this->devDesc.empty()) {
-                config.edit().section("devices", _this->devDesc).set("bandwidth", _this->bandwidth);
+                config.edit().section("devices", _this->devDesc)["bandwidth"] = _this->bandwidth;
             }
         }
 
@@ -447,7 +448,7 @@ private:
                 iio_channel_attr_write(_this->rxChan, "gain_control_mode", _this->gainModes.value(_this->gmId).c_str());
             }
             if (!_this->devDesc.empty()) {
-                config.edit().section("devices", _this->devDesc).set("gainMode", _this->gainModes.key(_this->gmId));
+                config.edit().section("devices", _this->devDesc)["gainMode"] = _this->gainModes.key(_this->gmId);
             }
         }
 
@@ -459,7 +460,7 @@ private:
                 iio_channel_attr_write_double(_this->rxChan, "hardwaregain", _this->gain);
             }
             if (!_this->devDesc.empty()) {
-                config.edit().section("devices", _this->devDesc).set("gain", _this->gain);
+                config.edit().section("devices", _this->devDesc)["gain"] = _this->gain;
             }
         }
         if (_this->gmId) { SmGui::EndDisabled(); }
@@ -471,7 +472,7 @@ private:
         SmGui::ForceSync();
         if (SmGui::Combo(CONCAT("##_pluto_rfinput_", _this->name), &_this->rfId, _this->rfInputs.txt)) {
             if (!_this->devDesc.empty()) {
-                config.edit().section("devices", _this->devDesc).set("rfInput", _this->rfInputs.key(_this->rfId));
+                config.edit().section("devices", _this->devDesc)["rfInput"] = _this->rfInputs.key(_this->rfId);
             }
         }
         if (_this->running) { SmGui::EndDisabled(); }
@@ -623,20 +624,18 @@ private:
 };
 
 static void plutosdr_source_INIT() {
-    json defConf = {};
-    defConf["device"] = "";
-    defConf["devices"] = {};
-    defConf["manualIP"] = "192.168.2.1";
-    defConf["useManualIP"] = false;
-    config.setFile("plutosdr_source.json");
-    config.load(&defConf);
-    config.enableAutoSave();
 
-    // Reset the configuration if the old format is still used
-    {
+    config.setFile("plutosdr_source.json");
+    config.load();
+    config.enableAutoSave();
+    {// Reset the configuration if the old format is still used
         auto configAccess = config.edit();
-        if (!configAccess.contains("device") || !configAccess.contains("devices")) {
-            configAccess.reset(defConf);
+        if (!configAccess.contains("device") || !configAccess.contains("devices"))
+        {
+            configAccess["device"] = "";
+            configAccess.section("devices");
+            configAccess["manualIP"] = "192.168.2.1";
+            configAccess["useManualIP"] = false;
         }
     }
 }

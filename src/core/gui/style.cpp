@@ -196,15 +196,15 @@ namespace style {
         if (touchStyle) { applyTouchOverlay(); }
     }
 
-    void migrateLogicalDimension(ConfigManager::EditAccess& configAccess, const char* valueKey, const char* markerKey, float minLogical, const std::function<bool(float)>& valueLooksPhysical) {
+    void migrateLogicalDimension(ConfigManager::EditSection& configAccess, const char* valueKey, const char* markerKey, float minLogical, const std::function<bool(float)>& valueLooksPhysical) {
         if (configAccess.value(markerKey, false)) { return; }
 
         float value = configAccess.value(valueKey, minLogical);
         if (valueLooksPhysical(value)) {
             value = (float)unscale(value);
         }
-        configAccess.set(valueKey, (int)std::round(std::max(value, minLogical)));
-        configAccess.set(markerKey, true);
+        configAccess[valueKey] = (int)std::round(std::max(value, minLogical));
+        configAccess[markerKey] = true;
     }
 
     float menuButtonInset() {

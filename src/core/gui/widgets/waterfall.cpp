@@ -13,7 +13,8 @@
 #include <android_backend.h>
 #endif
 
-float DEFAULT_COLOR_MAP[][3] = {
+float DEFAULT_COLOR_MAP[][3] =
+{
     { 0x00, 0x00, 0x20 },
     { 0x00, 0x00, 0x30 },
     { 0x00, 0x00, 0x50 },
@@ -31,7 +32,8 @@ float DEFAULT_COLOR_MAP[][3] = {
 
 // TODO: Fix this hacky BS
 
-double freq_ranges[] = {
+double freq_ranges[] = 
+{
     1.0, 2.0, 2.5, 5.0,
     10.0, 20.0, 25.0, 50.0,
     100.0, 200.0, 250.0, 500.0,
@@ -42,39 +44,42 @@ double freq_ranges[] = {
     10000000.0, 20000000.0, 25000000.0, 50000000.0
 };
 
-inline double findBestRange(double bandwidth, int maxSteps) {
-    for (int i = 0; i < 32; i++) {
-        if (bandwidth / freq_ranges[i] < (double)maxSteps) {
+inline double findBestRange(double bandwidth, int maxSteps)
+{
+    for (int i = 0; i < 32; i++)
+    {
+        if (bandwidth / freq_ranges[i] < (double)maxSteps)
             return freq_ranges[i];
-        }
     }
     return 50000000.0;
 }
 
-inline void printAndScale(double freq, char* buf) {
+inline void printAndScale(double freq, char* buf)
+{
     double freqAbs = fabs(freq);
-    if (freqAbs < 1000) {
+    if (freqAbs < 1000)
+    {
         sprintf(buf, "%.6g", freq);
-    }
-    else if (freqAbs < 1000000) {
+    }else if (freqAbs < 1000000)
+    {
         sprintf(buf, "%.6lgK", freq / 1000.0);
-    }
-    else if (freqAbs < 1000000000) {
+    }else if (freqAbs < 1000000000)
+    {
         sprintf(buf, "%.6lgM", freq / 1000000.0);
-    }
-    else if (freqAbs < 1000000000000) {
+    }else if (freqAbs < 1000000000000)
+    {
         sprintf(buf, "%.6lgG", freq / 1000000000.0);
     }
 }
 
-inline void doZoom(int offset, int width, int inSize, int outSize, float* in, float* out) {
+inline void doZoom(int offset, int width, int inSize, int outSize, float* in, float* out)
+{
     // NOTE: REMOVE THAT SHIT, IT'S JUST A HACKY FIX
-    if (offset < 0) {
+    if (offset < 0)
         offset = 0;
-    }
-    if (width > 524288) {
+
+    if (width > 524288)
         width = 524288;
-    }
 
     float factor = (float)width / (float)outSize;
     float sFactor = ceilf(factor);
@@ -82,20 +87,25 @@ inline void doZoom(int offset, int width, int inSize, int outSize, float* in, fl
     float id = offset;
     float maxVal;
     int sId;
-    for (int i = 0; i < outSize; i++) {
+    for (int i = 0; i < outSize; i++)
+    {
         maxVal = -INFINITY;
         sId = (int)id;
         uFactor = (sId + sFactor > inSize) ? sFactor - ((sId + sFactor) - inSize) : sFactor;
-        for (int j = 0; j < uFactor; j++) {
-            if (in[sId + j] > maxVal) { maxVal = in[sId + j]; }
+        for (int j = 0; j < uFactor; j++)
+        {
+            if (in[sId + j] > maxVal)
+                maxVal = in[sId + j];
         }
         out[i] = maxVal;
         id += factor;
     }
 }
 
-namespace ImGui {
-    WaterFall::WaterFall() {
+namespace ImGui
+{
+    WaterFall::WaterFall()
+    {
         m_fftMin = -70.0;
         m_fftMax = 0.0;
         m_waterfallMin = -70.0;
@@ -112,7 +122,8 @@ namespace ImGui {
         m_latestFFTHold = new float[m_dataWidth];
         // Fill with the "hide everything" sentinel so the buffers hold a
         // well-defined value before the first FFT frame / onResize() fill.
-        for (int i = 0; i < m_dataWidth; i++) {
+        for (int i = 0; i < m_dataWidth; i++)
+        {
             m_latestFFT[i] = -1000.0f;
             m_latestFFTHold[i] = -1000.0f;
         }
@@ -124,7 +135,8 @@ namespace ImGui {
         updatePallette(DEFAULT_COLOR_MAP, 13);
     }
 
-    void WaterFall::init() {
+    void WaterFall::init()
+    {
         glGenTextures(1, &m_textureId);
     }
 
@@ -137,17 +149,16 @@ namespace ImGui {
         char buf[100];
 
         ImU32 trace = ImGui::GetColorU32(ImGuiCol_PlotLines);
-        ImU32 traceHold = ImGui::ColorConvertFloat4ToU32(gui::themeManager.fftHoldColor);
+        ImU32 traceHold = ImGui::ColorConvertFloat4ToU32(gui::themeManager.m_fftHoldColor);
         ImU32 shadow = ImGui::GetColorU32(ImGuiCol_PlotLines, 0.2);
         ImU32 text = ImGui::GetColorU32(ImGuiCol_Text);
         float textVOffset = (float)style::scale(10.0f);
 
         // Vertical scale
-        for (float line = startLine; line > m_fftMin; line -= m_vRange) {
+        for (float line = startLine; line > m_fftMin; line -= m_vRange)
+        {
             float yPos = m_fftAreaMax.y - ((line - m_fftMin) * scaleFactor);
-            m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x, roundf(yPos)),
-                                      ImVec2(m_fftAreaMax.x, roundf(yPos)),
-                                      IM_COL32(50, 50, 50, 255), style::lineWidth());
+            m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x, roundf(yPos)), ImVec2(m_fftAreaMax.x, roundf(yPos)), IM_COL32(50, 50, 50, 255), style::lineWidth());
             sprintf(buf, "%d", (int)line);
             ImVec2 txtSz = ImGui::CalcTextSize(buf);
             m_window->DrawList->AddText(ImVec2(m_fftAreaMin.x - txtSz.x - textVOffset, roundf(yPos - (txtSz.y / 2.0))), text, buf);
@@ -157,7 +168,8 @@ namespace ImGui {
         double startFreq = ceilf(m_lowerFreq / m_range) * m_range;
         double horizScale = (double)m_dataWidth / m_viewBandwidth;
         float scaleVOfsset = (float)style::scale(7.0f);
-        for (double freq = startFreq; freq < m_upperFreq; freq += m_range) {
+        for (double freq = startFreq; freq < m_upperFreq; freq += m_range)
+        {
             double xPos = m_fftAreaMin.x + ((freq - m_lowerFreq) * horizScale);
             m_window->DrawList->AddLine(ImVec2(roundf(xPos), m_fftAreaMin.y + 1),
                                       ImVec2(roundf(xPos), m_fftAreaMax.y),
@@ -171,28 +183,29 @@ namespace ImGui {
         }
 
         // Data
-        if (m_latestFFT != NULL && m_fftLines != 0) {
-            for (int i = 1; i < m_dataWidth; i++) {
+        if (m_latestFFT != NULL && m_fftLines != 0)
+        {
+            for (int i = 1; i < m_dataWidth; i++)
+            {
                 double aPos = m_fftAreaMax.y - ((m_latestFFT[i - 1] - m_fftMin) * scaleFactor);
                 double bPos = m_fftAreaMax.y - ((m_latestFFT[i] - m_fftMin) * scaleFactor);
                 aPos = std::clamp<double>(aPos, m_fftAreaMin.y + 1, m_fftAreaMax.y);
                 bPos = std::clamp<double>(bPos, m_fftAreaMin.y + 1, m_fftAreaMax.y);
-                m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x + i - 1, roundf(aPos)),
-                                          ImVec2(m_fftAreaMin.x + i, roundf(bPos)), trace, 1.0);
-                m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x + i, roundf(bPos)),
-                                          ImVec2(m_fftAreaMin.x + i, m_fftAreaMax.y), shadow, 1.0);
+                m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x + i - 1, roundf(aPos)), ImVec2(m_fftAreaMin.x + i, roundf(bPos)), trace, 1.0);
+                m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x + i, roundf(bPos)), ImVec2(m_fftAreaMin.x + i, m_fftAreaMax.y), shadow, 1.0);
             }
         }
 
         // Hold
-        if (m_fftHold && m_latestFFT != NULL && m_latestFFTHold != NULL && m_fftLines != 0) {
-            for (int i = 1; i < m_dataWidth; i++) {
+        if (m_fftHold && m_latestFFT != NULL && m_latestFFTHold != NULL && m_fftLines != 0)
+        {
+            for (int i = 1; i < m_dataWidth; i++)
+            {
                 double aPos = m_fftAreaMax.y - ((m_latestFFTHold[i - 1] - m_fftMin) * scaleFactor);
                 double bPos = m_fftAreaMax.y - ((m_latestFFTHold[i] - m_fftMin) * scaleFactor);
                 aPos = std::clamp<double>(aPos, m_fftAreaMin.y + 1, m_fftAreaMax.y);
                 bPos = std::clamp<double>(bPos, m_fftAreaMin.y + 1, m_fftAreaMax.y);
-                m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x + i - 1, roundf(aPos)),
-                                          ImVec2(m_fftAreaMin.x + i, roundf(bPos)), traceHold, 1.0);
+                m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x + i - 1, roundf(aPos)), ImVec2(m_fftAreaMin.x + i, roundf(bPos)), traceHold, 1.0);
             }
         }
 
@@ -207,17 +220,15 @@ namespace ImGui {
         m_onFFTRedraw.emit(args);
 
         // X Axis
-        m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x, m_fftAreaMax.y),
-                                  ImVec2(m_fftAreaMax.x, m_fftAreaMax.y),
-                                  text, style::lineWidth());
+        m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x, m_fftAreaMax.y), ImVec2(m_fftAreaMax.x, m_fftAreaMax.y), text, style::lineWidth());
         // Y Axis
-        m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x, m_fftAreaMin.y),
-                                  ImVec2(m_fftAreaMin.x, m_fftAreaMax.y - 1),
-                                  text, style::lineWidth());
+        m_window->DrawList->AddLine(ImVec2(m_fftAreaMin.x, m_fftAreaMin.y), ImVec2(m_fftAreaMin.x, m_fftAreaMax.y - 1), text, style::lineWidth());
     }
 
-    void WaterFall::drawWaterfall() {
-        if (m_waterfallUpdate) {
+    void WaterFall::drawWaterfall()
+    {
+        if (m_waterfallUpdate)
+        {
             m_waterfallUpdate = false;
             updateWaterfallTexture();
         }
@@ -228,18 +239,22 @@ namespace ImGui {
         
         ImVec2 mPos = ImGui::GetMousePos();
 
-        if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None) &&
-            IS_IN_AREA(mPos, m_wfMin, m_wfMax) && !gui::mainWindow.lockWaterfallControls && !m_inputHandled) {
-            for (auto const& [name, vfo] : m_map_vfos) {
+        if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None) && IS_IN_AREA(mPos, m_wfMin, m_wfMax) && !gui::mainWindow.lockWaterfallControls && !m_inputHandled)
+        {
+            for (auto const& [name, vfo] : m_map_vfos)
+            {
                 m_window->DrawList->AddRectFilled(vfo->m_wfRectMin, vfo->m_wfRectMax, vfo->m_color);
-                if (!vfo->m_lineVisible) { continue; }
+                if (!vfo->m_lineVisible)
+                    continue;
                 m_window->DrawList->AddLine(vfo->m_wfLineMin, vfo->m_wfLineMax, (name == m_selectedVFO) ? IM_COL32(255, 0, 0, 255) : IM_COL32(255, 255, 0, 255), style::lineWidth());
             }
         }
     }
 
-    void WaterFall::drawVFOs() {
-        for (auto const& [name, vfo] : m_map_vfos) {
+    void WaterFall::drawVFOs()
+    {
+        for (auto const& [name, vfo] : m_map_vfos)
+        {
             vfo->draw(m_window, name == m_selectedVFO);
         }
     }
@@ -251,12 +266,15 @@ namespace ImGui {
     // device convention ("dragging right pulls the trace right") stays visible at the call site.
     //FIXME respectCenterFrequencyLock parameter is questionable.
     // Maybe it shall be dropped and the lock shall be respected always?
-    void WaterFall::panView(double viewDelta, bool respectCenterFrequencyLock) {
+    void WaterFall::panView(double viewDelta, bool respectCenterFrequencyLock)
+    {
         // Drag handling calls this every frame while the button is held. Do not
         // report a center-frequency change until the pointer actually moves.
-        if (viewDelta == 0.0) { return; }
+        if (viewDelta == 0.0)
+            return;
 
-        if (tuner::vfoLockedToCenter()) {
+        if (tuner::vfoLockedToCenter())
+        {
             // The VFO is synchronized with the IQ center frequency and the VFO is locked to the center of the view
             // or as close as possible to the center of the view considering the zoom factor.
             // See normalTuningLocked()
@@ -264,20 +282,24 @@ namespace ImGui {
             //FIXME respectCenterFrequencyLock is ignored on purpose.
             m_centerFreq += viewDelta;
             m_centerFreqMoved = true;
-        } else {
+        }else{
             m_viewOffset += viewDelta;
-            if (m_viewOffset + (m_viewBandwidth / 2.0) > m_wholeBandwidth / 2.0) {
+            if (m_viewOffset + (m_viewBandwidth / 2.0) > m_wholeBandwidth / 2.0)
+            {
                 double freqOffset = (m_viewOffset + (m_viewBandwidth / 2.0)) - (m_wholeBandwidth / 2.0);
                 m_viewOffset = (m_wholeBandwidth / 2.0) - (m_viewBandwidth / 2.0);
-                if (!respectCenterFrequencyLock || !m_centerFrequencyLocked) {
+                if (!respectCenterFrequencyLock || !m_centerFrequencyLocked)
+                {
                     m_centerFreq += freqOffset;
                     m_centerFreqMoved = true;
                 }
             }
-            if (m_viewOffset - (m_viewBandwidth / 2.0) < -(m_wholeBandwidth / 2.0)) {
+            if (m_viewOffset - (m_viewBandwidth / 2.0) < -(m_wholeBandwidth / 2.0))
+            {
                 double freqOffset = (m_viewOffset - (m_viewBandwidth / 2.0)) + (m_wholeBandwidth / 2.0);
                 m_viewOffset = (m_viewBandwidth / 2.0) - (m_wholeBandwidth / 2.0);
-                if (!respectCenterFrequencyLock || !m_centerFrequencyLocked) {
+                if (!respectCenterFrequencyLock || !m_centerFrequencyLocked)
+                {
                     m_centerFreq += freqOffset;
                     m_centerFreqMoved = true;
                 }
@@ -290,13 +312,16 @@ namespace ImGui {
             m_flagsFreqMoved = 4;
 
         // updateAllVFOs() and updateWaterfallFb() do nothing with tuner::vfoLockedToCenter(), but that may change in the future.
-        if (! tuner::vfoLockedToCenter() && m_viewBandwidth != m_wholeBandwidth) {
+        if (! tuner::vfoLockedToCenter() && m_viewBandwidth != m_wholeBandwidth)
+        {
             updateAllVFOs();
-            if (m_fullUpdate) { updateWaterfallFb(); };
+            if (m_fullUpdate)
+                updateWaterfallFb();
         }
         if(m_centerFreqMoved && gui::mainWindow.getTuningMode() == tuner::TUNER_MODE_NORMAL)
         {
-            for(auto const& [name, vfo] : m_map_vfos) {
+            for(auto const& [name, vfo] : m_map_vfos)
+            {
                 double newOffset = vfo->m_generalOffset - viewDelta;
                 double testOffset = m_centerFreq + newOffset;
                 if(testOffset < m_lowerFreq)
@@ -308,22 +333,25 @@ namespace ImGui {
         }
     }
 
-    void WaterFall::selectFirstVFO() {
+    void WaterFall::selectFirstVFO()
+    {
         // Only signal a change when the selection actually moved: this is called
         // on every teardown and on startup with no VFOs yet, and a spurious
         // selectedVFOChanged makes listeners re-run their VFO switch handling.
         std::string first = m_map_vfos.empty() ? "" : m_map_vfos.begin()->first;
-        if (first == m_selectedVFO) { return; }
+        if (first == m_selectedVFO)
+            return;
         m_selectedVFO = first;
         m_selectedVFOChanged = true;
     }
 
-    void WaterFall::processInputs(bool fftResizePillVisible, const ImVec2& fftResizePillCenter) {
+    void WaterFall::processInputs(bool fftResizePillVisible, const ImVec2& fftResizePillCenter)
+    {
         // Pre calculate useful values
         WaterfallVFO* selVfo = NULL;
-        if (m_selectedVFO != "") {
+        if (m_selectedVFO != "")
             selVfo = m_map_vfos[m_selectedVFO];
-        }
+
         ImVec2 mousePos = ImGui::GetMousePos();
         ImVec2 drag = ImGui::GetMouseDragDelta(ImGuiMouseButton_Left);
         ImVec2 dragOrigin(mousePos.x - drag.x, mousePos.y - drag.y);
@@ -335,8 +363,10 @@ namespace ImGui {
         float splitterY = m_widgetPos.y + m_newFFTAreaHeight;
         bool mouseInFFTResizePill = false;
         m_mouseInFFTResize = false;
-        if (m_waterfallVisible) {
-            if (fftResizePillVisible) {
+        if (m_waterfallVisible)
+        {
+            if (fftResizePillVisible)
+            {
                 // A 2 dp line cannot be hit reliably with a finger, so touch
                 // style adds a visible pill that grabs immediately. This is a
                 // visual/style choice independent of the platform-wide band
@@ -368,12 +398,15 @@ namespace ImGui {
         float mouseWheel = ImGui::GetIO().MouseWheel;
 
         bool mouseMoved = false;
-        if (mousePos.x != m_lastMousePos.x || mousePos.y != m_lastMousePos.y) { mouseMoved = true; }
+        if (mousePos.x != m_lastMousePos.x || mousePos.y != m_lastMousePos.y)
+            mouseMoved = true;
         m_lastMousePos = mousePos;
 
         std::string hoveredVFOName;
-        for (auto const& [name, _vfo] : m_map_vfos) {
-            if (ImGui::IsMouseHoveringRect(_vfo->m_rectMin, _vfo->m_rectMax) || ImGui::IsMouseHoveringRect(_vfo->m_wfRectMin, _vfo->m_wfRectMax)) {
+        for (auto const& [name, _vfo] : m_map_vfos)
+        {
+            if (ImGui::IsMouseHoveringRect(_vfo->m_rectMin, _vfo->m_rectMax) || ImGui::IsMouseHoveringRect(_vfo->m_wfRectMin, _vfo->m_wfRectMax))
+            {
                 hoveredVFOName = name;
                 break;
             }
@@ -383,8 +416,10 @@ namespace ImGui {
         bool allowVfoClickMove = hoveredVFOName.empty() || m_selectedVFO == hoveredVFOName;
 
         // Deselect everything if the mouse is released
-        if (!ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
-            if (m_fftResizeSelect) {
+        if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+        {
+            if (m_fftResizeSelect)
+            {
                 m_FFTAreaHeight = m_newFFTAreaHeight;
                 onResize();
 #ifdef __ANDROID__
@@ -392,18 +427,22 @@ namespace ImGui {
 #endif
             }
 #ifdef __ANDROID__
-            if (m_fftResizePending) {
+            if (m_fftResizePending)
+            {
                 // The touch was held back waiting for its drag direction and
                 // turned out to be a plain tap — give it its original meaning:
                 // select the VFO under the finger, or tune to the tap.
                 m_fftResizePending = false;
-                if (hoveredVFOName != "") {
+                if (hoveredVFOName != "")
+                {
                     m_selectedVFO = hoveredVFOName;
                     m_selectedVFOChanged = true;
                 }
-                else if (selVfo != NULL && (m_mouseInFFT || m_mouseInWaterfall)) {
+                else if (selVfo != NULL && (m_mouseInFFT || m_mouseInWaterfall))
+                {
                     int refCenter = mousePos.x - m_fftAreaMin.x;
-                    if (refCenter >= 0 && refCenter < m_dataWidth) {
+                    if (refCenter >= 0 && refCenter < m_dataWidth)
+                    {
                         double off = ((((double)refCenter / ((double)m_dataWidth / 2.0)) - 1.0) * (m_viewBandwidth / 2.0)) + m_viewOffset;
                         off += m_centerFreq;
                         off = (round(off / selVfo->m_snapInterval) * selVfo->m_snapInterval) - m_centerFreq;
@@ -422,19 +461,21 @@ namespace ImGui {
         bool targetFound = false;
 
         // If the mouse was clicked anywhere in the waterfall, check if the resize was clicked
-        if (m_mouseInFFTResize) {
+        if (m_mouseInFFTResize)
+        {
             ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
-            if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+            if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+            {
 #ifdef __ANDROID__
-                if (!mouseInFFTResizePill) {
+                if (!mouseInFFTResizePill)
+                {
                     // Not on the pill — hold the Android touch back until its
                     // drag direction is known (resolved below). This remains a
                     // platform behavior when touch styling, and therefore the
                     // optional immediate-grab pill, is disabled.
                     m_fftResizePending = true;
                     m_fftResizePendingPos = mousePos;
-                }
-                else {
+                }else{
                     m_fftResizeSelect = true;
                     m_fftResizeGrabOffset = splitterY - mousePos.y;
                     backend::hapticTick();
@@ -451,48 +492,56 @@ namespace ImGui {
         // A touch near the divider is on hold until its direction is known:
         // across the divider = resize, along it = the gesture the band would
         // otherwise steal (freq-scale pan or VFO tuning).
-        if (m_fftResizePending) {
+        if (m_fftResizePending)
+        {
             float dx = mousePos.x - m_fftResizePendingPos.x;
             float dy = mousePos.y - m_fftResizePendingPos.y;
-            if (std::max(fabsf(dx), fabsf(dy)) < style::dp(6.0f)) {
+            if (std::max(fabsf(dx), fabsf(dy)) < style::dp(6.0f))
                 return; // still undecided — swallow the touch for now
-            }
+
             m_fftResizePending = false;
-            if (fabsf(dy) > fabsf(dx)) {
+            if (fabsf(dy) > fabsf(dx))
+            {
                 m_fftResizeSelect = true;
                 m_fftResizeGrabOffset = splitterY - m_fftResizePendingPos.y;
                 backend::hapticTick();
-            }
-            else if (m_mouseInFreq) {
+            }else if (m_mouseInFreq)
                 m_freqScaleSelect = true;
-            }
+
             // else: the touch started in the waterfall part of the band; the
             // VFO-move branch below keys off the same drag origin and takes over.
         }
 #endif
 
         // If mouse was clicked inside the central part, check what was clicked
-        if (mouseClicked && !targetFound) {
+        if (mouseClicked && !targetFound)
+        {
             m_mouseDownPos = mousePos;
 
             // First, check if a VFO border was selected
-            for (auto const& [name, _vfo] : m_map_vfos) {
-                if (_vfo->m_bandwidthLocked) { continue; }
-                if (_vfo->m_rectMax.x - _vfo->m_rectMin.x < 10) { continue; }
+            for (auto const& [name, _vfo] : m_map_vfos)
+            {
+                if (_vfo->m_bandwidthLocked)
+                    continue;
+                if (_vfo->m_rectMax.x - _vfo->m_rectMin.x < 10)
+                    continue;
                 bool resizing = false;
-                if (_vfo->m_reference != REF_LOWER) {
-                    if (IS_IN_AREA(mousePos, _vfo->m_lbwSelMin, _vfo->m_lbwSelMax)) { resizing = true; }
-                    else if (IS_IN_AREA(mousePos, _vfo->m_wfLbwSelMin, _vfo->m_wfLbwSelMax)) {
+                if (_vfo->m_reference != REF_LOWER)
+                {
+                    if (IS_IN_AREA(mousePos, _vfo->m_lbwSelMin, _vfo->m_lbwSelMax))
                         resizing = true;
-                    }
-                }
-                if (_vfo->m_reference != REF_UPPER) {
-                    if (IS_IN_AREA(mousePos, _vfo->m_rbwSelMin, _vfo->m_rbwSelMax)) { resizing = true; }
-                    else if (IS_IN_AREA(mousePos, _vfo->m_wfRbwSelMin, _vfo->m_wfRbwSelMax)) {
+                    else if (IS_IN_AREA(mousePos, _vfo->m_wfLbwSelMin, _vfo->m_wfLbwSelMax))
                         resizing = true;
-                    }
                 }
-                if (!resizing) { continue; }
+                if (_vfo->m_reference != REF_UPPER)
+                {
+                    if (IS_IN_AREA(mousePos, _vfo->m_rbwSelMin, _vfo->m_rbwSelMax))
+                        resizing = true;
+                    else if (IS_IN_AREA(mousePos, _vfo->m_wfRbwSelMin, _vfo->m_wfRbwSelMax))
+                        resizing = true;
+                }
+                if (!resizing)
+                    continue;
                 m_relatedVfo = _vfo;
                 m_vfoBorderSelect = true;
                 targetFound = true;
@@ -500,8 +549,10 @@ namespace ImGui {
             }
 
             // Next, check if a VFO was selected
-            if (!targetFound && !hoveredVFOName.empty()) {
-                if (m_selectedVFO != hoveredVFOName) {
+            if (!targetFound && !hoveredVFOName.empty())
+            {
+                if (m_selectedVFO != hoveredVFOName)
+                {
                     m_selectedVFO = hoveredVFOName;
                     m_selectedVFOChanged = true;
                     // Selecting and moving are separate gestures. Latch this
@@ -520,13 +571,13 @@ namespace ImGui {
             }
 
             // Now, check frequency scale
-            if (!targetFound && m_mouseInFreq) {
+            if (!targetFound && m_mouseInFreq)
                 m_freqScaleSelect = true;
-            }
         }
 
         // If the FFT resize bar was selected, resize FFT accordingly
-        if (m_fftResizeSelect) {
+        if (m_fftResizeSelect)
+        {
             ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
             m_newFFTAreaHeight = mousePos.y + m_fftResizeGrabOffset - m_widgetPos.y;
             m_newFFTAreaHeight = style::clampSplit(m_newFFTAreaHeight, m_widgetSize.y, 150.0f, 50.0f);
@@ -536,14 +587,15 @@ namespace ImGui {
         }
 
         // If a vfo border is selected, resize VFO accordingly
-        if (m_vfoBorderSelect) {
+        if (m_vfoBorderSelect)
+        {
             ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
             double dist = (m_relatedVfo->m_reference == REF_CENTER) ? fabsf(mousePos.x - m_relatedVfo->m_lineMin.x) : (mousePos.x - m_relatedVfo->m_lineMin.x);
-            if (m_relatedVfo->m_reference == REF_UPPER) { dist = -dist; }
+            if (m_relatedVfo->m_reference == REF_UPPER)
+                dist = -dist;
             double hzDist = dist * (m_viewBandwidth / (double)m_dataWidth);
-            if (m_relatedVfo->m_reference == REF_CENTER) {
+            if (m_relatedVfo->m_reference == REF_CENTER)
                 hzDist *= 2.0;
-            }
             hzDist = std::clamp<double>(hzDist, m_relatedVfo->m_minBandwidth, m_relatedVfo->m_maxBandwidth);
             m_relatedVfo->setBandwidth(hzDist);
             m_relatedVfo->m_onUserChangedBandwidth.emit(hzDist);
@@ -551,7 +603,8 @@ namespace ImGui {
         }
 
         // If the frequency scale is selected, move it
-        if (m_freqScaleSelect) {
+        if (m_freqScaleSelect)
+        {
             ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
             double deltax = drag.x - m_lastDrag;
             m_lastDrag = drag.x;
@@ -574,14 +627,16 @@ namespace ImGui {
 #endif
         if (mouseWheel != 0.0f && ImGui::GetIO().KeyCtrl && (m_mouseInFFT || m_mouseInWaterfall || m_mouseInFreq))
             zoomWheel = mouseWheel;
-        if (zoomWheel != 0.0f) {
+        if (zoomWheel != 0.0f)
+        {
             double newBw = m_viewBandwidth * std::pow(0.9, (double)zoomWheel);
             newBw = std::clamp(newBw, m_wholeBandwidth / 200.0, m_wholeBandwidth);
             // Anchor the zoom on the frequency under the cursor — the first
             // (tuning) finger when pinching on touch — so that frequency keeps
             // its screen position while the view stretches around it.
             double anchorX = (double)mousePos.x - m_fftAreaMin.x;
-            if (newBw != m_viewBandwidth && anchorX >= 0.0 && anchorX < (double)m_dataWidth) {
+            if (newBw != m_viewBandwidth && anchorX >= 0.0 && anchorX < (double)m_dataWidth)
+            {
                 double norm = (anchorX / ((double)m_dataWidth / 2.0)) - 1.0;    // -1..1 across the view
                 double anchorOff = m_viewOffset + (norm * m_viewBandwidth / 2.0); // Hz relative to center freq
                 m_viewOffset = anchorOff - (norm * newBw / 2.0);                // setViewBandwidth clamps to band edges
@@ -591,7 +646,8 @@ namespace ImGui {
         }
 
         // If the mouse wheel is moved on the frequency scale
-        if (mouseWheel != 0.0f && m_mouseInFreq) {
+        if (mouseWheel != 0.0f && m_mouseInFreq)
+        {
             // Negated to match dragging: scrolling up slides the trace right, i.e. moves the view down.
             double viewDelta = -(double)mouseWheel * m_viewBandwidth / 20.0;
             panView(viewDelta);
@@ -600,7 +656,8 @@ namespace ImGui {
 
         // If the left and right keys are pressed while hovering the freq scale, move it too
         bool leftKeyPressed = ImGui::IsKeyPressed(ImGuiKey_LeftArrow);
-        if ((leftKeyPressed || ImGui::IsKeyPressed(ImGuiKey_RightArrow)) && m_mouseInFreq) {
+        if ((leftKeyPressed || ImGui::IsKeyPressed(ImGuiKey_RightArrow)) && m_mouseInFreq)
+        {
             double viewDelta = leftKeyPressed ? (m_viewBandwidth / 20.0) : (-m_viewBandwidth / 20.0);
             panView(viewDelta);
             return;
@@ -611,7 +668,8 @@ namespace ImGui {
             if(m_flagsFreqMoved < 4)
             {
                 int refCenter = mousePos.x - m_fftAreaMin.x;
-                if(refCenter >= 0 && refCenter < m_dataWidth) {
+                if(refCenter >= 0 && refCenter < m_dataWidth)
+                {
                     double off = ((((double)refCenter / ((double)m_dataWidth / 2.0)) - 1.0) * (m_viewBandwidth / 2.0)) + m_viewOffset;
                     off += m_centerFreq;
                     off = (round(off / selVfo->m_snapInterval) * selVfo->m_snapInterval) - m_centerFreq;
@@ -622,13 +680,17 @@ namespace ImGui {
         }
 
         // Finally, if nothing else was selected, just move the VFO
-        if ((m_VFOMoveSingleClick ? ImGui::IsMouseClicked(ImGuiMouseButton_Left) : ImGui::IsMouseDown(ImGuiMouseButton_Left)) && (m_mouseInFFT | m_mouseInWaterfall) && (mouseMoved || allowVfoClickMove)) {
-            if (selVfo != NULL) {
+        if ((m_VFOMoveSingleClick ? ImGui::IsMouseClicked(ImGuiMouseButton_Left) : ImGui::IsMouseDown(ImGuiMouseButton_Left)) && (m_mouseInFFT | m_mouseInWaterfall) && (mouseMoved || allowVfoClickMove))
+        {
+            if (selVfo != NULL)
+            {
                 if(selVfo->m_rectMin.x  < mousePos.x && selVfo->m_rectMax.x  > mousePos.x)
                     m_flagsFreqMoved = 2;
-                if(m_flagsFreqMoved == 2) {
+                if(m_flagsFreqMoved == 2)
+                {
                     int refCenter = mousePos.x - m_fftAreaMin.x;
-                    if(refCenter >= 0 && refCenter < m_dataWidth) {
+                    if(refCenter >= 0 && refCenter < m_dataWidth)
+                    {
                         double off = ((((double)refCenter / ((double)m_dataWidth / 2.0)) - 1.0) * (m_viewBandwidth / 2.0)) + m_viewOffset;
                         off += m_centerFreq;
                         off = (round(off / selVfo->m_snapInterval) * selVfo->m_snapInterval) - m_centerFreq;
@@ -641,17 +703,20 @@ namespace ImGui {
                 }
             }
         }
-        else if (!ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
+        else if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+        {
             m_flagsFreqMoved = 0;
             // Check if a VFO is hovered. If yes, show tooltip
             for (auto const& [name, _vfo] : m_map_vfos) {
-                if (ImGui::IsMouseHoveringRect(_vfo->m_rectMin, _vfo->m_rectMax) || ImGui::IsMouseHoveringRect(_vfo->m_wfRectMin, _vfo->m_wfRectMax)) {
+                if (ImGui::IsMouseHoveringRect(_vfo->m_rectMin, _vfo->m_rectMax) || ImGui::IsMouseHoveringRect(_vfo->m_wfRectMin, _vfo->m_wfRectMax))
+                {
                     char buf[128];
                     ImGui::BeginTooltip();
 
                     ImGui::TextUnformatted(name.c_str());
 
-                    if (ImGui::GetIO().KeyCtrl) {
+                    if (ImGui::GetIO().KeyCtrl)
+                    {
                         ImGui::Separator();
                         printAndScale(_vfo->m_generalOffset + m_centerFreq, buf);
                         ImGui::Text("Frequency: %sHz", buf);
@@ -669,11 +734,11 @@ namespace ImGui {
                             std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
                             infoValid = calculateVFOSignalInfo(m_waterfallVisible ? &m_rawFFTs[m_currentFFTLine * m_rawFFTWidth] : m_rawFFTs, _vfo, strength, snr);
                         }
-                        if (infoValid) {
+                        if (infoValid)
+                        {
                             ImGui::Text("Strength: %0.1fdBFS", strength);
                             ImGui::Text("SNR: %0.1fdB", snr);
-                        }
-                        else {
+                        }else{
                             ImGui::TextUnformatted("Strength: ---.-dBFS");
                             ImGui::TextUnformatted("SNR: ---.-dB");
                         }
@@ -686,20 +751,24 @@ namespace ImGui {
         }
 
         // Handle Page Up to cycle through VFOs
-        if (ImGui::IsKeyPressed(ImGuiKey_PageUp) && selVfo != NULL) {
+        if (ImGui::IsKeyPressed(ImGuiKey_PageUp) && selVfo != NULL)
+        {
             std::string next = (--m_map_vfos.end())->first;
             std::string lowest = "";
             double lowestOffset = INFINITY;
             double firstVfoOffset = selVfo->m_generalOffset;
             double smallestDistance = INFINITY;
             bool found = false;
-            for (auto& [_name, _vfo] : m_map_vfos) {
-                if (_vfo->m_generalOffset > firstVfoOffset && (_vfo->m_generalOffset - firstVfoOffset) < smallestDistance) {
+            for (auto& [_name, _vfo] : m_map_vfos)
+            {
+                if (_vfo->m_generalOffset > firstVfoOffset && (_vfo->m_generalOffset - firstVfoOffset) < smallestDistance)
+                {
                     next = _name;
                     smallestDistance = (_vfo->m_generalOffset - firstVfoOffset);
                     found = true;
                 }
-                if (_vfo->m_generalOffset < lowestOffset) {
+                if (_vfo->m_generalOffset < lowestOffset)
+                {
                     lowestOffset = _vfo->m_generalOffset;
                     lowest = _name;
                 }
@@ -709,20 +778,24 @@ namespace ImGui {
         }
 
         // Handle Page Down to cycle through VFOs
-        if (ImGui::IsKeyPressed(ImGuiKey_PageDown) && selVfo != NULL) {
+        if (ImGui::IsKeyPressed(ImGuiKey_PageDown) && selVfo != NULL)
+        {
             std::string next = (--m_map_vfos.end())->first;
             std::string highest = "";
             double highestOffset = -INFINITY;
             double firstVfoOffset = selVfo->m_generalOffset;
             double smallestDistance = INFINITY;
             bool found = false;
-            for (auto& [_name, _vfo] : m_map_vfos) {
-                if (_vfo->m_generalOffset < firstVfoOffset && (firstVfoOffset - _vfo->m_generalOffset) < smallestDistance) {
+            for (auto& [_name, _vfo] : m_map_vfos)
+            {
+                if (_vfo->m_generalOffset < firstVfoOffset && (firstVfoOffset - _vfo->m_generalOffset) < smallestDistance)
+                {
                     next = _name;
                     smallestDistance = (firstVfoOffset - _vfo->m_generalOffset);
                     found = true;
                 }
-                if (_vfo->m_generalOffset > highestOffset) {
+                if (_vfo->m_generalOffset > highestOffset)
+                {
                     highestOffset = _vfo->m_generalOffset;
                     highest = _name;
                 }
@@ -732,8 +805,10 @@ namespace ImGui {
         }
     }
 
-    bool WaterFall::calculateVFOSignalInfo(float* fftLine, WaterfallVFO* _vfo, float& strength, float& snr) {
-        if (fftLine == NULL || m_fftLines <= 0) { return false; }
+    bool WaterFall::calculateVFOSignalInfo(float* fftLine, WaterfallVFO* _vfo, float& strength, float& snr)
+    {
+        if (fftLine == NULL || m_fftLines <= 0)
+            return false;
 
         // Calculate FFT index data
         double vfoMinSizeFreq = _vfo->m_centerOffset - _vfo->m_bandwidth;
@@ -752,13 +827,15 @@ namespace ImGui {
         int avgCount = 0;
 
         // Calculate Left average
-        for (int i = vfoMinSideOffset; i < vfoMinOffset; i++) {
+        for (int i = vfoMinSideOffset; i < vfoMinOffset; i++)
+        {
             avg += fftLine[i];
             avgCount++;
         }
 
         // Calculate Right average
-        for (int i = vfoMaxOffset + 1; i < vfoMaxSideOffset; i++) {
+        for (int i = vfoMaxOffset + 1; i < vfoMaxSideOffset; i++)
+        {
             avg += fftLine[i];
             avgCount++;
         }
@@ -767,12 +844,15 @@ namespace ImGui {
         // edges) leaves no out-of-band bins, so there is no noise reference and
         // SNR is undefined. Report no info rather than dividing by zero: a NaN
         // here poisons the caller's rolling noise window for LEVEL_HOLD_FRAMES.
-        if (avgCount == 0) { return false; }
+        if (avgCount == 0)
+            return false;
         avg /= (double)(avgCount);
 
         // Calculate max
-        for (int i = vfoMinOffset; i <= vfoMaxOffset; i++) {
-            if (fftLine[i] > max) { max = fftLine[i]; }
+        for (int i = vfoMinOffset; i <= vfoMaxOffset; i++)
+        {
+            if (fftLine[i] > max)
+                max = fftLine[i];
         }
 
         strength = max;
@@ -781,10 +861,10 @@ namespace ImGui {
         return true;
     }
 
-    void WaterFall::updateWaterfallFb() {
-        if (!m_waterfallVisible || m_rawFFTs == NULL || !m_saveHistory) {
+    void WaterFall::updateWaterfallFb()
+    {
+        if (!m_waterfallVisible || m_rawFFTs == NULL || !m_saveHistory)
             return;
-        }
         double offsetRatio = m_viewOffset / (m_wholeBandwidth / 2.0);
         int drawDataSize;
         int drawDataStart;
@@ -793,28 +873,32 @@ namespace ImGui {
         float pixel;
         float dataRange = m_waterfallMax - m_waterfallMin;
         int count = std::min<float>(m_rawFFTHeight, m_fftLines);
-        if (m_rawFFTs != NULL && m_fftLines >= 0) {
-            for (int i = 0; i < count; i++) {
+        if (m_rawFFTs != NULL && m_fftLines >= 0)
+        {
+            for (int i = 0; i < count; i++)
+            {
                 drawDataSize = (m_viewBandwidth / m_wholeBandwidth) * m_rawFFTWidth;
                 drawDataStart = (((double)m_rawFFTWidth / 2.0) * (offsetRatio + 1)) - (drawDataSize / 2);
                 doZoom(drawDataStart, drawDataSize, m_rawFFTWidth, m_dataWidth, &m_rawFFTs[((i + m_currentFFTLine) % m_rawFFTHeight) * m_rawFFTWidth], tempData);
-                for (int j = 0; j < m_dataWidth; j++) {
+                for (int j = 0; j < m_dataWidth; j++)
+                {
                     pixel = (std::clamp<float>(tempData[j], m_waterfallMin, m_waterfallMax) - m_waterfallMin) / dataRange;
                     m_waterfallFb[(i * m_dataWidth) + j] = m_waterfallPallet[(int)(pixel * (WATERFALL_RESOLUTION - 1))];
                 }
             }
 
-            for (int i = count; i < m_waterfallHeight; i++) {
-                for (int j = 0; j < m_dataWidth; j++) {
+            for (int i = count; i < m_waterfallHeight; i++)
+            {
+                for (int j = 0; j < m_dataWidth; j++)
                     m_waterfallFb[(i * m_dataWidth) + j] = (uint32_t)255 << 24;
-                }
             }
         }
         delete[] tempData;
         m_waterfallUpdate = true;
     }
 
-    void WaterFall::drawBandPlan() {
+    void WaterFall::drawBandPlan()
+    {
         int count = (int)m_bandplan->bands.size();
         double horizScale = (double)m_dataWidth / m_viewBandwidth;
         double start, end, center, aPos, bPos, cPos, width;
@@ -825,23 +909,23 @@ namespace ImGui {
         float height = ImGui::CalcTextSize("0").y * 2.5f;
         float bpBottom;
 
-        if (m_bandPlanPos == BANDPLAN_POS_BOTTOM) {
+        if (m_bandPlanPos == BANDPLAN_POS_BOTTOM)
+        {
             bpBottom = m_fftAreaMax.y;
-        }
-        else {
+        }else{
             bpBottom = m_fftAreaMin.y + height + 1;
         }
 
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
             start = m_bandplan->bands[i].start;
             end = m_bandplan->bands[i].end;
-            if (start < m_lowerFreq && end < m_lowerFreq) {
+            if (start < m_lowerFreq && end < m_lowerFreq)
                 continue;
-            }
-            if (start > m_upperFreq && end > m_upperFreq) {
+            if (start > m_upperFreq && end > m_upperFreq)
                 continue;
-            }
+
             startVis = (start > m_lowerFreq);
             endVis = (end < m_upperFreq);
             start = std::clamp<double>(start, m_lowerFreq, m_upperFreq);
@@ -852,40 +936,33 @@ namespace ImGui {
             cPos = m_fftAreaMin.x + ((center - m_lowerFreq) * horizScale);
             width = bPos - aPos;
             txtSz = ImGui::CalcTextSize(m_bandplan->bands[i].name.c_str());
-            if (bandplan::colorTable.find(m_bandplan->bands[i].type.c_str()) != bandplan::colorTable.end()) {
-                color = bandplan::colorTable[m_bandplan->bands[i].type].colorValue;
-                colorTrans = bandplan::colorTable[m_bandplan->bands[i].type].transColorValue;
-            }
-            else {
+            if (bandplan::g_colorTable.find(m_bandplan->bands[i].type.c_str()) != bandplan::g_colorTable.end())
+            {
+                color = bandplan::g_colorTable[m_bandplan->bands[i].type].colorValue;
+                colorTrans = bandplan::g_colorTable[m_bandplan->bands[i].type].transColorValue;
+            }else{
                 color = IM_COL32(255, 255, 255, 255);
                 colorTrans = IM_COL32(255, 255, 255, 100);
             }
-            if (aPos <= m_fftAreaMin.x) {
+            if (aPos <= m_fftAreaMin.x)
                 aPos = m_fftAreaMin.x + 1;
-            }
-            if (bPos <= m_fftAreaMin.x) {
+            if (bPos <= m_fftAreaMin.x)
                 bPos = m_fftAreaMin.x + 1;
+            if (width >= 1.0)
+            {
+                m_window->DrawList->AddRectFilled(ImVec2(roundf(aPos), bpBottom - height), ImVec2(roundf(bPos), bpBottom), colorTrans);
+                if (startVis)
+                    m_window->DrawList->AddLine(ImVec2(roundf(aPos), bpBottom - height - 1), ImVec2(roundf(aPos), bpBottom - 1), color, style::lineWidth());
+                if (endVis)
+                    m_window->DrawList->AddLine(ImVec2(roundf(bPos), bpBottom - height - 1), ImVec2(roundf(bPos), bpBottom - 1), color, style::lineWidth());
             }
-            if (width >= 1.0) {
-                m_window->DrawList->AddRectFilled(ImVec2(roundf(aPos), bpBottom - height),
-                                                ImVec2(roundf(bPos), bpBottom), colorTrans);
-                if (startVis) {
-                    m_window->DrawList->AddLine(ImVec2(roundf(aPos), bpBottom - height - 1),
-                                              ImVec2(roundf(aPos), bpBottom - 1), color, style::lineWidth());
-                }
-                if (endVis) {
-                    m_window->DrawList->AddLine(ImVec2(roundf(bPos), bpBottom - height - 1),
-                                              ImVec2(roundf(bPos), bpBottom - 1), color, style::lineWidth());
-                }
-            }
-            if (txtSz.x <= width) {
-                m_window->DrawList->AddText(ImVec2(cPos - (txtSz.x / 2.0), bpBottom - (height / 2.0f) - (txtSz.y / 2.0f)),
-                                          IM_COL32(255, 255, 255, 255), m_bandplan->bands[i].name.c_str());
-            }
+            if (txtSz.x <= width)
+                m_window->DrawList->AddText(ImVec2(cPos - (txtSz.x / 2.0), bpBottom - (height / 2.0f) - (txtSz.y / 2.0f)), IM_COL32(255, 255, 255, 255), m_bandplan->bands[i].name.c_str());
         }
     }
 
-    void WaterFall::updateWaterfallTexture() {
+    void WaterFall::updateWaterfallTexture()
+    {
         std::lock_guard<std::mutex> lck(m_texMtx);
         glBindTexture(GL_TEXTURE_2D, m_textureId);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -894,11 +971,13 @@ namespace ImGui {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_dataWidth, m_waterfallHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, (uint8_t*)m_waterfallFb);
     }
 
-    void WaterFall::onPositionChange() {
+    void WaterFall::onPositionChange()
+    {
         // Nothing to see here...
     }
 
-    void WaterFall::onResize() {
+    void WaterFall::onResize()
+    {
         // buf_mtx must be held first: it guards rawFFTs, currentFFTLine and
         // waterfallHeight, which the FFT worker reads/writes in getFFTBuffer()/
         // pushFFT(). onResize() reallocates rawFFTs and rewrites those fields, so
@@ -911,16 +990,16 @@ namespace ImGui {
         std::lock_guard<std::recursive_mutex> lck(m_latestFFTMtx);
         std::lock_guard<std::mutex> lck2(m_smoothingBufMtx);
         // return if widget is too small
-        if (m_widgetSize.x < style::dp(100.0f) || m_widgetSize.y < style::dp(100.0f)) {
+        if (m_widgetSize.x < style::dp(100.0f) || m_widgetSize.y < style::dp(100.0f))
             return;
-        }
 
         int lastWaterfallHeight = m_waterfallHeight;
         int lastFftHeight = m_fftHeight;
         int lastRawFFTHeight = m_rawFFTHeight;
         int lastDataWidth = m_dataWidth;
 
-        if (m_waterfallVisible) {
+        if (m_waterfallVisible)
+        {
             int effectiveFFTAreaHeight = style::clampSplit(m_FFTAreaHeight, m_widgetSize.y, 150.0f, 50.0f);
             m_newFFTAreaHeight = effectiveFFTAreaHeight;
             m_fftHeight = effectiveFFTAreaHeight - style::scale(50.0f);
@@ -929,8 +1008,7 @@ namespace ImGui {
             if(!m_saveHistory)
                 m_rawFFTHeight = 2;
             m_currentFFTLine %= m_rawFFTHeight;
-        }
-        else {
+        }else{
             m_fftHeight = m_widgetSize.y - style::scale(50.0f);
         }
         m_dataWidth = m_widgetSize.x - style::scale(60.0f);
@@ -938,11 +1016,14 @@ namespace ImGui {
         bool updateHeight = lastWaterfallHeight != m_waterfallHeight || !m_waterfallVisible;
         
 
-        if (m_waterfallVisible) {
+        if (m_waterfallVisible)
+        {
             // Raw FFT resize
             m_fftLines = std::min<int>(m_fftLines, m_waterfallHeight) - 1;
-            if (m_rawFFTs != NULL) {
-                if (m_currentFFTLine != 0) {
+            if (m_rawFFTs != NULL)
+            {
+                if (m_currentFFTLine != 0)
+                {
                     float* tempWF = new float[m_currentFFTLine * m_rawFFTWidth];
                     unsigned int moveCount = unsigned(lastRawFFTHeight - m_currentFFTLine)%lastRawFFTHeight;
                     memcpy(tempWF, m_rawFFTs, m_currentFFTLine * m_rawFFTWidth * sizeof(float));
@@ -952,8 +1033,7 @@ namespace ImGui {
                 }
                 m_currentFFTLine = 0;
                 m_rawFFTs = (float*)realloc(m_rawFFTs, m_rawFFTHeight * m_rawFFTWidth * sizeof(float));
-            }
-            else {
+            }else{
                 m_rawFFTs = (float*)malloc(m_rawFFTHeight * m_rawFFTWidth * sizeof(float));
             }
             // ==============
@@ -962,35 +1042,49 @@ namespace ImGui {
         if(updateWidth)
         {
             // Reallocate display FFT
-            if(m_latestFFT != NULL) {
+            if(m_latestFFT != NULL)
                 delete[] m_latestFFT;
-            }
+
             m_latestFFT = new float[m_dataWidth];
 
             // Reallocate hold FFT
-            if(m_latestFFTHold != NULL) {
+            if(m_latestFFTHold != NULL)
                 delete[] m_latestFFTHold;
-            }
+
             m_latestFFTHold = new float[m_dataWidth];
 
             // Reallocate smoothing buffer
-            if(m_fftSmoothing) {
-                if(m_smoothingBuf) { delete[] m_smoothingBuf; }
+            if(m_fftSmoothing)
+            {
+                if(m_smoothingBuf)
+                    delete[] m_smoothingBuf;
                 m_smoothingBuf = new float[m_dataWidth];
-                for(int i = 0; i < m_dataWidth; i++) {
+                for(int i = 0; i < m_dataWidth; i++)
                     m_smoothingBuf[i] = -1000.0f;
-                }
             }
         }
         if(updateWidth || updateHeight)
         {
-            if(m_waterfallVisible) {
-                delete[] m_waterfallFb;
+            if(m_waterfallVisible)
+            {
+                uint32_t* old_waterfallFb = m_waterfallFb;
                 m_waterfallFb = new uint32_t[m_dataWidth * m_waterfallHeight];
-                memset(m_waterfallFb, 0, m_dataWidth * m_waterfallHeight * sizeof(uint32_t));
+                if(!updateWidth)
+                {
+                    size_t copyH = lastWaterfallHeight;
+                    if(m_waterfallHeight < copyH)
+                        copyH = m_waterfallHeight;
+                    memcpy(m_waterfallFb, old_waterfallFb, m_dataWidth*copyH * sizeof(uint32_t));
+                    if(m_waterfallHeight > copyH)
+                        memset(m_waterfallFb + m_dataWidth*copyH, 0, (m_waterfallHeight - copyH) * m_dataWidth * sizeof(uint32_t));
+                }else{
+                    memset(m_waterfallFb, 0, m_dataWidth * m_waterfallHeight * sizeof(uint32_t));
+                }
+                delete[] old_waterfallFb;
             }
         }
-        for(int i = 0; i < m_dataWidth; i++) {
+        for(int i = 0; i < m_dataWidth; i++)
+        {
             m_latestFFT[i] = -1000.0f; // Hide everything
             m_latestFFTHold[i] = -1000.0f;
         }
@@ -1017,13 +1111,15 @@ namespace ImGui {
 
         m_range = findBestRange(m_viewBandwidth, m_maxHSteps);
         m_vRange = findBestRange(m_fftMax - m_fftMin, m_maxVSteps);
-        
-        updateWaterfallFb();
-        updateAllVFOs();
-
+        if(lastRawFFTHeight != 2 || updateWidth || updateHeight)
+        {
+            updateWaterfallFb();
+            updateAllVFOs();
+        }
     }
 
-    void WaterFall::draw() {
+    void WaterFall::draw()
+    {
         m_buf_mtx.lock();
         m_window = GetCurrentWindow();
 
@@ -1031,7 +1127,7 @@ namespace ImGui {
         m_widgetEndPos = ImGui::GetWindowContentRegionMax();
         m_widgetPos.x += m_window->Pos.x;
         m_widgetPos.y += m_window->Pos.y;
-        m_widgetEndPos.x += m_window->Pos.x - 4; // Padding
+        m_widgetEndPos.x += m_window->Pos.x -4; // Padding
         m_widgetEndPos.y += m_window->Pos.y;
         // Snap to whole pixels: a fractional origin would put every derived
         // line, the FFT trace and the waterfall texture on half-pixel
@@ -1040,11 +1136,11 @@ namespace ImGui {
         m_widgetEndPos = ImVec2(floorf(m_widgetEndPos.x), floorf(m_widgetEndPos.y));
         m_widgetSize = ImVec2(m_widgetEndPos.x - m_widgetPos.x, m_widgetEndPos.y - m_widgetPos.y);
 
-        if (m_selectedVFO == "" && m_map_vfos.size() > 0) {
+        if (m_selectedVFO == "" && m_map_vfos.size() > 0)
             selectFirstVFO();
-        }
 
-        if (m_widgetPos.x != m_lastWidgetPos.x || m_widgetPos.y != m_lastWidgetPos.y) {
+        if (m_widgetPos.x != m_lastWidgetPos.x || m_widgetPos.y != m_lastWidgetPos.y)
+        {
             m_lastWidgetPos = m_widgetPos;
             onPositionChange();
         }
@@ -1053,7 +1149,8 @@ namespace ImGui {
         // and draw()'s size check can miss transitions where the widget pixel
         // size happens to stay the same across a scale change.
         uint64_t currentScaleEpoch = style::scaleEpoch();
-        if (m_widgetSize.x != m_lastWidgetSize.x || m_widgetSize.y != m_lastWidgetSize.y || currentScaleEpoch != m_lastScaleEpoch) {
+        if (m_widgetSize.x != m_lastWidgetSize.x || m_widgetSize.y != m_lastWidgetSize.y || currentScaleEpoch != m_lastScaleEpoch)
+        {
             m_lastWidgetSize = m_widgetSize;
             m_lastScaleEpoch = currentScaleEpoch;
             onResize();
@@ -1063,13 +1160,11 @@ namespace ImGui {
         // handling cannot drift apart.
         bool fftResizePillVisible = style::touchStyle && m_waterfallVisible;
         ImVec2 fftResizePillCenter;
-        if (fftResizePillVisible) {
-            fftResizePillCenter = ImVec2(m_fftAreaMin.x + (float)m_dataWidth * 0.75f,
-                                        m_widgetPos.y + m_newFFTAreaHeight);
-        }
+        if (fftResizePillVisible)
+            fftResizePillCenter = ImVec2(m_fftAreaMin.x + (float)m_dataWidth * 0.75f, m_widgetPos.y + m_newFFTAreaHeight);
 
         //window->DrawList->AddRectFilled(widgetPos, widgetEndPos, IM_COL32( 0, 0, 0, 255 ));
-        ImU32 bg = ImGui::ColorConvertFloat4ToU32(gui::themeManager.waterfallBg);
+        ImU32 bg = ImGui::ColorConvertFloat4ToU32(gui::themeManager.m_waterfallBg);
         m_window->DrawList->AddRectFilled(m_widgetPos, m_widgetEndPos, bg);
         m_window->DrawList->AddRect(m_widgetPos, m_widgetEndPos, IM_COL32(50, 50, 50, 255), 0.0, 0, style::lineWidth());
         m_window->DrawList->AddLine(ImVec2(m_widgetPos.x, m_freqAreaMax.y), ImVec2(m_widgetPos.x + m_widgetSize.x, m_freqAreaMax.y), IM_COL32(50, 50, 50, 255), style::lineWidth());
@@ -1079,12 +1174,10 @@ namespace ImGui {
         // overlay input handlers and the wheel/key handling in main_window.
         // Do this outside the hover test so a release that happens after the
         // pointer leaves the waterfall still terminates the gesture.
-        if (m_vfoSelect && !ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
+        if (m_vfoSelect && !ImGui::IsMouseDown(ImGuiMouseButton_Left))
             m_vfoSelect = false;
-        }
 
-        if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None) &&
-            !gui::mainWindow.lockWaterfallControls && !m_vfoSelect)
+        if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None) && !gui::mainWindow.lockWaterfallControls && !m_vfoSelect)
         {
             m_inputHandled = false;
             InputHandlerArgs args;
@@ -1099,7 +1192,8 @@ namespace ImGui {
             args.freqToPixelRatio = (double)m_dataWidth / m_viewBandwidth;
             args.pixelToFreqRatio = m_viewBandwidth / (double)m_dataWidth;
             m_onInputProcess.emit(args);
-            if (!m_inputHandled) { processInputs(fftResizePillVisible, fftResizePillCenter); }
+            if (!m_inputHandled)
+                processInputs(fftResizePillVisible, fftResizePillCenter);
         }
         else {
             // These are only recomputed inside processInputs(), which just got
@@ -1117,18 +1211,17 @@ namespace ImGui {
         updateAllVFOs(true);
 
         drawFFT();
-        if (m_waterfallVisible) {
+        if (m_waterfallVisible)
             drawWaterfall();
-        }
         drawVFOs();
-        if (m_bandplan != NULL && m_bandplanVisible) {
+        if (m_bandplan != NULL && m_bandplanVisible)
             drawBandPlan();
-        }
 
         // FFT/waterfall divider drag handle: the fat touch target that grabs on
         // touch-down (see processInputs). Drawn last so it sits on top of the
         // freq scale and the waterfall; the dark backing keeps it readable.
-        if (fftResizePillVisible) {
+        if (fftResizePillVisible)
+        {
             float halfW = style::dp(16.0f) + (m_fftResizeSelect ? style::dp(4.0f) : 0.0f);
             float halfH = style::dp(m_fftResizeSelect ? 6.0f : 4.5f);
             float pad = style::dp(2.0f);
@@ -1140,7 +1233,8 @@ namespace ImGui {
                                             m_fftResizeSelect ? ImGui::GetColorU32(ImGuiCol_SeparatorActive) : IM_COL32(210, 210, 210, 200), halfH);
         }
 
-        if (!m_waterfallVisible) {
+        if (!m_waterfallVisible)
+        {
             m_buf_mtx.unlock();
             return;
         }
@@ -1148,10 +1242,13 @@ namespace ImGui {
         m_buf_mtx.unlock();
     }
 
-    float* WaterFall::getFFTBuffer() {
-        if (m_rawFFTs == NULL) { return NULL; }
+    float* WaterFall::getFFTBuffer()
+    {
+        if (m_rawFFTs == NULL)
+            return NULL;
         m_buf_mtx.lock();
-        if (m_waterfallVisible) {
+        if (m_waterfallVisible)
+        {
             m_fftLines++;
             if(!m_saveHistory)
             {
@@ -1166,32 +1263,36 @@ namespace ImGui {
         return m_rawFFTs;
     }
 
-    void WaterFall::pushFFT() {
-        if (m_rawFFTs == NULL) { return; }
+    void WaterFall::pushFFT()
+    {
+        if (m_rawFFTs == NULL)
+            return;
         std::lock_guard<std::recursive_mutex> lck(m_latestFFTMtx);
         double offsetRatio = m_viewOffset / (m_wholeBandwidth / 2.0);
         int drawDataSize = (m_viewBandwidth / m_wholeBandwidth) * m_rawFFTWidth;
         int drawDataStart = (((double)m_rawFFTWidth / 2.0) * (offsetRatio + 1)) - (drawDataSize / 2);
 
-        if (m_waterfallVisible) {
+        if (m_waterfallVisible)
+        {
             doZoom(drawDataStart, drawDataSize, m_rawFFTWidth, m_dataWidth, &m_rawFFTs[m_currentFFTLine * m_rawFFTWidth], m_latestFFT);
             memmove(&m_waterfallFb[m_dataWidth], m_waterfallFb, m_dataWidth * (m_waterfallHeight - 1) * sizeof(uint32_t));
             float pixel;
             float dataRange = m_waterfallMax - m_waterfallMin;
-            for (int j = 0; j < m_dataWidth; j++) {
+            for (int j = 0; j < m_dataWidth; j++)
+            {
                 pixel = (std::clamp<float>(m_latestFFT[j], m_waterfallMin, m_waterfallMax) - m_waterfallMin) / dataRange;
                 int id = (int)(pixel * (WATERFALL_RESOLUTION - 1));
                 m_waterfallFb[j] = m_waterfallPallet[id];
             }
             m_waterfallUpdate = true;
-        }
-        else {
+        }else{
             doZoom(drawDataStart, drawDataSize, m_rawFFTWidth, m_dataWidth, m_rawFFTs, m_latestFFT);
             m_fftLines = 1;
         }
 
         // Apply smoothing if enabled
-        if (m_fftSmoothing && m_latestFFT != NULL && m_smoothingBuf != NULL && m_fftLines != 0) {
+        if (m_fftSmoothing && m_latestFFT != NULL && m_smoothingBuf != NULL && m_fftLines != 0)
+        {
             std::lock_guard<std::mutex> lck2(m_smoothingBufMtx);
             volk_32f_s32f_multiply_32f(m_latestFFT, m_latestFFT, m_fftSmoothingAlpha, m_dataWidth);
             volk_32f_s32f_multiply_32f(m_smoothingBuf, m_smoothingBuf, m_fftSmoothingBeta, m_dataWidth);
@@ -1199,10 +1300,12 @@ namespace ImGui {
             memcpy(m_latestFFT, m_smoothingBuf, m_dataWidth * sizeof(float));
         }
 
-        if (m_selectedVFO != "" && m_map_vfos.size() > 0) {
+        if (m_selectedVFO != "" && m_map_vfos.size() > 0)
+        {
             // Reset the peak hold when the VFO selection changes, so the new
             // VFO doesn't inherit the previous VFO's peak
-            if (m_selectedVFO != m_levelHistoryVFO) {
+            if (m_selectedVFO != m_levelHistoryVFO)
+            {
                 m_levelHistoryVFO = m_selectedVFO;
                 m_levelHistoryPos = 0;
                 m_levelHistoryCount = 0;
@@ -1212,7 +1315,8 @@ namespace ImGui {
             float newSNR = NAN;
             bool infoValid = calculateVFOSignalInfo(m_waterfallVisible ? &m_rawFFTs[m_currentFFTLine * m_rawFFTWidth] : m_rawFFTs, m_map_vfos[m_selectedVFO], newLevel, newSNR);
 
-            if (infoValid && std::isfinite(newLevel)) {
+            if (infoValid && std::isfinite(newLevel))
+            {
                 m_selectedVFOLevel = newLevel;
 
                 // Rolling window over the last LEVEL_HOLD_FRAMES FFT frames: hold
@@ -1226,14 +1330,14 @@ namespace ImGui {
                 m_levelHistoryCount = std::min<int>(m_levelHistoryCount + 1, LEVEL_HOLD_FRAMES);
                 float maxLevel = -INFINITY;
                 float noiseSum = 0.0f;
-                for (int i = 0; i < m_levelHistoryCount; i++) {
+                for (int i = 0; i < m_levelHistoryCount; i++)
+                {
                     maxLevel = std::max<float>(maxLevel, m_levelHistory[i]);
                     noiseSum += m_noiseHistory[i];
                 }
                 m_selectedVFOLevelMax = maxLevel;
                 m_selectedVFOSNR = maxLevel - (noiseSum / (float)m_levelHistoryCount);
-            }
-            else {
+            }else{
                 // No usable FFT data: blank the meter instead of showing stale
                 // values, and drop the history so values don't merge across a gap
                 m_levelHistoryPos = 0;
@@ -1245,18 +1349,20 @@ namespace ImGui {
         }
 
         // If FFT hold is enabled, update it
-        if (m_fftHold && m_latestFFT != NULL && m_latestFFTHold != NULL && m_fftLines != 0) {
-            for (int i = 1; i < m_dataWidth; i++) {
+        if (m_fftHold && m_latestFFT != NULL && m_latestFFTHold != NULL && m_fftLines != 0)
+        {
+            for (int i = 1; i < m_dataWidth; i++)
                 m_latestFFTHold[i] = std::max<float>(m_latestFFT[i], m_latestFFTHold[i] - m_fftHoldSpeed);
-            }
         }
 
         m_buf_mtx.unlock();
     }
 
-    void WaterFall::updatePallette(float colors[][3], int colorCount) {
+    void WaterFall::updatePallette(float colors[][3], int colorCount)
+    {
         std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
-        for (int i = 0; i < WATERFALL_RESOLUTION; i++) {
+        for (int i = 0; i < WATERFALL_RESOLUTION; i++)
+        {
             int lowerId = floorf(((float)i / (float)WATERFALL_RESOLUTION) * colorCount);
             int upperId = ceilf(((float)i / (float)WATERFALL_RESOLUTION) * colorCount);
             lowerId = std::clamp<int>(lowerId, 0, colorCount - 1);
@@ -1270,15 +1376,18 @@ namespace ImGui {
         updateWaterfallFb();
     }
 
-    void WaterFall::updatePalletteFromArray(const float* colors, int colorCount) {
+    void WaterFall::updatePalletteFromArray(const float* colors, int colorCount)
+    {
         // A color map that failed to load is empty; keep the current palette
         // instead of indexing a null array (and clamping to an empty range).
-        if (!colors || colorCount <= 0) {
+        if (!colors || colorCount <= 0)
+        {
             flog::error("Ignoring an empty waterfall color map");
             return;
         }
         std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
-        for (int i = 0; i < WATERFALL_RESOLUTION; i++) {
+        for (int i = 0; i < WATERFALL_RESOLUTION; i++)
+        {
             int lowerId = floorf(((float)i / (float)WATERFALL_RESOLUTION) * colorCount);
             int upperId = ceilf(((float)i / (float)WATERFALL_RESOLUTION) * colorCount);
             lowerId = std::clamp<int>(lowerId, 0, colorCount - 1);
@@ -1312,7 +1421,8 @@ namespace ImGui {
     // geometry (documented lock order buf_mtx -> latestFFTMtx, so this outermost
     // lock is safe and lets us read the newest line without racing the DSP
     // write). Returns false if too few bins survive.
-    bool WaterFall::collectAutorangeBins(std::vector<float>& out, int lines) {
+    bool WaterFall::collectAutorangeBins(std::vector<float>& out, int lines)
+    {
         // The band-edge and DC/LO exclusions are contiguous index ranges, not
         // per-bin predicates, so resolve them to at most two surviving segments.
         // All the boundary math is derived here, before taking buf_mtx: it
@@ -1327,7 +1437,8 @@ namespace ImGui {
         // range; the next tick reacquires). Every offset below is clamped into
         // [0, N], so a stale N can only cause a bail, never an out-of-bounds copy.
         int N = m_rawFFTWidth;
-        if (N <= 0 || m_wholeBandwidth <= 0.0) { return false; }
+        if (N <= 0 || m_wholeBandwidth <= 0.0)
+            return false;
 
         // Visible span in raw-bin coordinates (identical to pushFFT).
         double offsetRatio = m_viewOffset / (m_wholeBandwidth / 2.0);
@@ -1335,7 +1446,8 @@ namespace ImGui {
         int drawDataStart = (int)(((double)N / 2.0) * (offsetRatio + 1)) - (drawDataSize / 2);
         int visStart = std::clamp<int>(drawDataStart, 0, N);
         int visEnd = std::clamp<int>(drawDataStart + drawDataSize, 0, N);
-        if (visStart >= visEnd) { return false; }
+        if (visStart >= visEnd)
+            return false;
 
         // Device band-edge zones (anti-alias roll-off): 15% per side. Keep
         // [edgeLo, edgeHi); intersect with the visible window to get [a, b).
@@ -1364,14 +1476,16 @@ namespace ImGui {
         int seg2Lo = std::max(a, dcHi + 1);
         int len2 = std::max(0, b - seg2Lo);
         int perLine = len1 + len2;
-        if (perLine <= 0) { return false; }
+        if (perLine <= 0)
+            return false;
 
         {
             std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
             // rawFFTWidth may have been reallocated under us (DSP thread); if so
             // the precomputed offsets no longer match rawFFTs -- bail rather than
             // index past it.
-            if (m_rawFFTs == NULL || m_fftLines <= 0 || m_waterfallHeight <= 0 || m_rawFFTWidth != N) { return false; }
+            if (m_rawFFTs == NULL || m_fftLines <= 0 || m_waterfallHeight <= 0 || m_rawFFTWidth != N)
+                return false;
             int nLines = std::clamp<int>(lines, 1, m_fftLines);
             size_t total = (size_t)perLine * nLines;
             // resize (not reserve) so out.size() is exactly the copied count -- a
@@ -1380,19 +1494,23 @@ namespace ImGui {
             // the steady-state path allocation-free.
             out.resize(total);
             int lines = std::min(nLines, m_rawFFTHeight) + 1;
-            for(int l = 0; l < lines; l++) {
+            for(int l = 0; l < lines; l++)
+            {
                 // currentFFTLine is the newest; older lines follow at +1, +2...
                 // When the waterfall is hidden the live line is rawFFTs[0], not
                 // the frozen ring slot at currentFFTLine.
-                const float* line = m_waterfallVisible
-                    ? &m_rawFFTs[((m_currentFFTLine + l) % m_rawFFTHeight) * N]
-                    : m_rawFFTs;
+                const float* line = m_waterfallVisible ? &m_rawFFTs[((m_currentFFTLine + l) % m_rawFFTHeight) * N] : m_rawFFTs;
                 size_t offs = (size_t)l * perLine;
                 if(offs+1 >= out.size())
                     break;
                 float* dst = out.data() + offs;
-                if(len1 > 0) { memcpy(dst, &line[seg1Lo], len1 * sizeof(float)); dst += len1; }
-                if(len2 > 0) { memcpy(dst, &line[seg2Lo], len2 * sizeof(float)); }
+                if(len1 > 0)
+                {
+                    memcpy(dst, &line[seg1Lo], len1 * sizeof(float));
+                    dst += len1;
+                }
+                if(len2 > 0)
+                    memcpy(dst, &line[seg2Lo], len2 * sizeof(float));
             }
         }
 
@@ -1411,9 +1529,11 @@ namespace ImGui {
     // member output buffer (collectAutorangeBins resize()s it, keeping capacity)
     // so the periodic sticky path doesn't alloc/free a ~65k-float vector every
     // call.
-    bool WaterFall::getAutorangeRef(float& refDb, int lines) {
+    bool WaterFall::getAutorangeRef(float& refDb, int lines)
+    {
         std::vector<float>& vals = m_autorangeVals;
-        if (!collectAutorangeBins(vals, lines)) { return false; }
+        if (!collectAutorangeBins(vals, lines))
+            return false;
 
         // Robust low quantile instead of the raw minimum: raw min chases single
         // downward noise excursions. nth_element is O(n) vs O(n log n) for a
@@ -1429,51 +1549,56 @@ namespace ImGui {
 
     // Release the pooled bin buffer. Call after a multi-line one-shot so the
     // single-line sticky path doesn't keep the 5x-larger allocation around.
-    void WaterFall::freeAutorangeScratch() {
+    void WaterFall::freeAutorangeScratch()
+    {
         std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
         std::vector<float>().swap(m_autorangeVals);
     }
 
-    void WaterFall::setCenterFrequency(double freq) {
+    void WaterFall::setCenterFrequency(double freq)
+    {
         m_centerFreq = freq;
         m_lowerFreq = (m_centerFreq + m_viewOffset) - (m_viewBandwidth / 2.0);
         m_upperFreq = (m_centerFreq + m_viewOffset) + (m_viewBandwidth / 2.0);
         updateAllVFOs();
     }
 
-    double WaterFall::getCenterFrequency() {
+    double WaterFall::getCenterFrequency()
+    {
         return m_centerFreq;
     }
 
-    void WaterFall::setBandwidth(double bandWidth) {
+    void WaterFall::setBandwidth(double bandWidth)
+    {
         double currentRatio = m_viewBandwidth / m_wholeBandwidth;
         m_wholeBandwidth = bandWidth;
         setViewBandwidth(bandWidth * currentRatio);
-        for (auto const& [name, vfo] : m_map_vfos) {
-            if (vfo->m_lowerOffset < -(bandWidth / 2)) {
+        for (auto const& [name, vfo] : m_map_vfos)
+        {
+            if (vfo->m_lowerOffset < -(bandWidth / 2))
                 vfo->setCenterOffset(-(bandWidth / 2));
-            }
-            if (vfo->m_upperOffset > (bandWidth / 2)) {
+            if (vfo->m_upperOffset > (bandWidth / 2))
                 vfo->setCenterOffset(bandWidth / 2);
-            }
         }
         updateAllVFOs();
     }
 
-    double WaterFall::getBandwidth() {
+    double WaterFall::getBandwidth()
+    {
         return m_wholeBandwidth;
     }
 
-    void WaterFall::setViewBandwidth(double bandWidth) {
+    void WaterFall::setViewBandwidth(double bandWidth)
+    {
         std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
-        if (bandWidth == m_viewBandwidth) {
+        if (bandWidth == m_viewBandwidth)
             return;
-        }
-        if (abs(m_viewOffset) + (bandWidth / 2.0) > m_wholeBandwidth / 2.0) {
-            if (m_viewOffset < 0) {
+        if (abs(m_viewOffset) + (bandWidth / 2.0) > m_wholeBandwidth / 2.0)
+        {
+            if (m_viewOffset < 0)
+            {
                 m_viewOffset = (bandWidth / 2.0) - (m_wholeBandwidth / 2.0);
-            }
-            else {
+            }else{
                 m_viewOffset = (m_wholeBandwidth / 2.0) - (bandWidth / 2.0);
             }
         }
@@ -1481,55 +1606,63 @@ namespace ImGui {
         m_lowerFreq = (m_centerFreq + m_viewOffset) - (m_viewBandwidth / 2.0);
         m_upperFreq = (m_centerFreq + m_viewOffset) + (m_viewBandwidth / 2.0);
         m_range = findBestRange(bandWidth, m_maxHSteps);
-        if (m_fullUpdate) { updateWaterfallFb(); };
+        if (m_fullUpdate)
+            updateWaterfallFb();
         updateAllVFOs();
     }
 
-    double WaterFall::getViewBandwidth() {
+    double WaterFall::getViewBandwidth()
+    {
         return m_viewBandwidth;
     }
 
-    void WaterFall::setViewOffset(double offset) {
+    void WaterFall::setViewOffset(double offset)
+    {
         std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
-        if (offset == m_viewOffset) {
+        if (offset == m_viewOffset)
             return;
-        }
-        if (offset - (m_viewBandwidth / 2.0) < -(m_wholeBandwidth / 2.0)) {
+        if (offset - (m_viewBandwidth / 2.0) < -(m_wholeBandwidth / 2.0))
             offset = (m_viewBandwidth / 2.0) - (m_wholeBandwidth / 2.0);
-        }
-        if (offset + (m_viewBandwidth / 2.0) > (m_wholeBandwidth / 2.0)) {
+        if (offset + (m_viewBandwidth / 2.0) > (m_wholeBandwidth / 2.0))
             offset = (m_wholeBandwidth / 2.0) - (m_viewBandwidth / 2.0);
-        }
+
         m_viewOffset = offset;
         m_lowerFreq = (m_centerFreq + m_viewOffset) - (m_viewBandwidth / 2.0);
         m_upperFreq = (m_centerFreq + m_viewOffset) + (m_viewBandwidth / 2.0);
-        if (m_fullUpdate) { updateWaterfallFb(); };
+        if (m_fullUpdate)
+            updateWaterfallFb();
         updateAllVFOs();
     }
 
-    double WaterFall::getViewOffset() {
+    double WaterFall::getViewOffset()
+    {
         return m_viewOffset;
     }
 
-    void WaterFall::setFFTMin(float min) {
+    void WaterFall::setFFTMin(float min)
+    {
         m_fftMin = min;
         m_vRange = findBestRange(m_fftMax - m_fftMin, m_maxVSteps);
     }
 
-    float WaterFall::getFFTMin() {
+    float WaterFall::getFFTMin()
+    {
         return m_fftMin;
     }
 
-    void WaterFall::setFFTMax(float max) {
+    void WaterFall::setFFTMax(float max)
+    {
         m_fftMax = max;
         m_vRange = findBestRange(m_fftMax - m_fftMin, m_maxVSteps);
     }
 
-    float WaterFall::getFFTMax() {
+    float WaterFall::getFFTMax()
+    {
         return m_fftMax;
     }
 
-    void WaterFall::setFullWaterfallUpdate(bool saveHistory, bool fullUpdate) {
+    void WaterFall::setFullWaterfallUpdate(bool saveHistory, bool fullUpdate)
+    {
         std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
         m_fullUpdate = fullUpdate;
         if(saveHistory != m_saveHistory)
@@ -1539,27 +1672,33 @@ namespace ImGui {
         }
     }
 
-    void WaterFall::setWaterfallMinMax(float min, float max) {
+    void WaterFall::setWaterfallMinMax(float min, float max)
+    {
         std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
-        if (min == m_waterfallMin && max == m_waterfallMax) {
+        if (min == m_waterfallMin && max == m_waterfallMax)
             return;
-        }
         m_waterfallMin = min;
         m_waterfallMax = max;
-        if (m_fullUpdate) { updateWaterfallFb(); };
+        if (m_fullUpdate)
+            updateWaterfallFb();
     }
 
-    float WaterFall::getWaterfallMin() {
+    float WaterFall::getWaterfallMin()
+    {
         return m_waterfallMin;
     }
 
-    float WaterFall::getWaterfallMax() {
+    float WaterFall::getWaterfallMax()
+    {
         return m_waterfallMax;
     }
 
-    void WaterFall::updateAllVFOs(bool checkRedrawRequired) {
-        for (auto const& [name, vfo] : m_map_vfos) {
-            if (checkRedrawRequired && !vfo->m_redrawRequired) { continue; }
+    void WaterFall::updateAllVFOs(bool checkRedrawRequired)
+    {
+        for (auto const& [name, vfo] : m_map_vfos)
+        {
+            if (checkRedrawRequired && !vfo->m_redrawRequired)
+                continue;
             vfo->updateDrawingVars(m_viewBandwidth, m_dataWidth, m_viewOffset, m_widgetPos, m_fftHeight);
             vfo->m_wfRectMin = ImVec2(vfo->m_rectMin.x, m_wfMin.y);
             vfo->m_wfRectMax = ImVec2(vfo->m_rectMax.x, m_wfMax.y);
@@ -1574,11 +1713,13 @@ namespace ImGui {
         }
     }
 
-    void WaterFall::setRawFFTSize(int size) {
+    void WaterFall::setRawFFTSize(int size)
+    {
         std::lock_guard<std::recursive_mutex> lck(m_buf_mtx);
         m_rawFFTWidth = size;
         int wfSize = std::max<int>(1, m_rawFFTHeight);
-        if (m_rawFFTs != NULL) {
+        if (m_rawFFTs != NULL)
+        {
             m_rawFFTs = (float*)realloc(m_rawFFTs, m_rawFFTWidth * wfSize * sizeof(float));
         }else{
             m_rawFFTs = (float*)malloc(m_rawFFTWidth * wfSize * sizeof(float));
@@ -1593,52 +1734,60 @@ namespace ImGui {
         m_bandPlanPos = pos;
     }
 
-    void WaterFall::setFFTHold(bool hold) {
+    void WaterFall::setFFTHold(bool hold)
+    {
         m_fftHold = hold;
-        if (m_fftHold && m_latestFFTHold) {
-            for (int i = 0; i < m_dataWidth; i++) {
+        if (m_fftHold && m_latestFFTHold)
+        {
+            for (int i = 0; i < m_dataWidth; i++)
                 m_latestFFTHold[i] = -1000.0;
-            }
         }
     }
 
-    void WaterFall::setFFTHoldSpeed(float speed) {
+    void WaterFall::setFFTHoldSpeed(float speed)
+    {
         m_fftHoldSpeed = speed;
     }
 
-    void WaterFall::setFFTSmoothing(bool enabled) {
+    void WaterFall::setFFTSmoothing(bool enabled)
+    {
         std::lock_guard<std::mutex> lck(m_smoothingBufMtx);
         m_fftSmoothing = enabled;
 
         // Free buffer if not null
-        if (m_smoothingBuf) {delete[] m_smoothingBuf; }
+        if (m_smoothingBuf)
+            delete[] m_smoothingBuf;
 
         // If disabled, stop here
-        if (!enabled) {
+        if (!enabled)
+        {
             m_smoothingBuf = NULL;
             return;
         }
 
         // Allocate and copy existing FFT into it
         m_smoothingBuf = new float[m_dataWidth];
-        if (m_latestFFT) {
+        if (m_latestFFT)
+        {
             std::lock_guard<std::recursive_mutex> lck2(m_latestFFTMtx);
             memcpy(m_smoothingBuf, m_latestFFT, m_dataWidth * sizeof(float));
-        }
-        else {
+        }else{
             memset(m_smoothingBuf, 0, m_dataWidth * sizeof(float));
         }
     }
 
-    void WaterFall::setFFTSmoothingSpeed(float speed) {
+    void WaterFall::setFFTSmoothingSpeed(float speed)
+    {
         std::lock_guard<std::mutex> lck(m_smoothingBufMtx);
         m_fftSmoothingAlpha = speed;
         m_fftSmoothingBeta = 1.0f - speed;
     }
 
-    float* WaterFall::acquireLatestFFT(int& width) {
+    float* WaterFall::acquireLatestFFT(int& width)
+    {
         m_latestFFTMtx.lock();
-        if (!m_latestFFT) {
+        if (!m_latestFFT)
+        {
             m_latestFFTMtx.unlock();
             return NULL;
         }
@@ -1646,23 +1795,26 @@ namespace ImGui {
         return m_latestFFT;
     }
 
-    void WaterFall::releaseLatestFFT() {
+    void WaterFall::releaseLatestFFT()
+    {
         m_latestFFTMtx.unlock();
     }
 
-    void WaterfallVFO::setOffset(double offset) {
+    void WaterfallVFO::setOffset(double offset)
+    {
         m_generalOffset = offset;
-        if (m_reference == REF_CENTER) {
+        if (m_reference == REF_CENTER)
+        {
             m_centerOffset = offset;
             m_lowerOffset = offset - (m_bandwidth / 2.0);
             m_upperOffset = offset + (m_bandwidth / 2.0);
-        }
-        else if (m_reference == REF_LOWER) {
+        }else if (m_reference == REF_LOWER)
+        {
             m_lowerOffset = offset;
             m_centerOffset = offset + (m_bandwidth / 2.0);
             m_upperOffset = offset + m_bandwidth;
-        }
-        else if (m_reference == REF_UPPER) {
+        }else if (m_reference == REF_UPPER)
+        {
             m_upperOffset = offset;
             m_centerOffset = offset - (m_bandwidth / 2.0);
             m_lowerOffset = offset - m_bandwidth;
@@ -1673,14 +1825,16 @@ namespace ImGui {
         m_redrawRequired = true;
     }
 
-    void WaterfallVFO::setCenterOffset(double offset) {
-        if (m_reference == REF_CENTER) {
+    void WaterfallVFO::setCenterOffset(double offset)
+    {
+        if (m_reference == REF_CENTER)
+        {
             m_generalOffset = offset;
-        }
-        else if (m_reference == REF_LOWER) {
+        }else if (m_reference == REF_LOWER)
+        {
             m_generalOffset = offset - (m_bandwidth / 2.0);
-        }
-        else if (m_reference == REF_UPPER) {
+        }else if (m_reference == REF_UPPER)
+        {
             m_generalOffset = offset + (m_bandwidth / 2.0);
         }
         m_centerOffset = offset;
@@ -1692,21 +1846,22 @@ namespace ImGui {
         m_redrawRequired = true;
     }
 
-    void WaterfallVFO::setBandwidth(double bw) {
-        if (m_bandwidth == bw || bw < 0) {
+    void WaterfallVFO::setBandwidth(double bw)
+    {
+        if (m_bandwidth == bw || bw < 0) 
             return;
-        }
         m_bandwidth = bw;
-        if (m_reference == REF_CENTER) {
+        if (m_reference == REF_CENTER)
+        {
             m_lowerOffset = m_centerOffset - (m_bandwidth / 2.0);
             m_upperOffset = m_centerOffset + (m_bandwidth / 2.0);
-        }
-        else if (m_reference == REF_LOWER) {
+        }else if (m_reference == REF_LOWER)
+        {
             m_centerOffset = m_lowerOffset + (m_bandwidth / 2.0);
             m_upperOffset = m_lowerOffset + m_bandwidth;
             m_centerOffsetChanged = true;
-        }
-        else if (m_reference == REF_UPPER) {
+        }else if (m_reference == REF_UPPER)
+        {
             m_centerOffset = m_upperOffset - (m_bandwidth / 2.0);
             m_lowerOffset = m_upperOffset - m_bandwidth;
             m_centerOffsetChanged = true;
@@ -1715,54 +1870,58 @@ namespace ImGui {
         m_redrawRequired = true;
     }
 
-    void WaterfallVFO::setReference(int ref) {
-        if (m_reference == ref || ref < 0 || ref >= _REF_COUNT) {
+    void WaterfallVFO::setReference(int ref)
+    {
+        if (m_reference == ref || ref < 0 || ref >= _REF_COUNT)
             return;
-        }
         m_reference = ref;
         setOffset(m_generalOffset);
     }
 
-    void WaterfallVFO::setNotchOffset(double offset) {
+    void WaterfallVFO::setNotchOffset(double offset)
+    {
         m_notchOffset = offset;
         m_redrawRequired = true;
     }
 
-    void WaterfallVFO::setNotchVisible(bool visible) {
+    void WaterfallVFO::setNotchVisible(bool visible)
+    {
         m_notchVisible = visible;
         m_redrawRequired = true;
     }
 
-    void WaterfallVFO::updateDrawingVars(double viewBandwidth, float dataWidth, double viewOffset, ImVec2 widgetPos, int fftHeight) {
+    void WaterfallVFO::updateDrawingVars(double viewBandwidth, float dataWidth, double viewOffset, ImVec2 widgetPos, int fftHeight)
+    {
         int center = roundf((((m_centerOffset - viewOffset) / (viewBandwidth / 2.0)) + 1.0) * ((double)dataWidth / 2.0));
         int left = roundf((((m_lowerOffset - viewOffset) / (viewBandwidth / 2.0)) + 1.0) * ((double)dataWidth / 2.0));
         int right = roundf((((m_upperOffset - viewOffset) / (viewBandwidth / 2.0)) + 1.0) * ((double)dataWidth / 2.0));
         int notch = roundf((((m_notchOffset + m_centerOffset - viewOffset) / (viewBandwidth / 2.0)) + 1.0) * ((double)dataWidth / 2.0));
 
         // Check weather the line is visible
-        if (left >= 0 && left < dataWidth && m_reference == REF_LOWER) {
+        if (left >= 0 && left < dataWidth && m_reference == REF_LOWER)
+        {
             m_lineVisible = true;
-        }
-        else if (center >= 0 && center < dataWidth && m_reference == REF_CENTER) {
+        }else if (center >= 0 && center < dataWidth && m_reference == REF_CENTER)
+        {
             m_lineVisible = true;
-        }
-        else if (right >= 0 && right < dataWidth && m_reference == REF_UPPER) {
+        }else if (right >= 0 && right < dataWidth && m_reference == REF_UPPER)
+        {
             m_lineVisible = true;
-        }
-        else {
+        }else{
             m_lineVisible = false;
         }
 
         // Calculate the position of the line
-        if (m_reference == REF_LOWER) {
+        if (m_reference == REF_LOWER)
+        {
             m_lineMin = ImVec2(gui::waterfall.m_fftAreaMin.x + left, gui::waterfall.m_fftAreaMin.y);
             m_lineMax = ImVec2(gui::waterfall.m_fftAreaMin.x + left, gui::waterfall.m_fftAreaMax.y - 1);
-        }
-        else if (m_reference == REF_CENTER) {
+        }else if (m_reference == REF_CENTER)
+        {
             m_lineMin = ImVec2(gui::waterfall.m_fftAreaMin.x + center, gui::waterfall.m_fftAreaMin.y);
             m_lineMax = ImVec2(gui::waterfall.m_fftAreaMin.x + center, gui::waterfall.m_fftAreaMax.y - 1);
-        }
-        else if (m_reference == REF_UPPER) {
+        }else if (m_reference == REF_UPPER)
+        {
             m_lineMin = ImVec2(gui::waterfall.m_fftAreaMin.x + right, gui::waterfall.m_fftAreaMin.y);
             m_lineMax = ImVec2(gui::waterfall.m_fftAreaMin.x + right, gui::waterfall.m_fftAreaMax.y - 1);
         }
@@ -1787,56 +1946,65 @@ namespace ImGui {
         m_notchMax = ImVec2(gui::waterfall.m_fftAreaMin.x + notch + gripSize, gui::waterfall.m_fftAreaMax.y - 1);
     }
 
-    void WaterfallVFO::draw(ImGuiWindow* window, bool selected) {
+    void WaterfallVFO::draw(ImGuiWindow* window, bool selected)
+    {
         window->DrawList->AddRectFilled(m_rectMin, m_rectMax, m_color);
-        if (m_lineVisible) {
+        if (m_lineVisible)
             window->DrawList->AddLine(m_lineMin, m_lineMax, selected ? IM_COL32(255, 0, 0, 255) : IM_COL32(255, 255, 0, 255), style::lineWidth());
-        }
 
-        if (m_notchVisible) {
+        if (m_notchVisible)
             window->DrawList->AddRectFilled(m_notchMin, m_notchMax, IM_COL32(255, 0, 0, 127));
-        }
 
-        if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None) &&
-            !gui::mainWindow.lockWaterfallControls && !gui::waterfall.m_inputHandled)
+        if (ImGui::IsWindowHovered(ImGuiHoveredFlags_None) && !gui::mainWindow.lockWaterfallControls && !gui::waterfall.m_inputHandled)
         {
             ImVec2 mousePos = ImGui::GetMousePos();
-            if (m_rectMax.x - m_rectMin.x < 10) { return; }
-            if (m_reference != REF_LOWER && !m_bandwidthLocked && !m_leftClamped) {
-                if (IS_IN_AREA(mousePos, m_lbwSelMin, m_lbwSelMax)) { ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW); }
-                else if (IS_IN_AREA(mousePos, m_wfLbwSelMin, m_wfLbwSelMax)) {
+            if (m_rectMax.x - m_rectMin.x < 10)
+                return;
+            if (m_reference != REF_LOWER && !m_bandwidthLocked && !m_leftClamped)
+            {
+                if (IS_IN_AREA(mousePos, m_lbwSelMin, m_lbwSelMax))
+                {
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+                }else if (IS_IN_AREA(mousePos, m_wfLbwSelMin, m_wfLbwSelMax))
+                {
                     ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
                 }
             }
-            if (m_reference != REF_UPPER && !m_bandwidthLocked && !m_rightClamped) {
-                if (IS_IN_AREA(mousePos, m_rbwSelMin, m_rbwSelMax)) { ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW); }
-                else if (IS_IN_AREA(mousePos, m_wfRbwSelMin, m_wfRbwSelMax)) {
+            if (m_reference != REF_UPPER && !m_bandwidthLocked && !m_rightClamped)
+            {
+                if (IS_IN_AREA(mousePos, m_rbwSelMin, m_rbwSelMax))
+                {
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+                }else if (IS_IN_AREA(mousePos, m_wfRbwSelMin, m_wfRbwSelMax))
+                {
                     ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
                 }
             }
         }
     };
 
-    void WaterFall::showWaterfall() {
+    void WaterFall::showWaterfall()
+    {
         m_buf_mtx.lock();
-        if (m_rawFFTs == NULL) {
+        if (m_rawFFTs == NULL)
             flog::error("Null rawFFT");
-        }
         m_waterfallVisible = true;
-        onResize();
+        onResize();//realloc m_rawFFTs
         memset(m_rawFFTs, 0, m_rawFFTHeight * m_rawFFTWidth * sizeof(float));
         updateWaterfallFb();
         m_buf_mtx.unlock();
     }
 
-    void WaterFall::hideWaterfall() {
+    void WaterFall::hideWaterfall()
+    {
         m_buf_mtx.lock();
         m_waterfallVisible = false;
         onResize();
         m_buf_mtx.unlock();
     }
 
-    void WaterFall::setFFTHeight(int height) {
+    void WaterFall::setFFTHeight(int height)
+    {
         m_FFTAreaHeight = height;
         m_newFFTAreaHeight = height;
         m_buf_mtx.lock();
@@ -1844,19 +2012,23 @@ namespace ImGui {
         m_buf_mtx.unlock();
     }
 
-    int WaterFall::getFFTHeight() {
+    int WaterFall::getFFTHeight()
+    {
         return m_FFTAreaHeight;
     }
 
-    void WaterFall::showBandplan() {
+    void WaterFall::showBandplan()
+    {
         m_bandplanVisible = true;
     }
 
-    void WaterFall::hideBandplan() {
+    void WaterFall::hideBandplan()
+    {
         m_bandplanVisible = false;
     }
 
-    void WaterfallVFO::setSnapInterval(double interval) {
+    void WaterfallVFO::setSnapInterval(double interval)
+    {
         m_snapInterval = interval;
     }
 };

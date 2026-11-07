@@ -62,7 +62,7 @@ namespace icons {
 
     bool load(std::string resDir) {
 
-        LOGO = (ImTextureID)(uintptr_t)loadTexture(png_sdriak_Bin, png_sdriak_Size*sizeof(int));
+        LOGO = (ImTextureID)(uintptr_t)loadTexture(png_sdrpp_mini_Bin, png_sdrpp_mini_Size*sizeof(int));
         PLAY = (ImTextureID)(uintptr_t)loadTexture(png_play_Bin, png_play_Size*sizeof(int));
         STOP = (ImTextureID)(uintptr_t)loadTexture(png_stop_Bin, png_stop_Size*sizeof(int));
         MENU = (ImTextureID)(uintptr_t)loadTexture(png_menu_Bin, png_menu_Size*sizeof(int));

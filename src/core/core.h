@@ -5,8 +5,9 @@
 #include <string>
 #include "command_args.h"
 
-namespace core {
-    extern ConfigManager configManager;
+namespace core
+{
+    extern ConfigManagerImpl configManager;
     extern ModuleManager moduleManager;
     extern ModuleComManager modComManager;
     extern CommandArgsParser args;

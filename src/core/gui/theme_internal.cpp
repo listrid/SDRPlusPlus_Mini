@@ -417,17 +417,17 @@ bool ThemeManager::loadInternal(const std::string& name)
         ImVec4 v = ImVec4((float)rgba[3] / 255.0f, (float)rgba[2] / 255.0f, (float)rgba[1] / 255.0f, (float)rgba[0] / 255.0f);
 
         if(i == ImGuiCol_WaterfallBackground) {
-            ThemeManager::waterfallBg = v;
+            ThemeManager::m_waterfallBg = v;
             continue;
         }
 
         if(i == ImGuiCol_ClearColor) {
-            ThemeManager::clearColor = v;
+            ThemeManager::m_clearColor = v;
             continue;
         }
 
         if(i == ImGuiCol_FFTHoldColor) {
-            ThemeManager::fftHoldColor = v;
+            ThemeManager::m_fftHoldColor = v;
             continue;
         }
         if(i < ImGuiCol_COUNT) {

@@ -24,11 +24,13 @@ static ModuleManager::ModuleInfo_t audio_sink_INFO{
     /* Max instances    */ 1
 };
 
-static ConfigManager config;
+static ConfigManagerImpl config;
 
-class AudioSink : SinkManager::Sink {
+class AudioSink : SinkManager::Sink
+{
 public:
-    AudioSink(SinkManager::Stream* stream, std::string streamName) {
+    AudioSink(SinkManager::Stream* stream, std::string streamName)
+    {
         _stream = stream;
         _streamName = streamName;
         s2m.init(_stream->sinkOut);
@@ -39,71 +41,78 @@ public:
         audio.setErrorCallback(&errorCallback);
 #endif
 
-        std::string device = "";
-        {
-            auto configAccess = config.edit();
-            ConfigManager::EditSection stream = configAccess.section(_streamName);
-            stream.ensure("device", "");
-            stream.ensure("devices", json::object());
-            stream.tryGet("device", device);
-        }
+        std::string device(config.edit().section(_streamName).value("device", ""));
 
         RtAudio::DeviceInfo info;
 #if RTAUDIO_VERSION_MAJOR >= 6
-        for (int i : audio.getDeviceIds()) {
+        for (int i : audio.getDeviceIds())
+        {
 #else
         int count = audio.getDeviceCount();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
 #endif
-            try {
+            try
+            {
                 info = audio.getDeviceInfo(i);
 #if !defined(RTAUDIO_VERSION_MAJOR) || RTAUDIO_VERSION_MAJOR < 6
-                if (!info.probed) { continue; }
+                if (!info.probed)
+                    continue;
 #endif
-                if (info.outputChannels == 0) { continue; }
-                if (info.isDefaultOutput) { defaultDevId = devList.size(); }
+                if (info.outputChannels == 0)
+                    continue;
+                if (info.isDefaultOutput)
+                    defaultDevId = devList.size();
                 devList.push_back(info);
                 deviceIds.push_back(i);
                 txtDevList += info.name;
                 txtDevList += '\0';
-            }
-            catch (const std::exception& e) {
+            }catch (const std::exception& e)
+            {
                 flog::error("AudioSinkModule Error getting audio device ({}) info: {}", i, e.what());
             }
         }
         // On a machine with no audio output devices, keep a valid sample rate
         // so the upstream resampler has a target. The pipeline is kept draining
         // by the null sink (see doStart) so the spectrum still works.
-        if (devList.empty()) {
+        if (devList.empty())
             _stream->setSampleRate(sampleRate);
-        }
-
         selectByName(device);
     }
 
-    ~AudioSink() {
+    ~AudioSink()
+    {
         stop();
     }
 
-    void start() {
-        if (running) { return; }
+    void start()
+    {
+        if (running)
+            return;
         running = doStart();
     }
 
-    void stop() {
-        if (!running) { return; }
+    void stop()
+    {
+        if (!running)
+            return;
         doStop();
         running = false;
     }
 
-    void selectFirst() {
-        if (devList.empty()) { return; }
+    void selectFirst()
+    {
+        if (devList.empty())
+            return;
         selectById(defaultDevId);
     }
 
-    void selectByName(std::string name) {
-        for (int i = 0; i < devList.size(); i++) {
-            if (devList[i].name == name) {
+    void selectByName(std::string name)
+    {
+        for (int i = 0; i < devList.size(); i++)
+        {
+            if (devList[i].name == name)
+            {
                 selectById(i);
                 return;
             }
@@ -111,8 +120,10 @@ public:
         selectFirst();
     }
 
-    void selectById(int id) {
-        if (id < 0 || id >= (int)devList.size()) { return; }
+    void selectById(int id)
+    {
+        if (id < 0 || id >= (int)devList.size())
+            return;
         devId = id;
 #ifdef __linux__
         alsaMode = (audio.getCurrentApi() == RtAudio::LINUX_ALSA);
@@ -131,58 +142,69 @@ public:
         bool found = false;
         unsigned int defaultId = 0;
         unsigned int defaultSr = devList[id].preferredSampleRate;
-        for (int i = 0; i < sampleRates.size(); i++) {
-            if (sampleRates[i] == sampleRate) {
+        for (int i = 0; i < sampleRates.size(); i++)
+        {
+            if(sampleRates[i] == sampleRate)
+            {
                 found = true;
                 srId = i;
             }
-            if (sampleRates[i] == defaultSr) {
+            if(sampleRates[i] == defaultSr)
                 defaultId = i;
-            }
             sprintf(buf, "%d", sampleRates[i]);
             sampleRatesTxt += buf;
             sampleRatesTxt += '\0';
         }
-        if (!found) {
+        if (!found)
+        {
             sampleRate = defaultSr;
             srId = defaultId;
         }
 
         _stream->setSampleRate(sampleRate);
 
-        if (running) { doStop(); }
-        if (running) { doStart(); }
+        if (running)
+            doStop();
+        if (running)
+            doStart();
     }
 
-    void menuHandler() {
+    void menuHandler()
+    {
         float menuWidth = ImGui::GetContentRegionAvail().x;
 
-        if (devList.empty()) {
+        if (devList.empty())
+        {
             ImGui::TextUnformatted("No audio output devices");
             return;
         }
 
         ImGui::SetNextItemWidth(menuWidth);
-        if (ImGui::Combo(("##_audio_sink_dev_" + _streamName).c_str(), &devId, txtDevList.c_str())) {
+        if (ImGui::Combo(("##_audio_sink_dev_" + _streamName).c_str(), &devId, txtDevList.c_str()))
+        {
             selectById(devId);
-            config.edit().section(_streamName).set("device", devList[devId].name);
+            config.edit().section(_streamName)["device"] = devList[devId].name;
         }
 
         ImGui::SetNextItemWidth(menuWidth);
-        if (ImGui::Combo(("##_audio_sink_sr_" + _streamName).c_str(), &srId, sampleRatesTxt.c_str())) {
+        if (ImGui::Combo(("##_audio_sink_sr_" + _streamName).c_str(), &srId, sampleRatesTxt.c_str()))
+        {
             sampleRate = sampleRates[srId];
             _stream->setSampleRate(sampleRate);
-            if (running) {
+            if (running)
+            {
                 doStop();
                 doStart();
             }
-            config.edit().section(_streamName, "devices").set(devList[devId].name, sampleRate);
+            config.edit().section(_streamName, "devices")[devList[devId].name] = sampleRate;
         }
     }
 
 #if RTAUDIO_VERSION_MAJOR >= 6
-    static void errorCallback(RtAudioErrorType type, const std::string& errorText) {
-        switch (type) {
+    static void errorCallback(RtAudioErrorType type, const std::string& errorText)
+    {
+        switch (type)
+        {
         case RtAudioErrorType::RTAUDIO_NO_ERROR:
             return;
         case RtAudioErrorType::RTAUDIO_WARNING:
@@ -201,8 +223,10 @@ private:
     // (which also feeds the FFT) keeps flowing when no real device is running.
     // Constructed lazily: on a machine with an active output device this is
     // never allocated. init() must run exactly once, before start().
-    void startNullDrain() {
-        if (!nullSink) {
+    void startNullDrain()
+    {
+        if (!nullSink)
+        {
             nullSink = std::make_unique<dsp::sink::Null<dsp::stereo_t>>();
             nullSink->init(_stream->sinkOut);
         }
@@ -210,9 +234,11 @@ private:
         nullMode = true;
     }
 
-    bool doStart() {
+    bool doStart()
+    {
         // No usable output device: keep the pipeline draining.
-        if (devList.empty() || devId < 0 || devId >= (int)deviceIds.size()) {
+        if (devList.empty() || devId < 0 || devId >= (int)deviceIds.size())
+        {
             startNullDrain();
             return true;
         }
@@ -242,17 +268,20 @@ private:
             audio.startStream();
             stereoPacker.start();
         }
-        catch (const std::exception& e) {
+        catch (const std::exception& e)
+        {
             flog::error("Could not open audio device {0}", e.what());
             // Unwind any partially-opened stream: a failure past openStream()
             // (startStream/stereoPacker.start) would otherwise leave the device
             // open, and doStop() skips RtAudio teardown in null mode.
             try {
-                if (audio.isStreamRunning()) { audio.stopStream(); }
-            }
-            catch (...) {}
-            try {
-                if (audio.isStreamOpen()) { audio.closeStream(); }
+                if (audio.isStreamRunning())
+                    audio.stopStream();
+            }catch (...) {}
+            try
+            {
+                if (audio.isStreamOpen())
+                    audio.closeStream();
             }
             catch (...) {}
             // Fall back to draining the stream so the pipeline (and the
@@ -266,8 +295,10 @@ private:
         return true;
     }
 
-    void doStop() {
-        if (nullMode) {
+    void doStop()
+    {
+        if (nullMode)
+        {
             nullSink->stop();
             nullMode = false;
             return;
@@ -286,20 +317,24 @@ private:
     // Fill the device buffer from a packer read, padding with silence. The packer
     // is sized to nBufferFrames so a full read is the normal case, but a partial
     // one must not leave the tail holding whatever the previous callback wrote.
-    static void emitFrames(void* outputBuffer, unsigned int nBufferFrames, const dsp::stereo_t* readBuf, int count) {
+    static void emitFrames(void* outputBuffer, unsigned int nBufferFrames, const dsp::stereo_t* readBuf, int count)
+    {
         unsigned int toCopy = (count > 0) ? (std::min)((unsigned int)count, nBufferFrames) : 0;
-        if (toCopy) { memcpy(outputBuffer, readBuf, toCopy * sizeof(dsp::stereo_t)); }
-        if (toCopy < nBufferFrames) {
+        if (toCopy)
+            memcpy(outputBuffer, readBuf, toCopy * sizeof(dsp::stereo_t));
+        if(toCopy < nBufferFrames)
             memset((dsp::stereo_t*)outputBuffer + toCopy, 0, (nBufferFrames - toCopy) * sizeof(dsp::stereo_t));
-        }
     }
 
-    static int callback(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData) {
+    static int callback(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData)
+    {
         AudioSink* _this = (AudioSink*)userData;
 #ifdef __linux__
-        if (_this->alsaMode) {
+        if (_this->alsaMode)
+        {
             int count = _this->stereoPacker.out.read_for(_this->readTimeout);
-            if (count <= 0) {
+            if (count <= 0)
+            {
                 // No data ready (paused, stalled, or stopped). Emit silence —
                 // a blocking wait or unwritten buffer here causes ALSA XRUN
                 // that the backend doesn't auto-recover from.
@@ -313,11 +348,11 @@ private:
 #endif
 
         int count = _this->stereoPacker.out.read();
-        if (count < 0) {
+        if (count < 0)
+        {
             memset(outputBuffer, 0, nBufferFrames * sizeof(dsp::stereo_t));
             return 0;
         }
-
         emitFrames(outputBuffer, nBufferFrames, _this->stereoPacker.out.GetRBuf(), count);
         _this->stereoPacker.out.flush();
         return 0;
@@ -355,9 +390,11 @@ private:
 RtAudio audio;
 };
 
-class AudioSinkModule : public ModuleManager::Instance {
+class AudioSinkModule : public ModuleManager::Instance
+{
 public:
-    AudioSinkModule(std::string name) {
+    AudioSinkModule(std::string name)
+    {
         this->name = name;
         provider.create = create_sink;
         provider.ctx = this;
@@ -365,27 +402,32 @@ public:
         sigpath::sinkManager.registerSinkProvider("Audio", provider);
     }
 
-    ~AudioSinkModule() {
+    ~AudioSinkModule()
+    {
         // Unregister sink, this will automatically stop and delete all instances of the audio sink
         sigpath::sinkManager.unregisterSinkProvider("Audio");
     }
 
     void postInit() {}
 
-    void enable() {
+    void enable()
+    {
         enabled = true;
     }
 
-    void disable() {
+    void disable()
+    {
         enabled = false;
     }
 
-    bool isEnabled() {
+    bool isEnabled()
+    {
         return enabled;
     }
 
 private:
-    static SinkManager::Sink* create_sink(SinkManager::Stream* stream, std::string streamName, void* ctx) {
+    static SinkManager::Sink* create_sink(SinkManager::Stream* stream, std::string streamName, void* ctx)
+    {
         return (SinkManager::Sink*)(new AudioSink(stream, streamName));
     }
 
@@ -394,26 +436,31 @@ private:
     SinkManager::SinkProvider provider;
 };
 
-static void audio_sink_INIT() {
+static void audio_sink_INIT()
+{
     config.setFile("audio_sink.json");
-    config.load(NULL);
+    config.load();
     config.enableAutoSave();
 }
 
-static ModuleManager::Instance* audio_sink_CREATE_INSTANCE(std::string name) {
+static ModuleManager::Instance* audio_sink_CREATE_INSTANCE(std::string name)
+{
     AudioSinkModule* instance = new AudioSinkModule(name);
     return instance;
 }
 
-static void audio_sink_DELETE_INSTANCE(ModuleManager::Instance* instance) {
+static void audio_sink_DELETE_INSTANCE(ModuleManager::Instance* instance)
+{
     delete (AudioSinkModule*)instance;
 }
 
-static void audio_sink_END() {
+static void audio_sink_END()
+{
     config.shutdown();
 }
 
 
-ModuleManager::Module_t audio_sink_module{
+ModuleManager::Module_t audio_sink_module
+{
     NULL, &audio_sink_INFO, audio_sink_INIT, audio_sink_CREATE_INSTANCE, audio_sink_DELETE_INSTANCE, audio_sink_END
 };

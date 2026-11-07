@@ -5,7 +5,8 @@
 #include <map>
 
 namespace colormaps {
-    struct Map {
+    struct Map
+    {
         std::string name;
         std::string author;
         std::vector<float> colors;
@@ -18,5 +19,5 @@ namespace colormaps {
     void loadMap(const std::string& path);
     void loadDefMaps();
 
-    extern std::map<std::string, Map> maps;
+    extern std::map<std::string, Map> g_maps;
 }

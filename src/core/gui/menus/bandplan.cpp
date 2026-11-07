@@ -13,13 +13,14 @@ namespace bandplanmenu {
 
     const char* bandPlanPosTxt = "Bottom\0Top\0";
 
-    namespace {
-        bandplan::BandPlan_t* getPlan(int index) {
-            if (index < 0 || index >= static_cast<int>(bandplan::bandplanNames.size())) {
+    namespace
+    {
+        bandplan::BandPlan_t* getPlan(int index)
+        {
+            if (index < 0 || index >= static_cast<int>(bandplan::g_bandplanNames.size()))
                 return nullptr;
-            }
-            const auto plan = bandplan::bandplans.find(bandplan::bandplanNames[index]);
-            return plan == bandplan::bandplans.end() ? nullptr : &plan->second;
+            const auto plan = bandplan::g_bandplans.find(bandplan::g_bandplanNames[index]);
+            return plan == bandplan::g_bandplans.end() ? nullptr : &plan->second;
         }
     }
 
@@ -36,7 +37,7 @@ namespace bandplanmenu {
         void setEnabled(bool en) {
             bandPlanEnabled = en;
             bandPlanEnabled ? gui::waterfall.showBandplan() : gui::waterfall.hideBandplan();
-            core::configManager.edit().set("bandPlanEnabled", bandPlanEnabled);
+            core::configManager.edit()["bandPlanEnabled"] = bandPlanEnabled;
         }
     };
     BandPlanToggle toggle;
@@ -46,7 +47,7 @@ namespace bandplanmenu {
     }
 
     void init() {
-        if (bandplan::bandplanNames.empty()) {
+        if (bandplan::g_bandplanNames.empty()) {
             gui::waterfall.hideBandplan();
             return;
         }
@@ -60,13 +61,13 @@ namespace bandplanmenu {
         }
 
         const auto selectedName = std::find(
-            bandplan::bandplanNames.begin(), bandplan::bandplanNames.end(), name);
-        const auto selectedPlan = bandplan::bandplans.find(name);
-        if (selectedName != bandplan::bandplanNames.end() &&
-            selectedPlan != bandplan::bandplans.end())
+            bandplan::g_bandplanNames.begin(), bandplan::g_bandplanNames.end(), name);
+        const auto selectedPlan = bandplan::g_bandplans.find(name);
+        if (selectedName != bandplan::g_bandplanNames.end() &&
+            selectedPlan != bandplan::g_bandplans.end())
         {
             bandplanId = static_cast<int>(std::distance(
-                bandplan::bandplanNames.begin(), selectedName));
+                bandplan::g_bandplanNames.begin(), selectedName));
             gui::waterfall.m_bandplan = &selectedPlan->second;
         }
         else {
@@ -83,19 +84,19 @@ namespace bandplanmenu {
     }
 
     void draw(void* ctx) {
-        if (bandplan::bandplanNames.empty()) {
+        if (bandplan::g_bandplanNames.empty()) {
             ImGui::TextDisabled("No band plans available");
             return;
         }
         bandplanId = std::clamp(
-            bandplanId, 0, static_cast<int>(bandplan::bandplanNames.size()) - 1);
+            bandplanId, 0, static_cast<int>(bandplan::g_bandplanNames.size()) - 1);
 
         float menuColumnWidth = ImGui::GetContentRegionAvail().x;
         ImGui::PushItemWidth(menuColumnWidth);
-        if (ImGui::Combo("##_bandplan_name_", &bandplanId, bandplan::bandplanNameTxt.c_str())) {
+        if (ImGui::Combo("##_bandplan_name_", &bandplanId, bandplan::g_bandplanNameTxt.c_str())) {
             if (bandplan::BandPlan_t* plan = getPlan(bandplanId)) {
                 gui::waterfall.m_bandplan = plan;
-                core::configManager.edit().set("bandPlan", bandplan::bandplanNames[bandplanId]);
+                core::configManager.edit()["bandPlan"] = bandplan::g_bandplanNames[bandplanId];
             }
         }
         ImGui::PopItemWidth();
@@ -104,7 +105,7 @@ namespace bandplanmenu {
         ImGui::SetNextItemWidth(menuColumnWidth - ImGui::GetCursorPosX());
         if (ImGui::Combo("##_bandplan_pos_", &bandPlanPos, bandPlanPosTxt)) {
             gui::waterfall.setBandPlanPos(bandPlanPos);
-            core::configManager.edit().set("bandPlanPos", bandPlanPos);
+            core::configManager.edit()["bandPlanPos"] = bandPlanPos;
         }
 
         const bandplan::BandPlan_t* plan = getPlan(bandplanId);

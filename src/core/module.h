@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <map>
-//xx #include <json.hpp>
 #include <utils/event.h>
 
 #ifdef _WIN32

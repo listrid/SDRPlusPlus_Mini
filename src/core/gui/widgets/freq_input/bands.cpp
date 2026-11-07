@@ -778,17 +778,16 @@ namespace freq_input {
         impl->activeBand.invalidate();
     }
 
-    void Bands::onOpen(const ConfigManager::ReadAccess& configAccess) {
+    void Bands::onOpen(const ConfigManager::ReadSection& configAccess) {
         resetTransientState();
         auto band = freq_memory::band(configAccess);
         impl->groupId = band.value(freq_memory::GROUP, "ham");
-        impl->currentService = bandServiceFromKey(
-            band.value(
+        impl->currentService = bandServiceFromKey(  band.value(
                 freq_memory::PREFERRED_SERVICE,
                 "other"));
     }
 
-    void Bands::onActivate(ConfigManager::EditAccess& configAccess) {
+    void Bands::onActivate(ConfigManager::EditSection& configAccess) {
         resetTransientState();
         freq_memory::activate(configAccess, freq_memory::SELECTOR_BAND);
     }
@@ -826,7 +825,7 @@ namespace freq_input {
             impl->groupId = *selectedGroup;
             impl->scrollActiveIntoView = true;
             auto configAccess = core::configManager.edit();
-            freq_memory::band(configAccess).set(freq_memory::GROUP, impl->groupId);
+            freq_memory::band(configAccess)[freq_memory::GROUP] = impl->groupId;
             page = band_picker::makePage(
                 available,
                 maximumGroups,
@@ -849,9 +848,7 @@ namespace freq_input {
             if (impl->currentService != activeMapping->service) {
                 impl->currentService = activeMapping->service;
                 auto configAccess = core::configManager.edit();
-                freq_memory::band(configAccess).set(
-                    freq_memory::PREFERRED_SERVICE,
-                    bandServiceKey(impl->currentService));
+                freq_memory::band(configAccess)[freq_memory::PREFERRED_SERVICE] = bandServiceKey(impl->currentService);
             }
         }
 

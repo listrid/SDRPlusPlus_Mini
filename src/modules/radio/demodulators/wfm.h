@@ -79,14 +79,14 @@ namespace demod {
             std::string rdsRegionStr = "eu";
 
             // Load config
-            nlohmann::json cfg = loadSection();
-            loadConf(cfg, "stereo", _stereo);
-            loadConf(cfg, "lowPass", _lowPass);
-            loadConf(cfg, "rds", _rds);
-            loadConf(cfg, "rdsIncremental", _rdsIncremental);
-            loadConf(cfg, "rdsInfo", _rdsInfo);
-            loadConf(cfg, "stereoAnalysis", _stereoAnalysis);
-            loadConf(cfg, "rdsRegion", rdsRegionStr);
+            auto cfg = _config->read().section(name, getName());
+            cfg.tryGet("stereo", _stereo);
+            cfg.tryGet("lowPass", _lowPass);
+            cfg.tryGet("rds", _rds);
+            cfg.tryGet("rdsIncremental", _rdsIncremental);
+            cfg.tryGet("rdsInfo", _rdsInfo);
+            cfg.tryGet("stereoAnalysis", _stereoAnalysis);
+            cfg.tryGet("rdsRegion", rdsRegionStr);
 
 
             // Load RDS region
@@ -166,7 +166,7 @@ namespace demod {
             ImGui::FillWidth();
             if (ImGui::Combo(("##_radio_wfm_rds_region_" + name).c_str(), &rdsRegionId, rdsRegions.txt)) {
                 rdsRegion = rdsRegions.value(rdsRegionId);
-                saveConf("rdsRegion", rdsRegions.key(rdsRegionId));
+                saveConf("rdsRegion", rdsRegions.key(rdsRegionId).c_str());
             }
             if (!_rds) { ImGui::EndDisabled(); }
 
@@ -295,7 +295,6 @@ namespace demod {
                         fftInitialized = false;
                     }
                 }
-                
                 saveConf("stereoAnalysis", _stereoAnalysis);
             }
 

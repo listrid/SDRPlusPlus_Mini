@@ -1,8 +1,5 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <stdint.h>
-#include "sdrpp_export.h"
+#include <SDRpp_api.h>
 
 namespace flog {
     enum Type {

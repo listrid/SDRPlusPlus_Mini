@@ -3,22 +3,24 @@
 #include <imgui/imgui.h>
 #include <gui/style.h>
 #include <gui/icons.h>
-
 #include <core.h>
 
 #define CONCAT(a, b) ((std::string(a) + b).c_str())
 
-SinkManager::SinkManager() {
+SinkManager::SinkManager()
+{
     SinkManager::SinkProvider prov;
     prov.create = SinkManager::NullSink::create;
     registerSinkProvider("None", prov);
 }
 
-SinkManager::Stream::Stream(dsp::stream<dsp::stereo_t>* in, EventHandler<float>* srChangeHandler, float sampleRate) {
+SinkManager::Stream::Stream(dsp::stream<dsp::stereo_t>* in, EventHandler<float>* srChangeHandler, float sampleRate)
+{
     init(in, srChangeHandler, sampleRate);
 }
 
-void SinkManager::Stream::init(dsp::stream<dsp::stereo_t>* in, EventHandler<float>* srChangeHandler, float sampleRate) {
+void SinkManager::Stream::init(dsp::stream<dsp::stereo_t>* in, EventHandler<float>* srChangeHandler, float sampleRate)
+{
     _in = in;
     srChange.bindHandler(srChangeHandler);
     _sampleRate = sampleRate;
@@ -28,7 +30,8 @@ void SinkManager::Stream::init(dsp::stream<dsp::stereo_t>* in, EventHandler<floa
     sinkOut = &volumeAjust.out;
 }
 
-void SinkManager::Stream::start() {
+void SinkManager::Stream::start()
+{
     if (running) {
         return;
     }
@@ -39,54 +42,63 @@ void SinkManager::Stream::start() {
     running = true;
 }
 
-void SinkManager::Stream::stop() {
-    if (!running) {
+void SinkManager::Stream::stop()
+{
+    if (!running)
         return;
-    }
     splitter.stop();
     volumeAjust.stop();
     sink->stop();
     running = false;
 }
 
-void SinkManager::Stream::setVolume(float volume) {
+void SinkManager::Stream::setVolume(float volume)
+{
     guiVolume = volume;
     volumeAjust.setVolume(volume);
 }
 
-float SinkManager::Stream::getVolume() {
+float SinkManager::Stream::getVolume()
+{
     return guiVolume;
 }
 
-float SinkManager::Stream::getSampleRate() {
+float SinkManager::Stream::getSampleRate()
+{
     return _sampleRate;
 }
 
-void SinkManager::Stream::setInput(dsp::stream<dsp::stereo_t>* in) {
+void SinkManager::Stream::setInput(dsp::stream<dsp::stereo_t>* in)
+{
     std::lock_guard<std::mutex> lck(ctrlMtx);
     _in = in;
     splitter.setInput(_in);
 }
 
-dsp::stream<dsp::stereo_t>* SinkManager::Stream::bindStream() {
+dsp::stream<dsp::stereo_t>* SinkManager::Stream::bindStream()
+{
     dsp::stream<dsp::stereo_t>* stream = new dsp::stream<dsp::stereo_t>;
     splitter.bindStream(stream);
     return stream;
 }
 
-void SinkManager::Stream::unbindStream(dsp::stream<dsp::stereo_t>* stream) {
+void SinkManager::Stream::unbindStream(dsp::stream<dsp::stereo_t>* stream)
+{
     splitter.unbindStream(stream);
     delete stream;
 }
 
-void SinkManager::Stream::setSampleRate(float sampleRate) {
+void SinkManager::Stream::setSampleRate(float sampleRate)
+{
     std::lock_guard<std::mutex> lck(ctrlMtx);
     _sampleRate = sampleRate;
     srChange.emit(sampleRate);
 }
 
-void SinkManager::registerSinkProvider(std::string name, SinkProvider provider) {
-    if (providers.find(name) != providers.end()) {
+void SinkManager::registerSinkProvider(std::string name, SinkProvider provider)
+{
+    if (providers.find(name) != providers.end())
+    {
         flog::error("Cannot register sink provider '{0}', this name is already taken", name);
         return;
     }
@@ -99,15 +111,16 @@ void SinkManager::registerSinkProvider(std::string name, SinkProvider provider) 
     refreshProviders();
 
     // Update the IDs of every stream
-    for (auto& [streamName, stream] : streams) {
+    for (auto& [streamName, stream] : streams)
         stream->providerId = std::distance(providerNames.begin(), std::find(providerNames.begin(), providerNames.end(), stream->providerName));
-    }
 
     onSinkProviderRegistered.emit(name);
 }
 
-void SinkManager::unregisterSinkProvider(std::string name) {
-    if (providers.find(name) == providers.end()) {
+void SinkManager::unregisterSinkProvider(std::string name)
+{
+    if (providers.find(name) == providers.end())
+    {
         flog::error("Cannot unregister sink provider '{0}', no such provider exists.", name);
         return;
     }
@@ -115,8 +128,10 @@ void SinkManager::unregisterSinkProvider(std::string name) {
     onSinkProviderUnregister.emit(name);
 
     // Switch all sinks using it to a null sink
-    for (auto& [streamName, stream] : streams) {
-        if (providerNames[stream->providerId] != name) { continue; }
+    for (auto& [streamName, stream] : streams)
+    {
+        if (providerNames[stream->providerId] != name)
+            continue;
         setStreamSink(streamName, "None");
     }
 
@@ -128,15 +143,16 @@ void SinkManager::unregisterSinkProvider(std::string name) {
     refreshProviders();
 
     // Update the IDs of every stream
-    for (auto& [streamName, stream] : streams) {
+    for (auto& [streamName, stream] : streams)
         stream->providerId = std::distance(providerNames.begin(), std::find(providerNames.begin(), providerNames.end(), stream->providerName));
-    }
 
     onSinkProviderUnregistered.emit(name);
 }
 
-void SinkManager::registerStream(std::string name, SinkManager::Stream* stream) {
-    if (streams.find(name) != streams.end()) {
+void SinkManager::registerStream(std::string name, SinkManager::Stream* stream) 
+{
+    if (streams.find(name) != streams.end())
+    {
         flog::error("Cannot register stream '{0}', this name is already taken", name);
         return;
     }
@@ -158,8 +174,10 @@ void SinkManager::registerStream(std::string name, SinkManager::Stream* stream) 
     onStreamRegistered.emit(name);
 }
 
-void SinkManager::unregisterStream(std::string name) {
-    if (streams.find(name) == streams.end()) {
+void SinkManager::unregisterStream(std::string name)
+{
+    if (streams.find(name) == streams.end())
+    {
         flog::error("Cannot unregister stream '{0}', this stream doesn't exist", name);
         return;
     }
@@ -172,76 +190,89 @@ void SinkManager::unregisterStream(std::string name) {
     onStreamUnregistered.emit(name);
 }
 
-void SinkManager::startStream(std::string name) {
-    if (streams.find(name) == streams.end()) {
+void SinkManager::startStream(std::string name)
+{
+    if (streams.find(name) == streams.end())
+    {
         flog::error("Cannot start stream '{0}', this stream doesn't exist", name);
         return;
     }
     streams[name]->start();
 }
 
-void SinkManager::stopStream(std::string name) {
-    if (streams.find(name) == streams.end()) {
+void SinkManager::stopStream(std::string name)
+{
+    if (streams.find(name) == streams.end())
+    {
         flog::error("Cannot stop stream '{0}', this stream doesn't exist", name);
         return;
     }
     streams[name]->stop();
 }
 
-float SinkManager::getStreamSampleRate(std::string name) {
-    if (streams.find(name) == streams.end()) {
+float SinkManager::getStreamSampleRate(std::string name)
+{
+    if (streams.find(name) == streams.end())
+    {
         flog::error("Cannot get sample rate of stream '{0}', this stream doesn't exist", name);
         return -1.0f;
     }
     return streams[name]->getSampleRate();
 }
 
-dsp::stream<dsp::stereo_t>* SinkManager::bindStream(std::string name) {
-    if (streams.find(name) == streams.end()) {
+dsp::stream<dsp::stereo_t>* SinkManager::bindStream(std::string name)
+{
+    if (streams.find(name) == streams.end())
+    {
         flog::error("Cannot bind to stream '{0}'. Stream doesn't exist", name);
         return NULL;
     }
     return streams[name]->bindStream();
 }
 
-void SinkManager::unbindStream(std::string name, dsp::stream<dsp::stereo_t>* stream) {
-    if (streams.find(name) == streams.end()) {
+void SinkManager::unbindStream(std::string name, dsp::stream<dsp::stereo_t>* stream)
+{
+    if (streams.find(name) == streams.end())
+    {
         flog::error("Cannot unbind from stream '{0}'. Stream doesn't exist", name);
         return;
     }
     streams[name]->unbindStream(stream);
 }
 
-void SinkManager::setStreamSink(std::string name, std::string providerName) {
-    if (streams.find(name) == streams.end()) {
+void SinkManager::setStreamSink(std::string name, std::string providerName)
+{
+    if (streams.find(name) == streams.end())
+    {
         flog::error("Cannot set sink for stream '{0}'. Stream doesn't exist", name);
         return;
     }
     Stream* stream = streams[name];
-    if (providers.find(providerName) == providers.end()) {
+    if (providers.find(providerName) == providers.end())
+    {
         flog::error("Unknown sink provider '{0}'", providerName);
         return;
     }
 
-    if (stream->running) {
+    if (stream->running)
         stream->sink->stop();
-    }
+
     delete stream->sink;
     stream->providerId = std::distance(providerNames.begin(), std::find(providerNames.begin(), providerNames.end(), providerName));
     stream->providerName = providerName;
     SinkManager::SinkProvider prov = providers[providerName];
     stream->sink = prov.create(stream, name, prov.ctx);
-    if (stream->running) {
+    if (stream->running)
         stream->sink->start();
-    }
 }
 
-void SinkManager::showVolumeSlider(std::string name, std::string prefix, float width, float btnHeight, int btnBorder, bool sameLine) {
+void SinkManager::showVolumeSlider(std::string name, std::string prefix, float width, float btnHeight, int btnBorder, bool sameLine)
+{
     // TODO: Replace map with some hashmap for it to be faster
     float height = ImGui::GetTextLineHeightWithSpacing() + 2;
-    if (btnHeight > 0) {
+    if (btnHeight > 0)
         height = btnHeight;
-    }
+
     // The mute button is drawn as a `height`-sized glyph inside `btnBorder`
     // padding, so it occupies more than `height`. Budgeting with `height` alone
     // made the group overrun its requested width by 2 * btnBorder, shifting
@@ -261,7 +292,8 @@ void SinkManager::showVolumeSlider(std::string name, std::string prefix, float w
     float minSliderWidth = style::dp(80.0f);
     width = std::max(width, btnFootprint + sliderOffset + minSliderWidth);
 
-    if (streams.find(name) == streams.end() || name == "") {
+    if (streams.find(name) == streams.end() || name == "")
+    {
         float dummy = 0.0f;
         style::beginDisabled();
         ImGui::PushID(ImGui::GetID(("sdrpp_unmute_btn_" + name).c_str()));
@@ -272,23 +304,26 @@ void SinkManager::showVolumeSlider(std::string name, std::string prefix, float w
         ImGui::SetCursorPosY(ypos + sliderYOfs);
         ImGui::SliderFloat((prefix + name).c_str(), &dummy, 0.0f, 1.0f, "");
         style::endDisabled();
-        if (sameLine) { ImGui::SetCursorPosY(ypos); }
+        if (sameLine)
+            ImGui::SetCursorPosY(ypos);
         return;
     }
 
     SinkManager::Stream* stream = streams[name];
 
-    if (stream->volumeAjust.getMuted()) {
+    if (stream->volumeAjust.getMuted())
+    {
         ImGui::PushID(ImGui::GetID(("sdrpp_unmute_btn_" + name).c_str()));
-        if (ImGui::ImageButton(icons::MUTED, ImVec2(height, height), ImVec2(0, 0), ImVec2(1, 1), btnBorder, ImVec4(0, 0, 0, 0), ImGui::GetStyleColorVec4(ImGuiCol_Text))) {
+        if (ImGui::ImageButton(icons::MUTED, ImVec2(height, height), ImVec2(0, 0), ImVec2(1, 1), btnBorder, ImVec4(0, 0, 0, 0), ImGui::GetStyleColorVec4(ImGuiCol_Text)))
+        {
             stream->volumeAjust.setMuted(false);
             saveStreamConfig(name);
         }
         ImGui::PopID();
-    }
-    else {
+    }else{
         ImGui::PushID(ImGui::GetID(("sdrpp_mute_btn_" + name).c_str()));
-        if (ImGui::ImageButton(icons::UNMUTED, ImVec2(height, height), ImVec2(0, 0), ImVec2(1, 1), btnBorder, ImVec4(0, 0, 0, 0), ImGui::GetStyleColorVec4(ImGuiCol_Text))) {
+        if(ImGui::ImageButton(icons::UNMUTED, ImVec2(height, height), ImVec2(0, 0), ImVec2(1, 1), btnBorder, ImVec4(0, 0, 0, 0), ImGui::GetStyleColorVec4(ImGuiCol_Text)))
+        {
             stream->volumeAjust.setMuted(true);
             saveStreamConfig(name);
         }
@@ -299,87 +334,86 @@ void SinkManager::showVolumeSlider(std::string name, std::string prefix, float w
 
     ImGui::SetNextItemWidth(std::max(width - btnFootprint - sliderOffset, minSliderWidth));
     ImGui::SetCursorPosY(ypos + sliderYOfs);
-    if (ImGui::SliderFloat((prefix + name).c_str(), &stream->guiVolume, 0.0f, 1.0f, "")) {
+    if(ImGui::SliderFloat((prefix + name).c_str(), &stream->guiVolume, 0.0f, 1.0f, ""))
+    {
         stream->setVolume(stream->guiVolume);
         saveStreamConfig(name);
     }
-    if (sameLine) { ImGui::SetCursorPosY(ypos); }
+    if(sameLine)
+        ImGui::SetCursorPosY(ypos);
     //ImGui::SetCursorPosY(ypos);
 }
 
-void SinkManager::loadStreamConfig(std::string name) {
+void SinkManager::loadStreamConfig(std::string name)
+{
     // Read the stored block under its own lock and let go of it before applying:
     // creating and starting a sink runs module code, which reaches for the config
     // itself and would deadlock on the non-recursive lock.
-    json conf;
-    {
-        auto configAccess = core::configManager.read();
-        conf = configAccess.section("streams").value(name.c_str(), json());
-    }
-    if (!conf.is_object()) { return; }
+    auto configAccess = core::configManager.read();
+    auto conf = configAccess.section("streams", name.c_str());
 
     SinkManager::Stream* stream = streams[name];
-    std::string provName = conf.value("sink", providerNames[0]);
-    if (providers.find(provName) == providers.end()) {
+    std::string provName(conf.value("sink", providerNames[0].c_str()));
+    if(providers.find(provName) == providers.end())
         provName = providerNames[0];
-    }
-    if (stream->running) {
+    if(stream->running)
         stream->sink->stop();
-    }
     delete stream->sink;
     SinkManager::SinkProvider prov = providers[provName];
     stream->providerId = std::distance(providerNames.begin(), std::find(providerNames.begin(), providerNames.end(), provName));
     stream->providerName = provName;
     stream->sink = prov.create(stream, name, prov.ctx);
-    if (stream->running) {
+    if(stream->running)
         stream->sink->start();
-    }
     stream->setVolume(conf.value("volume", stream->getVolume()));
     stream->volumeAjust.setMuted(conf.value("muted", false));
 }
 
-void SinkManager::saveStreamConfig(std::string name) {
+void SinkManager::saveStreamConfig(std::string name)
+{
     SinkManager::Stream* stream = streams[name];
-    json conf;
+    auto conf = core::configManager.edit().section("streams", name);
     conf["sink"] = providerNames[stream->providerId];
     conf["volume"] = stream->getVolume();
     conf["muted"] = stream->volumeAjust.getMuted();
-    core::configManager.edit().section("streams").set(name, conf);
 }
 
-void SinkManager::loadSinksFromConfig() {
-    for (auto const& [name, stream] : streams) {
+void SinkManager::loadSinksFromConfig()
+{
+    for(auto const& [name, stream] : streams)
         loadStreamConfig(name);
-    }
 }
 
-void SinkManager::showMenu() {
+void SinkManager::showMenu()
+{
     float menuWidth = ImGui::GetContentRegionAvail().x;
     int count = 0;
     int maxCount = streams.size();
 
     std::string provStr = "";
-    for (auto const& name : providerNames) {
+    for (auto const& name : providerNames)
+    {
         provStr += name;
         provStr += '\0';
     }
 
-    for (auto const& [name, stream] : streams) {
+    for (auto const& [name, stream] : streams)
+    {
         ImGui::SetCursorPosX((menuWidth / 2.0f) - (ImGui::CalcTextSize(name.c_str()).x / 2.0f));
         ImGui::Text("%s", name.c_str());
 
         ImGui::SetNextItemWidth(menuWidth);
-        if (ImGui::Combo(CONCAT("##_sdrpp_sink_select_", name), &stream->providerId, provStr.c_str())) {
+        if (ImGui::Combo(CONCAT("##_sdrpp_sink_select_", name), &stream->providerId, provStr.c_str()))
+        {
             setStreamSink(name, providerNames[stream->providerId]);
             saveStreamConfig(name);
         }
 
         stream->sink->menuHandler();
-
         showVolumeSlider(name, "##_sdrpp_sink_menu_vol_", menuWidth);
-
         count++;
-        if (count < maxCount) {
+        if (count < maxCount)
+        {
             ImGui::Spacing();
             ImGui::Separator();
         }
@@ -387,13 +421,16 @@ void SinkManager::showMenu() {
     }
 }
 
-std::vector<std::string> SinkManager::getStreamNames() {
+std::vector<std::string> SinkManager::getStreamNames() 
+{
     return streamNames;
 }
 
-void SinkManager::refreshProviders() {
+void SinkManager::refreshProviders()
+{
     providerNamesTxt.clear();
-    for (auto& provName : providerNames) {
+    for (auto& provName : providerNames)
+    {
         providerNamesTxt += provName;
         providerNamesTxt += '\0';
     }

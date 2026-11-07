@@ -38,7 +38,7 @@ namespace freq_memory {
     // access rather than opening one: every caller is already writing something
     // else in the same breath, and one access per action keeps the config mutex
     // taken once -- and cannot nest, which acquiring here could.
-    void activate(ConfigManager::EditAccess& configAccess, std::string_view selector);
+    void activate(ConfigManager::EditSection& configAccess, std::string_view selector);
     void commitCurrent();
 
     template <class Access>
@@ -55,23 +55,4 @@ namespace freq_memory {
         return band(access).section(STACKING_REGISTERS);
     }
 
-    // The default subtree, for core.cpp's defConfig.
-    inline json defaults() {
-        json bandDefaults                = json::object();
-        bandDefaults[GROUP]              = "ham";
-        bandDefaults[PREFERRED_SERVICE]  = "other";
-        bandDefaults[STACKING_REGISTERS] = json::object();
-
-        json spectrumDefaults            = json::object();
-        spectrumDefaults[ACTIVE_RANGE]   = "";
-        spectrumDefaults[LAST_FREQUENCY] = json::object();
-
-        json rootDefaults                = json::object();
-        rootDefaults[VERSION]            = CURRENT_VERSION;
-        rootDefaults[PAGE]               = "keypad";
-        rootDefaults[SELECTOR]           = SELECTOR_BAND;
-        rootDefaults[SELECTOR_BAND]      = std::move(bandDefaults);
-        rootDefaults[SELECTOR_SPECTRUM]  = std::move(spectrumDefaults);
-        return rootDefaults;
-    }
 }

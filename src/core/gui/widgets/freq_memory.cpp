@@ -9,8 +9,8 @@
 
 namespace freq_memory {
 
-    void activate(ConfigManager::EditAccess& configAccess, std::string_view selector) {
-        root(configAccess).set(SELECTOR, std::string(selector));
+    void activate(ConfigManager::EditSection& configAccess, std::string_view selector) {
+        root(configAccess)[SELECTOR] = std::string(selector);
     }
 
     void commitCurrent() {
@@ -36,9 +36,8 @@ namespace freq_memory {
 
         auto configAccess = core::configManager.edit();
         ConfigManager::EditSection spectrumMemory = spectrum(configAccess);
-        spectrumMemory.section(LAST_FREQUENCY)
-            .set(range->rangeId, currentFrequency);
-        spectrumMemory.set(ACTIVE_RANGE, range->rangeId);
+        spectrumMemory.section(LAST_FREQUENCY)[range->rangeId] = currentFrequency;
+        spectrumMemory[ACTIVE_RANGE] = range->rangeId;
     }
 
 }

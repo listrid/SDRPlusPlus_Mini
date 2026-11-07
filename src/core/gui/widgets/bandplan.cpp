@@ -13,151 +13,129 @@
 
 #include "../res/bandplan_internal.h"
 
-namespace bandplan {
-    namespace {
+namespace bandplan
+{
+    namespace
+    {
         uint64_t nextBandPlanRevision = 1;
     }
 
-    std::map<std::string, BandPlan_t> bandplans;
-    std::vector<std::string> bandplanNames;
-    std::string bandplanNameTxt;
-    std::map<std::string, BandPlanColor_t> colorTable;
+    std::map<std::string, BandPlan_t> g_bandplans;
+    std::vector<std::string> g_bandplanNames;
+    std::string g_bandplanNameTxt;
+    std::map<std::string, BandPlanColor_t> g_colorTable;
 
-    bool Band_t::hasValidFrequencySpan() const noexcept {
+    bool Band_t::hasValidFrequencySpan() const noexcept
+    {
         assert(std::isfinite(start) && std::isfinite(end));
         return start > 0.0 && start <= end;
     }
 
-    bool Band_t::containsFrequency(double frequency) const noexcept {
+    bool Band_t::containsFrequency(double frequency) const noexcept
+    {
         assert(std::isfinite(frequency));
-        return hasValidFrequencySpan() &&
-            frequency >= start && frequency <= end;
+        return hasValidFrequencySpan() && frequency >= start && frequency <= end;
     }
 
-    const Band_t* BandPlan_t::findMappedSegmentAtFrequency(
-        const freq_input::BandMapping& mapping,
-        double frequency) const
+    const Band_t* BandPlan_t::findMappedSegmentAtFrequency(const freq_input::BandMapping& mapping, double frequency) const
     {
-        for (const Band_t& candidate : bands) {
-            if (candidate.resolved.mapping == &mapping &&
-                candidate.resolved.isBandOrSegment() &&
-                candidate.containsFrequency(frequency))
-            {
+        for (const Band_t& candidate : bands)
+        {
+            if (candidate.resolved.mapping == &mapping && candidate.resolved.isBandOrSegment() && candidate.containsFrequency(frequency))
                 return &candidate;
-            }
         }
         return nullptr;
     }
 
-    void generateTxt() {
-        bandplanNameTxt.clear();
-        for (const std::string& name : bandplanNames) {
-            bandplanNameTxt += name;
-            bandplanNameTxt += '\0';
+    void generateTxt()
+    {
+        g_bandplanNameTxt.clear();
+        for (const std::string& name : g_bandplanNames)
+        {
+            g_bandplanNameTxt += name;
+            g_bandplanNameTxt += '\0';
         }
     }
 
-    void from_json(const json& j, Band_t& b) {
-        // Parsing only loads source fields. Stable identity and legacy
-        // classification are resolved by loadBandPlan() after the complete
-        // source row is available.
-        b.resolved = {};
-        j.at("name").get_to(b.name);
-        j.at("type").get_to(b.type);
-        j.at("start").get_to(b.start);
-        j.at("end").get_to(b.end);
-        b.defFreq = j.value("def_freq", 0.0);
-        b.defMode = j.value("def_mode", "");
-        b.chan = j.value("chan", 0.0);
-    }
-
-    void from_json(const json& j, BandPlan_t& b) {
-        j.at("name").get_to(b.name);
-        j.at("country_name").get_to(b.countryName);
-        j.at("country_code").get_to(b.countryCode);
-        j.at("author_name").get_to(b.authorName);
-        j.at("author_url").get_to(b.authorURL);
-        j.at("bands").get_to(b.bands);
-    }
-
-    void from_json(const json& j, BandPlanColor_t& ct) {
-        if (!j.is_string()) {
-            throw std::runtime_error("expected a \"#RRGGBBAA\" string");
-        }
-        const std::string col = j.get<std::string>();
-        const auto color = color_utils::parseHex<4>(col);
-        if (!color) {
-            throw std::runtime_error(
-                "malformed color '" + col + "', expected \"#RRGGBBAA\"");
-        }
-        const auto [r, g, b, a] = *color;
-        ct.colorValue = IM_COL32(r, g, b, a);
-        ct.transColorValue = IM_COL32(r, g, b, 100);
-    }
-
-    namespace {
-        void loadBandPlanFile(const std::string& path, bool updateNameText) {
-            std::ifstream file(path.c_str());
-            json data;
-            file >> data;
-
-            BandPlan_t plan = data.get<BandPlan_t>();
-            plan.revision = nextBandPlanRevision++;
-            const json& sourceBands = data.at("bands");
-            for (std::size_t bandIndex = 0;
-                 bandIndex < plan.bands.size();
-                 bandIndex++)
+    namespace
+    {
+        bool loadBandPlanFile(const std::string& path, bool updateNameText)
+        {
+            ConfigManagerImpl json;
+            json.setFile(path.c_str(), true);
+            if(!json.load())
             {
-                Band_t& band = plan.bands[bandIndex];
-                if (!band.defMode.empty() &&
-                    !radioModeValid(radioModeFromName(band.defMode.c_str())))
+                flog::error("band plan file incorrect: {0}", path);
+                return false;
+            }
+            auto data = json.read();
+
+            BandPlan_t plan;
+            plan.revision = nextBandPlanRevision++;
+
+            if(!data.tryGet("name", plan.name))
+            {
+                flog::error("band plan {0} is missing the name parameter", path);
+               return false;
+            }
+
+            data.tryGet("country_name", plan.countryName);
+            data.tryGet("country_code", plan.countryCode);
+            data.tryGet("author_name", plan.authorName);
+            data.tryGet("author_url", plan.authorURL);
+
+            const auto sourceBands = data.section("bands");
+            size_t bandsSize = sourceBands.Size();
+
+            
+            for (std::size_t bandIndex = 0; bandIndex < bandsSize;  bandIndex++)
+            {
+                const auto band_data = sourceBands[bandIndex].toSection();
+                Band_t band;
+
+                band_data.tryGet("name", band.name);
+                band_data.tryGet("type", band.type);
+
+                band_data.tryGet("start", band.start);
+                band_data.tryGet("end", band.end);
+
+                band_data.tryGet("def_freq", band.defFreq);
+                band_data.tryGet("chan", band.chan);
+
+                band_data.tryGet("def_mode", band.defMode);
+
+                if (!band.defMode.empty() && !radioModeValid(radioModeFromName(band.defMode.c_str())))
                 {
-                    flog::warn(
-                        "Band '{}' in plan '{}' has unknown def_mode '{}'; "
-                        "the runtime convention will be used",
-                        band.name,
-                        plan.name,
-                        band.defMode);
+                    flog::warn("Band '{}' in plan '{}' has unknown def_mode '{}'; the runtime convention will be used", band.name, plan.name, band.defMode);
                 }
-                const freq_input::LegacyBandClassification classification =
-                    freq_input::classifyLegacyBand(
-                        band.type,
-                        band.name,
-                        band.start,
-                        band.end);
+                const freq_input::LegacyBandClassification classification = freq_input::classifyLegacyBand(band.type, band.name, band.start, band.end);
 
                 band.resolved.legacy = classification;
 
-                const std::string suppliedBandId =
-                    sourceBands.at(bandIndex).value("band_id", "");
-                if (!suppliedBandId.empty()) {
-                    band.resolved.mapping =
-                        freq_input::findBandMappingById(suppliedBandId);
-                    if (!band.resolved.mapping) {
-                        flog::warn(
-                            "Band '{}' in plan '{}' has unknown band_id '{}'; "
-                            "stable band features are disabled for this row",
-                            band.name,
-                            plan.name,
-                            suppliedBandId);
-                    }
+                const std::string suppliedBandId(band_data.value("band_id", ""));
+                if (!suppliedBandId.empty())
+                {
+                    band.resolved.mapping = freq_input::findBandMappingById(suppliedBandId);
+                    if (!band.resolved.mapping)
+                        flog::warn("Band '{}' in plan '{}' has unknown band_id '{}'; stable band features are disabled for this row", band.name, plan.name, suppliedBandId);
                     continue;
                 }
 
-                band.resolved.mapping =
-                    freq_input::findLegacyBandMapping(
-                        classification,
-                        band.start,
-                        band.end);
+                band.resolved.mapping = freq_input::findLegacyBandMapping( classification, band.start, band.end);
+
+                plan.bands.push_back(std::move(band));
             }
-            if (bandplans.find(plan.name) != bandplans.end()) {
-                flog::error("Duplicate band plan name ({0}), not loading.", plan.name);
-                return;
+            if(g_bandplans.find(plan.name) != g_bandplans.end())
+            {
+                g_bandplans[plan.name] = std::move(plan);
+            }else{
+                const std::string planName = plan.name;
+                g_bandplans.emplace(planName, std::move(plan));
+                g_bandplanNames.push_back(planName);
             }
-            const std::string planName = plan.name;
-            bandplans.emplace(planName, std::move(plan));
-            bandplanNames.push_back(planName);
-            if (updateNameText) { generateTxt(); }
+            if (updateNameText)
+                generateTxt();
+            return true;
         }
     }
 
@@ -191,72 +169,93 @@ namespace bandplan {
 
             plan.bands.push_back(band);
         }
-        if(bandplans.find(plan.name) != bandplans.end()) {
+        if(g_bandplans.find(plan.name) != g_bandplans.end())
             return;
-        }
         const std::string planName = plan.name;
-        bandplans.emplace(planName, std::move(plan));
-        bandplanNames.push_back(planName);
+        g_bandplans.emplace(planName, std::move(plan));
+        g_bandplanNames.push_back(planName);
     }
 
-    void loadInternal() {
-        for(size_t i = 0; gBandPlan[i].name != NULL; i++) {
+    void loadInternal()
+    {
+        g_bandplans.clear();
+        g_bandplanNames.clear();
+        g_bandplanNameTxt.clear();
+
+        for(size_t i = 0; gBandPlan[i].name != NULL; i++)
             loadInternalBand(gBandPlan[i]);
-        }
         generateTxt();
     }
 
-    void loadBandPlan(const std::string& path) {
+    void loadBandPlan(const std::string& path)
+    {
         loadBandPlanFile(path, true);
     }
 
-    void loadFromDir(const std::string& path) {
-        if (!std::filesystem::exists(path)) {
+    void loadFromDir(const std::string& path)
+    {
+        if (!std::filesystem::exists(path))
+        {
             flog::error("Band Plan directory does not exist");
             return;
         }
-        if (!std::filesystem::is_directory(path)) {
+        if (!std::filesystem::is_directory(path))
+        {
             flog::error("Band Plan directory isn't a directory...");
             return;
         }
-        bandplans.clear();
-        bandplanNames.clear();
-        bandplanNameTxt.clear();
-        for (const auto& file : std::filesystem::directory_iterator(path)) {
+        for (const auto& file : std::filesystem::directory_iterator(path))
+        {
             const std::string filePath = file.path().generic_string();
-            if (file.path().extension().generic_string() != ".json") {
+            if (file.path().extension().generic_string() != ".json")
                 continue;
-            }
-            try {
+            try
+            {
                 loadBandPlanFile(filePath, false);
-            }
-            catch (const std::exception& e) {
+            }catch (const std::exception& e)
+            {
                 flog::error("Could not load band plan '{}': {}", filePath, e.what());
-            }
-            catch (...) {
+            }catch (...)
+            {
                 flog::error("Could not load band plan '{}': unknown error", filePath);
             }
         }
         generateTxt();
     }
 
-    void loadColorTable(const json& table) {
+    void loadColorTable(const ConfigManager::ReadSection& table)
+    {
         std::map<std::string, BandPlanColor_t> replacement;
-        if (!table.is_object()) {
+        if (table.isNULL())
+        {
             flog::error("Band plan color table isn't an object, ignoring it");
-            colorTable.swap(replacement);
+            g_colorTable.swap(replacement);
             return;
         }
-        for (const auto& [type, color] : table.items()) {
-            try {
-                BandPlanColor_t parsed = color.get<BandPlanColor_t>();
-                replacement.insert_or_assign(type, parsed);
-            }
-            catch (const std::exception& e) {
-                flog::error(
-                    "Ignoring band plan color for '{}': {}", type, e.what());
+        size_t count = table.Size();
+        for (size_t i = 0; i < count; i++)
+        {
+            auto el = table[i];
+            std::string type = el.GetName();
+            std::string col;
+            BandPlanColor_t ct;
+            try
+            {
+
+                if(!el.tryGet(col))
+                    throw std::runtime_error("expected a \"#RRGGBBAA\" string");
+                const auto color = color_utils::parseHex<4>(col);
+                if(!color)
+                    throw std::runtime_error("malformed color '" + col + "', expected \"#RRGGBBAA\"");
+                const auto [r, g, b, a] = *color;
+                ct.colorValue = IM_COL32(r, g, b, a);
+                ct.transColorValue = IM_COL32(r, g, b, 100);
+                replacement.insert_or_assign(type, ct);
+            }catch (const std::exception& e)
+            {
+                flog::error("Ignoring band plan color for '{}': {}", type, e.what());
             }
         }
-        colorTable.swap(replacement);
+        g_colorTable.swap(replacement);
     }
 };

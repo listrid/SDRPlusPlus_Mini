@@ -36,48 +36,34 @@
     <ClCompile Include="..\src\extern_static_lib\glfw3\win32_time.c" />
     <ClCompile Include="..\src\extern_static_lib\glfw3\win32_window.c" />
     <ClCompile Include="..\src\extern_static_lib\glfw3\window.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitmath.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitreader.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\bitwriter.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\cpu.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\crc.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_avx2.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_sse2.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_sse42.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\fixed_intrin_ssse3.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\float.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\format.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_avx2.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_fma.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_neon.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_sse2.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\lpc_intrin_sse41.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\md5.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\memory.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\metadata_iterators.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\metadata_object.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_decoder_aspect.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_encoder_aspect.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_helper.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\ogg_mapping.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_decoder.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_framing.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_avx2.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_sse2.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\stream_encoder_intrin_ssse3.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\window.c" />
-    <ClCompile Include="..\src\extern_static_lib\libFLAC\win_utf8_io.c" />
-    <ClCompile Include="..\src\extern_static_lib\libogg\bitwise.c" />
-    <ClCompile Include="..\src\extern_static_lib\libogg\framing.c" />
+    <ClCompile Include="..\src\extern_static_lib\muFFT\cpu.c" />
+    <ClCompile Include="..\src\extern_static_lib\muFFT\fft.c" />
+    <ClCompile Include="..\src\extern_static_lib\muFFT\kernel.c" />
+    <ClCompile Include="..\src\extern_static_lib\muFFT\x86\kernel.avx.c">
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\pffft\pffft.c" />
+    <ClCompile Include="..\src\extern_static_lib\pffft\pffft_common.c" />
     <ClCompile Include="..\src\extern_static_lib\rtaudio\include\asio.cpp" />
     <ClCompile Include="..\src\extern_static_lib\rtaudio\include\asiodrivers.cpp" />
     <ClCompile Include="..\src\extern_static_lib\rtaudio\include\asiolist.cpp" />
     <ClCompile Include="..\src\extern_static_lib\rtaudio\include\iasiothiscallresolver.cpp" />
     <ClCompile Include="..\src\extern_static_lib\rtaudio\RtAudio.cpp" />
     <ClCompile Include="..\src\extern_static_lib\rtaudio\rtaudio_c.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\volk\constants.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\volk\volk.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_cpu.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machines.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_machine_avx2.cpp">
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release_MinSize|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_malloc.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_prefs.cpp" />
+    <ClCompile Include="..\src\extern_static_lib\volk\volk_rank_archs.cpp" />
     <ClCompile Include="..\src\libcorrect\src\convolutional\bit.c" />
     <ClCompile Include="..\src\libcorrect\src\convolutional\convolutional.c" />
     <ClCompile Include="..\src\libcorrect\src\convolutional\decode.c" />
@@ -99,7 +85,9 @@
     <ClInclude Include="..\src\extern_static_lib\glfw3\win32_platform.h" />
     <ClInclude Include="..\src\extern_static_lib\glfw3\win32_thread.h" />
     <ClInclude Include="..\src\extern_static_lib\glfw3\win32_time.h" />
-    <ClInclude Include="..\src\extern_static_lib\libogg\crctable.h" />
+    <ClInclude Include="..\src\extern_static_lib\muFFT\fft.h" />
+    <ClInclude Include="..\src\extern_static_lib\muFFT\fft_internal.h" />
+    <ClInclude Include="..\src\extern_static_lib\muFFT\x86\kernel.h" />
     <ClInclude Include="..\src\extern_static_lib\rtaudio\include\asio.h" />
     <ClInclude Include="..\src\extern_static_lib\rtaudio\include\asiodrivers.h" />
     <ClInclude Include="..\src\extern_static_lib\rtaudio\include\asiodrvr.h" />
@@ -113,6 +101,8 @@
     <ClInclude Include="..\src\extern_static_lib\rtaudio\include\soundcard.h" />
     <ClInclude Include="..\src\extern_static_lib\rtaudio\RtAudio.h" />
     <ClInclude Include="..\src\extern_static_lib\rtaudio\rtaudio_c.h" />
+    <ClInclude Include="..\src\extern_static_lib\volk\volk_machines.h" />
+    <ClInclude Include="..\src\extern_static_lib\volk\volk_rank_archs.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\src\extern_static_lib\rtaudio\include\asioinfo.txt" />
@@ -180,8 +170,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>FLAC__NO_DLL;FLAC__HAS_OGG=1;__WINDOWS_DS__;__WINDOWS_WASAPI__;_GLFW_WIN32;WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../src/libcorrect/include;../src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>LV_MACHINE_AVX2;__WINDOWS_DS__;__WINDOWS_WASAPI__;_GLFW_WIN32;_USE_MATH_DEFINES;WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../src/extern_static_lib/volk;../src/libcorrect/include;../src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
@@ -198,8 +188,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>FLAC__NO_DLL;FLAC__HAS_OGG=1;__WINDOWS_DS__;__WINDOWS_WASAPI__;_GLFW_WIN32;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../src/libcorrect/include;../src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>LV_MACHINE_AVX2;__WINDOWS_DS__;__WINDOWS_WASAPI__;_GLFW_WIN32;_USE_MATH_DEFINES;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../src/extern_static_lib/volk;../src/libcorrect/include;../src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <DisableSpecificWarnings>4018;4530;4244;4309;4267</DisableSpecificWarnings>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -223,8 +213,8 @@
       <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>FLAC__NO_DLL;FLAC__HAS_OGG=1;__WINDOWS_DS__;__WINDOWS_WASAPI__;_GLFW_WIN32;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../src/libcorrect/include;../src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>LV_MACHINE_AVX2;__WINDOWS_DS__;__WINDOWS_WASAPI__;_GLFW_WIN32;_USE_MATH_DEFINES;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../src/extern_static_lib/volk;../src/libcorrect/include;../src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <DisableSpecificWarnings>4018;4530;4244;4309;4267</DisableSpecificWarnings>
       <BufferSecurityCheck>false</BufferSecurityCheck>

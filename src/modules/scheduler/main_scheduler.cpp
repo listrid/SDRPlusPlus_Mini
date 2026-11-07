@@ -22,18 +22,12 @@ public:
         Task t;
         t.selected = false;
 
-        json recStartConfig;
-        recStartConfig["recorder"] = "Recorder";
 
-        json tuneVFOConfig;
-        tuneVFOConfig["vfo"] = "Radio";
-        tuneVFOConfig["frequency"] = 103500000.0;
+
+
 
         auto recStart = sched_action::StartRecorder();
         auto tuneVFO = sched_action::TuneVFO();
-
-        recStart->loadFromConfig(recStartConfig);
-        tuneVFO->loadFromConfig(tuneVFOConfig);
 
         t.addAction(tuneVFO);
         t.addAction(recStart);

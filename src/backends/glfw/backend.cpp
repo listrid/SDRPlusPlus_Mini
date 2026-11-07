@@ -259,50 +259,52 @@ namespace backend {
                 int restoreW = 0, restoreH = 0;
                 {
                     auto configAccess = core::configManager.edit();
-                    configAccess.set("maximized", _maximized);
+                    configAccess["maximized"] = _maximized;
                     if (!maximized) {
                         ConfigManager::EditSection size = configAccess.section("windowSize");
-                        restoreW = size.value("w", winWidth);
-                        restoreH = size.value("h", winHeight);
+                        restoreW = (int)size.value("w", (int64_t)winWidth);
+                        restoreH = (int)size.value("h", (int64_t)winHeight);
                     }
                 }
                 // Outside the transaction: resizing runs the GLFW callbacks, which
                 // reach for the config themselves.
-                if (!maximized) { glfwSetWindowSize(window, restoreW, restoreH); }
+                if (!maximized)
+                    glfwSetWindowSize(window, restoreW, restoreH);
             }
 
             glfwGetWindowSize(window, &_winWidth, &_winHeight);
 
-            if (ImGui::IsKeyPressed(GLFW_KEY_F11)) {
+            if (ImGui::IsKeyPressed(GLFW_KEY_F11))
+            {
                 fullScreen = !fullScreen;
-                if (fullScreen) {
+                if (fullScreen)
+                {
                     flog::info("Fullscreen: ON");
                     fsWidth = _winWidth;
                     fsHeight = _winHeight;
                     glfwGetWindowPos(window, &fsPosX, &fsPosY);
                     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
                     glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, 0);
-                    core::configManager.edit().set("fullscreen", true);
-                }
-                else {
+                    core::configManager.edit()["fullscreen"] = true;
+                } else {
                     flog::info("Fullscreen: OFF");
                     glfwSetWindowMonitor(window, nullptr, fsPosX, fsPosY, fsWidth, fsHeight, 0);
-                    core::configManager.edit().set("fullscreen", false);
+                    core::configManager.edit()["fullscreen"] = false;
                 }
             }
 
-            if ((_winWidth != winWidth || _winHeight != winHeight) && !maximized && _winWidth > 0 && _winHeight > 0) {
+            if ((_winWidth != winWidth || _winHeight != winHeight) && !maximized && _winWidth > 0 && _winHeight > 0)
+            {
                 winWidth = _winWidth;
                 winHeight = _winHeight;
                 auto configAccess = core::configManager.edit();
                 ConfigManager::EditSection size = configAccess.section("windowSize");
-                size.set("w", winWidth);
-                size.set("h", winHeight);
+                size["w"] = winWidth;
+                size["h"] = winHeight;
             }
 
-            if (winWidth > 0 && winHeight > 0) {
+            if (winWidth > 0 && winHeight > 0)
                 common::drawMainWindow(ImVec2(_winWidth, _winHeight));
-            }
 
             render();
         }

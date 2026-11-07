@@ -1,4 +1,4 @@
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
 
 #include "flac_reader.h"
 #include <utils/flog.h>

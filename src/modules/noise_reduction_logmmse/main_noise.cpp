@@ -20,7 +20,7 @@
 // Kept: wideband baseband NR (LogMMSE IQ preprocessor) and per-radio
 // OMLSA-MCRA audio NR ("Audio NR2").
 
-static ConfigManager config;
+static ConfigManagerImpl config;
 
 static ModuleManager::ModuleInfo_t noise_reduction_logmmse_INFO{
     /* Name:            */ "noise_reduction_logmmse",
@@ -165,7 +165,7 @@ private:
         if (!enabled) { style::beginDisabled(); }
 
         if (ImGui::Checkbox("Baseband NR##_sdrpp_if_nr", &ifnr)) {
-            config.edit().set("IFNR", ifnr);
+            config.edit()["IFNR"] = ifnr;
             if (ifnr) { // toggled on - attempt to run.
                 ifnrProcessor.stopReason = nullptr;
             }
@@ -181,7 +181,7 @@ private:
         const char* stopReason = ifnrProcessor.stopReason;
         if (stopReason && ifnr) { // wants to stop -> stop it.
             ifnr = false;
-            config.edit().set("IFNR", ifnr);
+            config.edit()["IFNR"] = ifnr;
             actuateIFNR();
         }
         if (stopReason) { // stopped because reason -> show it.
@@ -207,7 +207,7 @@ private:
                 if (clicked) {
                     disableCpuDeactivation = !disableCpuDeactivation;
                     ifnrProcessor.setDisableCpuDeactivation(disableCpuDeactivation);
-                    config.edit().set("DisableCpuDeactivation", disableCpuDeactivation);
+                    config.edit()["DisableCpuDeactivation"] = disableCpuDeactivation;
                 }
                 if (disableCpuDeactivation) {
                     auto drawList = ImGui::GetWindowDrawList();
@@ -232,7 +232,7 @@ private:
                 // Disabling joins the block's worker thread, so the buffer can
                 // be cleared here; otherwise stale audio would flush on re-enable.
                 if (!v->allowed) { v->buffer.clear(); }
-                config.edit().set("AF_NR2_" + k, v->allowed);
+                config.edit()[std::string("AF_NR2_") + k] = v->allowed;
             }
             if (ImGui::IsItemHovered()) {
                 ImGui::SetTooltip("OMLSA-MCRA speech denoiser on this radio's audio output.\n"

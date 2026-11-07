@@ -20,30 +20,35 @@ static ModuleManager::ModuleInfo_t iq_exporter_INFO{
     /* Max instances    */ -1
 };
 
-static ConfigManager config;
+static ConfigManagerImpl config;
 
-enum Mode {
+enum Mode
+{
     MODE_NONE = -1,
     MODE_BASEBAND,
     MODE_VFO
 };
 
-enum Protocol {
+enum Protocol
+{
     PROTOCOL_TCP_SERVER,
     PROTOCOL_TCP_CLIENT,
     PROTOCOL_UDP
 };
 
-enum SampleType {
+enum SampleType
+{
     SAMPLE_TYPE_INT8,
     SAMPLE_TYPE_INT16,
     SAMPLE_TYPE_INT32,
     SAMPLE_TYPE_FLOAT32
 };
 
-class IQExporterModule : public ModuleManager::Instance {
+class IQExporterModule : public ModuleManager::Instance
+{
 public:
-    IQExporterModule(std::string name) {
+    IQExporterModule(std::string name)
+    {
         this->name = name;
 
         // Define operating modes
@@ -51,18 +56,17 @@ public:
         modes.define("VFO", MODE_VFO);
 
         // Define VFO samplerates
-        for (int i = 3000; i <= 192000; i <<= 1) {
+        for(int i = 3000; i <= 192000; i <<= 1)
             samplerates.define(i, getSrScaled(i), i);
-        }
-        for (int i = 250000; i < 1000000; i += 250000) {
+
+        for(int i = 250000; i < 1000000; i += 250000)
             samplerates.define(i, getSrScaled(i), i);
-        }
-        for (int i = 1000000; i < 10000000; i += 500000) {
+
+        for(int i = 1000000; i < 10000000; i += 500000)
             samplerates.define(i, getSrScaled(i), i);
-        }
-        for (int i = 10000000; i <= 100000000; i += 5000000) {
+
+        for(int i = 10000000; i <= 100000000; i += 5000000)
             samplerates.define(i, getSrScaled(i), i);
-        }
 
         // Define protocols
         protocols.define("TCP (Server)", PROTOCOL_TCP_SERVER);
@@ -76,7 +80,8 @@ public:
         sampleTypes.define("Float32", SAMPLE_TYPE_FLOAT32);
 
         // Define packet sizes
-        for (int i = 8; i <= 32768; i <<= 1) {
+        for(int i = 8; i <= 32768; i <<= 1)
+        {
             char buf[16];
             sprintf(buf, "%d Bytes", i);
             packetSizes.define(i, buf, i);
@@ -119,226 +124,223 @@ public:
         setMode(nMode);
 
         // Start if needed
-        if (autoStart) { start(); }
+        if (autoStart)
+            start();
 
         // Register menu entry
         gui::menu.registerEntry(name, menuHandler, this, this);
     }
 
-    ~IQExporterModule() {
-        // Un-register menu entry
-        gui::menu.removeEntry(name);
-
-        // Stop networking
-        stop();
-
-        // Stop DSP
-        setMode(MODE_NONE);
+    ~IQExporterModule()
+    {
+        gui::menu.removeEntry(name); // Un-register menu entry
+        stop(); // Stop networking
+        setMode(MODE_NONE); // Stop DSP
     }
 
     void postInit() {}
 
-    void enable() {
-        // Rebind streams and start DSP
-        setMode(mode, true);
-
-        // Restart networking if it was running
-        if (wasRunning) { start(); }
-
-        // Mark as running
-        enabled = true;
+    void enable()
+    {
+        setMode(mode, true); // Rebind streams and start DSP
+        if(wasRunning) // Restart networking if it was running
+            start();
+        enabled = true; // Mark as running
     }
 
-    void disable() {
-        // Save running state
-        wasRunning = running;
-
-        // Stop networking
-        stop();
-
-        // Stop the DSP and unbind streams
-        setMode(MODE_NONE);
-
-        // Mark as disabled
-        enabled = false;
+    void disable()
+    {
+        wasRunning = running; // Save running state
+        stop(); // Stop networking
+        setMode(MODE_NONE); // Stop the DSP and unbind streams
+        enabled = false; // Mark as disabled
     }
 
-    bool isEnabled() {
+    bool isEnabled()
+    {
         return enabled;
     }
 
-    void start() {
-        if (running) { return; }
+    void start()
+    {
+        if (running)
+            return;
 
         // Acquire lock on the socket
         std::lock_guard lck1(sockMtx);
 
         // Start listening or open UDP socket
         try {
-            if (proto == PROTOCOL_TCP_SERVER) {
-                // Create listener
+            if (proto == PROTOCOL_TCP_SERVER)\
+            {
                 listener = net::listen(hostname, port);
-
-                // Start listen worker
                 listenWorkerThread = std::thread(&IQExporterModule::listenWorker, this);
-            }
-            else if (proto == PROTOCOL_TCP_CLIENT) {
+            }else if (proto == PROTOCOL_TCP_CLIENT)
+            {
                 // Connect to TCP server. Runs on the GUI thread, so bound
                 // DNS + TCP connect instead of freezing the UI for the
                 // OS-level connect timeout.
                 sock = net::connect(hostname, port, 5000);
-            }
-            else {
+            }else{
                 // Open UDP socket
                 sock = net::openudp(hostname, port, "0.0.0.0", 0, true);
             }
-        }
-        catch (const std::exception& e) {
+        }catch (const std::exception& e)
+        {
             flog::error("[IQExporter] Could not start socket: {}", e.what());
             errorStr = e.what();
             showError = true;
             return;
         }
-
         running = true;
     }
 
-    void stop() {
-        if (!running) { return; }
-
+    void stop()
+    {
+        if(!running)
+            return;
         // Acquire lock on the socket
         std::lock_guard lck1(sockMtx);
 
         // Stop listening or close UDP socket
-        if (proto == PROTOCOL_TCP_SERVER) {
+        if (proto == PROTOCOL_TCP_SERVER)
+        {
             // Stop listener
-            if (listener) {
+            if(listener)
                 listener->stop();
-            }
-
             // Wait for worker to stop
-            if (listenWorkerThread.joinable()) { listenWorkerThread.join(); }
-
+            if (listenWorkerThread.joinable())
+                listenWorkerThread.join();
             // Free listener
             listener.reset();
-
             // Close socket and free it
-            if (sock) {
+            if(sock)
+            {
+                sock->close();
+                sock.reset();
+            }
+        }else{
+            // Close socket and free it
+            if(sock)
+            {
                 sock->close();
                 sock.reset();
             }
         }
-        else {
-            // Close socket and free it
-            if (sock) {
-                sock->close();
-                sock.reset();
-            }
-        }
-
         running = false;
     }
 
 private:
-    std::string getSrScaled(double sr) {
+    std::string getSrScaled(double sr)
+    {
         char buf[1024];
-        if (sr >= 1000000.0) {
+        if(sr >= 1000000.0)
+        {
             sprintf(buf, "%.1lf MS/s", sr / 1000000.0);
-        }
-        else if (sr >= 1000.0) {
+        }else if (sr >= 1000.0)
+        {
             sprintf(buf, "%.1lf KS/s", sr / 1000.0);
-        }
-        else {
+        }else{
             sprintf(buf, "%.1lf S/s", sr);
         }
         return std::string(buf);
     }
 
-    static void menuHandler(void* ctx) {
+    static void menuHandler(void* ctx)
+    {
         IQExporterModule* _this = (IQExporterModule*)ctx;
         float menuWidth = ImGui::GetContentRegionAvail().x;
 
         // Error message box
-        ImGui::GenericDialog("##iq_exporter_err_", _this->showError, GENERIC_DIALOG_BUTTONS_OK, [=](){
-            ImGui::Text("Error: %s", _this->errorStr.c_str());
-        });
+        ImGui::GenericDialog("##iq_exporter_err_", _this->showError, GENERIC_DIALOG_BUTTONS_OK, [=](){ ImGui::Text("Error: %s", _this->errorStr.c_str()); });
+        if(!_this->enabled)
+            ImGui::BeginDisabled();
         
-        if (!_this->enabled) { ImGui::BeginDisabled(); }
-        
-        if (_this->running) { ImGui::BeginDisabled(); }
+        if(_this->running)
+            ImGui::BeginDisabled();
 
         // Mode selector
         ImGui::LeftLabel("Mode");
         ImGui::FillWidth();
-        if (ImGui::Combo(("##iq_exporter_mode_" + _this->name).c_str(), &_this->modeId, _this->modes.txt)) {
+        if(ImGui::Combo(("##iq_exporter_mode_" + _this->name).c_str(), &_this->modeId, _this->modes.txt))
+        {
             _this->setMode(_this->modes.value(_this->modeId));
-            config.edit().section(_this->name).set("mode", _this->modes.key(_this->modeId));
+            config.edit().section(_this->name)["mode"] = _this->modes.key(_this->modeId);
         }
 
         // In VFO mode, show samplerate selector
-        if (_this->mode == MODE_VFO) {
+        if (_this->mode == MODE_VFO)
+        {
             ImGui::LeftLabel("Samplerate");
             ImGui::FillWidth();
-            if (ImGui::Combo(("##iq_exporter_sr_" + _this->name).c_str(), &_this->srId, _this->samplerates.txt)) {
+            if (ImGui::Combo(("##iq_exporter_sr_" + _this->name).c_str(), &_this->srId, _this->samplerates.txt))
+            {
                 _this->samplerate = _this->samplerates.value(_this->srId);
-                if (_this->vfo) {
+                if (_this->vfo)
+                {
                     _this->vfo->setBandwidthLimits(_this->samplerate, _this->samplerate, true);
                     _this->vfo->setSampleRate(_this->samplerate, _this->samplerate);
                 }
-                config.edit().section(_this->name).set("samplerate", _this->samplerates.key(_this->srId));
+                config.edit().section(_this->name)["samplerate"] = _this->samplerates.key(_this->srId);
             }
         }
 
         // Mode protocol selector
         ImGui::LeftLabel("Protocol");
         ImGui::FillWidth();
-        if (ImGui::Combo(("##iq_exporter_proto_" + _this->name).c_str(), &_this->protoId, _this->protocols.txt)) {
+        if (ImGui::Combo(("##iq_exporter_proto_" + _this->name).c_str(), &_this->protoId, _this->protocols.txt))
+        {
             _this->proto = _this->protocols.value(_this->protoId);
-            config.edit().section(_this->name).set("protocol", _this->protocols.key(_this->protoId));
+            config.edit().section(_this->name)["protocol"] = _this->protocols.key(_this->protoId);
         }
 
         // Sample type selector
         ImGui::LeftLabel("Sample type");
         ImGui::FillWidth();
-        if (ImGui::Combo(("##iq_exporter_samp_" + _this->name).c_str(), &_this->sampTypeId, _this->sampleTypes.txt)) {
+        if(ImGui::Combo(("##iq_exporter_samp_" + _this->name).c_str(), &_this->sampTypeId, _this->sampleTypes.txt))
+        {
             _this->sampType = _this->sampleTypes.value(_this->sampTypeId);
             _this->reshape.setKeep(_this->packetSize/_this->sampleSize());
-            config.edit().section(_this->name).set("sampleType", _this->sampleTypes.key(_this->sampTypeId));
+            config.edit().section(_this->name)["sampleType"] = _this->sampleTypes.key(_this->sampTypeId);
         }
 
         // Packet size selector
         ImGui::LeftLabel("Packet size");
         ImGui::FillWidth();
-        if (ImGui::Combo(("##iq_exporter_pkt_sz_" + _this->name).c_str(), &_this->packetSizeId, _this->packetSizes.txt)) {
+        if(ImGui::Combo(("##iq_exporter_pkt_sz_" + _this->name).c_str(), &_this->packetSizeId, _this->packetSizes.txt))
+        {
             _this->packetSize = _this->packetSizes.value(_this->packetSizeId);
             _this->reshape.setKeep(_this->packetSize/_this->sampleSize());
-            config.edit().section(_this->name).set("packetSize", _this->packetSizes.key(_this->packetSizeId));
+            config.edit().section(_this->name)["packetSize"] = _this->packetSizes.key(_this->packetSizeId);
         }
 
         // Hostname and port field
-        if (ImGui::InputText(("##iq_exporter_host_" + _this->name).c_str(), _this->hostname, sizeof(_this->hostname))) {
-            config.edit().section(_this->name).set("host", _this->hostname);
-        }
+        if (ImGui::InputText(("##iq_exporter_host_" + _this->name).c_str(), _this->hostname, sizeof(_this->hostname)))
+            config.edit().section(_this->name)["host"] = _this->hostname;
         ImGui::SameLine();
         ImGui::FillWidth();
-        if (ImGui::InputInt(("##iq_exporter_port_" + _this->name).c_str(), &_this->port, 0, 0)) {
+        if (ImGui::InputInt(("##iq_exporter_port_" + _this->name).c_str(), &_this->port, 0, 0))
+        {
             _this->port = std::clamp<int>(_this->port, 1, 65535);
-            config.edit().section(_this->name).set("port", _this->port);
+            config.edit().section(_this->name)["port"] = _this->port;
         }
 
-        if (_this->running) { ImGui::EndDisabled(); }
+        if(_this->running)
+            ImGui::EndDisabled();
 
         // Start/Stop buttons
-        if (_this->running || (!_this->enabled && _this->wasRunning)) {
-            if (ImGui::Button(("Stop##iq_exporter_stop_" + _this->name).c_str(), ImVec2(menuWidth, 0))) {
+        if(_this->running || (!_this->enabled && _this->wasRunning))
+        {
+            if(ImGui::Button(("Stop##iq_exporter_stop_" + _this->name).c_str(), ImVec2(menuWidth, 0)))
+            {
                 _this->stop();
-                config.edit().section(_this->name).set("running", false);
+                config.edit().section(_this->name)["running"] = false;
             }
-        }
-        else {
-            if (ImGui::Button(("Start##iq_exporter_start_" + _this->name).c_str(), ImVec2(menuWidth, 0))) {
+        }else{
+            if(ImGui::Button(("Start##iq_exporter_start_" + _this->name).c_str(), ImVec2(menuWidth, 0)))
+            {
                 _this->start();
-                config.edit().section(_this->name).set("running", true);
+                config.edit().section(_this->name)["running"] = true;
             }
         }
 
@@ -352,55 +354,60 @@ private:
         // Status text
         ImGui::TextUnformatted("Status:");
         ImGui::SameLine();
-        if (sockOpen) {
+        if(sockOpen)
+        {
             ImGui::TextColored(ImVec4(0.0, 1.0, 0.0, 1.0), (_this->proto == PROTOCOL_TCP_SERVER || _this->proto == PROTOCOL_TCP_CLIENT) ? "Connected" : "Sending");
-        }
-        else if (_this->listener && _this->listener->listening()) {
+        }else if(_this->listener && _this->listener->listening())
+        {
             ImGui::TextColored(ImVec4(1.0, 1.0, 0.0, 1.0), "Listening");
-        }
-        else if (!_this->enabled) {
+        }else if (!_this->enabled)
+        {
             ImGui::TextUnformatted("Disabled");
-        }
-        else {
+        }else{
             // If we're idle and still supposed to be running, the server has closed the connection (TODO: kinda jank...)
-            if (_this->running) { _this->stop(); }
-
+            if(_this->running)
+                _this->stop();
             ImGui::TextUnformatted("Idle");
         }
-
-        if (!_this->enabled) { ImGui::EndDisabled(); }
+        if (!_this->enabled)
+            ImGui::EndDisabled();
     }
 
-    void setMode(Mode newMode, bool forceSet = false) {
+    void setMode(Mode newMode, bool forceSet = false)
+    {
         // If there is no mode to change, do nothing
-        if (!forceSet && mode == newMode) { return; }
+        if (!forceSet && mode == newMode)
+            return;
 
         // Stop the DSP
         reshape.stop();
         handler.stop();
 
         // Delete VFO or unbind IQ stream
-        if (vfo) {
+        if(vfo)
+        {
             sigpath::vfoManager.deleteVFO(vfo);
             vfo = NULL;
         }
-        if (streamBound) {
+        if(streamBound)
+        {
             sigpath::iqFrontEnd.unbindIQStream(&iqStream);
             streamBound = false;
         }
 
         // If the mode was none, we're done
-        if (newMode == MODE_NONE) { return; }
+        if(newMode == MODE_NONE)
+            return;
 
         // Create VFO or bind IQ stream
-        if (newMode == MODE_VFO) {
+        if(newMode == MODE_VFO)
+        {
             // Create VFO
             vfo = sigpath::vfoManager.createVFO(name, ImGui::WaterfallVFO::REF_CENTER, 0, samplerate, samplerate, samplerate, samplerate, true);
 
             // Set its output as the input to the DSP
             reshape.setInput(vfo->output);
-        }
-        else {
+        }else{
             // Bind IQ stream
             sigpath::iqFrontEnd.bindIQStream(&iqStream);
             streamBound = true;
@@ -418,12 +425,14 @@ private:
         modeId = modes.valueId(newMode);
     }
 
-    void listenWorker() {
-        while (true) {
+    void listenWorker()
+    {
+        while(true)
+        {
             // Accept a client
             auto newSock = listener->accept();
-            if (!newSock) { break; }
-
+            if(!newSock)
+                break;
             // Update socket
             {
                 std::lock_guard lck(sockMtx);
@@ -432,29 +441,34 @@ private:
         }
     }
 
-    int sampleSize() {
-        switch (sampType) {
-        case SAMPLE_TYPE_INT8:
-            return sizeof(int8_t)*2;
-        case SAMPLE_TYPE_INT16:
-            return sizeof(int16_t)*2;
-        case SAMPLE_TYPE_INT32:
-            return sizeof(int32_t)*2;
-        case SAMPLE_TYPE_FLOAT32:
-            return sizeof(dsp::complex_t);
-        default:
-            return -1;
+    int sampleSize()
+    {
+        switch(sampType)
+        {
+            case SAMPLE_TYPE_INT8:
+                return sizeof(int8_t)*2;
+            case SAMPLE_TYPE_INT16:
+                return sizeof(int16_t)*2;
+            case SAMPLE_TYPE_INT32:
+                return sizeof(int32_t)*2;
+            case SAMPLE_TYPE_FLOAT32:
+                return sizeof(dsp::complex_t);
+            default:
+                return -1;
         }
     }
 
-    static void dataHandler(dsp::complex_t* data, int count, void* ctx) {
+    static void dataHandler(dsp::complex_t* data, int count, void* ctx)
+    {
         IQExporterModule* _this = (IQExporterModule*)ctx;
 
         // Try to cquire lock on socket
-        if (!_this->sockMtx.try_lock()) { return; }
+        if (!_this->sockMtx.try_lock())
+            return;
 
         // If not valid or open, give uo
-        if (!_this->sock || !_this->sock->isOpen()) {
+        if(!_this->sock || !_this->sock->isOpen())
+        {
             // Unlock socket mutex
             _this->sockMtx.unlock();
             return;
@@ -462,7 +476,8 @@ private:
         
         // Convert the samples or send directory for float32
         int size;
-        switch (_this->sampType) {
+        switch (_this->sampType)
+        {
         case SAMPLE_TYPE_INT8:
             size = sizeof(int8_t)*2*count;
             volk_32f_s32f_convert_8i((int8_t*)_this->buffer.GetBuf(size), (float*)data, 128.0f, count*2);
@@ -530,24 +545,29 @@ private:
     std::shared_ptr<net::Listener> listener;
 };
 
-static void iq_exporter_INIT() {
+static void iq_exporter_INIT()
+{
     config.setFile("iq_exporter.json");
     config.load();
     config.enableAutoSave();
 }
 
-static ModuleManager::Instance* iq_exporter_CREATE_INSTANCE(std::string name) {
+static ModuleManager::Instance* iq_exporter_CREATE_INSTANCE(std::string name)
+{
     return new IQExporterModule(name);
 }
 
-static void iq_exporter_DELETE_INSTANCE(ModuleManager::Instance* instance) {
+static void iq_exporter_DELETE_INSTANCE(ModuleManager::Instance* instance)
+{
     delete (IQExporterModule*)instance;
 }
 
-static void iq_exporter_END() {
+static void iq_exporter_END()
+{
     config.shutdown();
 }
 
-ModuleManager::Module_t iq_exporter_module{
+ModuleManager::Module_t iq_exporter_module
+{
     NULL, & iq_exporter_INFO, iq_exporter_INIT, iq_exporter_CREATE_INSTANCE, iq_exporter_DELETE_INSTANCE, iq_exporter_END
 };

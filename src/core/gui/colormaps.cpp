@@ -1,60 +1,64 @@
+#include <config.h>
 #include <gui/colormaps.h>
 #include <filesystem>
 #include <utils/flog.h>
 #include <utils/hex_color.h>
 #include <fstream>
-#include <json.hpp>
 #include <utility>
 
-using nlohmann::json;
 
 namespace colormaps {
-    std::map<std::string, Map> maps;
+    std::map<std::string, Map> g_maps;
 
-    void loadMap(const std::string& path) {
-        if (!std::filesystem::is_regular_file(path)) {
-            flog::error("Could not load {0}, file doesn't exist", path);
+    void loadMap(const std::string& path)
+    {
+        ConfigManagerImpl json;
+        json.setFile(path.c_str(), true);
+        if(!json.load())
+        {
+            flog::error("ColorMap file incorrect: {0}", path);
             return;
         }
 
+        auto data = json.read();
         Map map;
-        std::vector<std::string> encodedColors;
 
-        try {
-            std::ifstream file(path.c_str());
-            json data;
-            file >> data;
-
-            map.name = data.at("name").get<std::string>();
-            map.author = data.at("author").get<std::string>();
-            encodedColors = data.at("map").get<std::vector<std::string>>();
-        }
-        catch (const std::exception& e) {
-            flog::error("Could not load {0}: {1}", path, e.what());
+        // Load name
+        if(!data.contains("name"))
+        {
+            flog::error("ColorMap {0} is missing the name parameter", path);
             return;
         }
+        if(!data.tryGet("name", map.name))
+        {
+            flog::error("A theme named '{0}' already exists", path);
+            return;
+        }
+        if(!data.tryGet("author", map.author))
+            map.author = "--";
+        std::vector<std::string> encodedColors;
+        data.tryGet("map", encodedColors);
 
-        if (encodedColors.empty()) {
+        if (encodedColors.empty())
+        {
             flog::error("Could not load {0}: the color map has no entries", path);
             return;
         }
 
         map.colors.reserve(encodedColors.size() * 3);
-        for (const std::string& encoded : encodedColors) {
+        for(const std::string& encoded : encodedColors)
+        {
             const auto color = color_utils::parseHex<3>(encoded);
-            if (!color) {
-                flog::error(
-                    "Could not load {0}: malformed color '{1}', expected \"#RRGGBB\"",
-                    path, encoded);
+            if (!color)
+            {
+                flog::error("Could not load {0}: malformed color '{1}', expected \"#RRGGBB\"", path, encoded);
                 return;
             }
-            for (uint8_t channel : *color) {
+            for (uint8_t channel : *color)
                 map.colors.push_back(static_cast<float>(channel));
-            }
         }
-
         const std::string name = map.name;
-        maps.insert_or_assign(name, std::move(map));
+        g_maps.insert_or_assign(name, std::move(map));
     }
 
 
@@ -72,7 +76,8 @@ namespace colormaps {
         return Map_def{name, data};                   \
     }()
 
-    static const Map_def maps_def[] ={
+    static const Map_def maps_def[] =
+    {
         MAP_TERMINATED("Classic", 0x000020, 0x000030, 0x000050, 0x000091, 0x1E90FF, 0xFFFFFF, 0xFFFF00, 0xFE6D16, 0xFE6D16, 0xFF0000, 0xFF0000, 0xC60000, 0x9F0000, 0x750000, 0x4A0000),
         MAP_TERMINATED("Classic Green", 0x000000, 0x000030, 0x002851, 0x004993, 0x009BE6, 0x80FF80, 0x80FF80, 0xFFA042, 0xFF0000, 0xC60000, 0x9F0000, 0x750000, 0x4A0000),
         MAP_TERMINATED("Electric", 0x000000, 0x0000FF, 0x00FFFF, 0xFFFFFF),
@@ -97,14 +102,16 @@ namespace colormaps {
 
     void loadDefMaps()
     {
-        for(const auto& m : maps_def) {
+        for(const auto& m : maps_def)
+        {
             Map map;
             const int* color_map = m.map;
             size_t color_map_size = 0;
             for(; color_map[color_map_size] != ~0; color_map_size++) { }
 
             map.colors.reserve(color_map_size * 3);
-            for(size_t i = 0; i < color_map_size; i++){
+            for(size_t i = 0; i < color_map_size; i++)
+            {
                 uint8_t* RRGGBB = (uint8_t*)&color_map[i];
                 map.colors.push_back(static_cast<float>(RRGGBB[2]));
                 map.colors.push_back(static_cast<float>(RRGGBB[1]));
@@ -112,9 +119,8 @@ namespace colormaps {
             }
             map.name = m.name;
 
-
             const std::string name = map.name;
-            maps.insert_or_assign(name, std::move(map));
+            g_maps.insert_or_assign(name, std::move(map));
         }
     }
 }

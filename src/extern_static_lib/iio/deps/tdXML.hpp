@@ -433,13 +433,13 @@ private:
         return true;
     }
 #ifdef TD_XML_SAVE_FILE
-    void WriteStop(FILE* f, tdXML::NODE* node, bool format)
+    void WriteStop(FILE* f, tdXML::NODE* node, bool format) const
     {
         fwrite("</", 1, 2, f);
         fwrite(node->m_name, 1, node->m_name_len, f);
         fwrite(">\r\n", 1, format?3:1, f);
     }
-    void WriteStart(FILE* f, tdXML::NODE* node, bool format)
+    void WriteStart(FILE* f, tdXML::NODE* node, bool format) const
     {
         fwrite("<", 1, 1, f);
         fwrite(node->m_name, 1, node->m_name_len, f);
@@ -533,7 +533,7 @@ public:
         return n;
     }
 #ifdef TD_XML_SAVE_FILE
-    bool Save(const char* fileName, bool format)
+    bool Save(const char* fileName, bool format) const
     {
         FILE* f = fopen(fileName, "wb+");
         if(!f)

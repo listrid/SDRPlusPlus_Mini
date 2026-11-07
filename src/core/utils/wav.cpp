@@ -12,7 +12,7 @@
 #include <vector>
 #include <map>
 
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
 #include <FLAC/stream_encoder.h>
 #include <ogg/ogg.h>
 #endif
@@ -212,7 +212,7 @@ namespace wav {
         // at the cost of the deepest negative code staying unused. Computed in
         // double so the scale and products are exact for depths up to 32 bits.
         intScale = (double)((1ull << (bits - 1)) - 1);
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
         if (_format == FORMAT_FLAC) {
             // The FLAC codec takes integer samples only
             if (_type == SAMP_TYPE_FLOAT32) {
@@ -371,7 +371,7 @@ namespace wav {
         std::lock_guard<std::recursive_mutex> lck(mtx);
         // Do nothing if the file is not open
         if (!isOpenInt()) { return; }
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
         if (flacEnc) {
             // Flush the encoder and finalize the file (rewrites STREAMINFO)
             FLAC__StreamEncoder* enc = (FLAC__StreamEncoder*)flacEnc;
@@ -492,7 +492,7 @@ namespace wav {
     std::string Writer::getFileExtension() {
         std::lock_guard<std::recursive_mutex> lck(mtx);
         switch (_format) {
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
         case FORMAT_FLAC: return ".flac";
 #endif
 #ifdef OPUS_ENABLE
@@ -507,7 +507,7 @@ namespace wav {
 
         int tcount = count * _channels;
         int tbytes = count * bytesPerSamp;
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
         if (flacEnc) {
             int32_t* buf = bufI32.GetBuf(tcount);
             for (int i = 0; i < tcount; i++) {

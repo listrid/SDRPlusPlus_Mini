@@ -18,26 +18,12 @@ namespace sched_action {
             return false;
         }
 
-        void loadFromConfig(json config) {
-            if (config.contains("recorder")) { recorderName = config["recorder"]; }
-            name = "Start \"" + recorderName + "\"";
-        }
-
-        json saveToConfig() {
-            json config;
-            config["recorder"] = recorderName;
-            return config;
-        }
-
-
         std::string getName() {
             return name;
         }
 
     private:
-        std::string recorderName;
-
-        std::string name = "Start \"\"";
+        std::string name = "Start \"Recorder\"";
     };
 
     Action StartRecorder() {

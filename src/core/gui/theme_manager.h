@@ -5,9 +5,6 @@
 #include <string>
 #include <string_view>
 #include <vector>
-#include <json.hpp>
-
-using nlohmann::json;
 
 enum ImGuiCol_Ex
 {
@@ -18,12 +15,14 @@ enum ImGuiCol_Ex
 };
 
 
-struct Theme {
+struct Theme
+{
     std::string author;
-    json data;
+    unsigned int data[(int)ImGuiCol_COUNT_Ex];
 };
 
-class ThemeManager {
+class ThemeManager
+{
 public:
     bool loadThemesFromDir(const std::string& path);
     bool loadTheme(const std::string& path);
@@ -31,17 +30,15 @@ public:
 
     std::vector<std::string> getThemeNames() const;
 
-    ImVec4 waterfallBg = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
-    ImVec4 fftHoldColor = ImVec4(0.0f, 1.0f, 0.75f, 1.0f);
-    ImVec4 clearColor = ImVec4(0.0666f, 0.0666f, 0.0666f, 1.0f);
+    ImVec4 m_waterfallBg  = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+    ImVec4 m_fftHoldColor = ImVec4(0.0f, 1.0f, 0.75f, 1.0f);
+    ImVec4 m_clearColor   = ImVec4(0.0666f, 0.0666f, 0.0666f, 1.0f);
 
 private:
     bool loadInternal(const std::string& name);
     void internalGetNames(std::vector<std::string>& names) const;
 
-    static bool decodeRGBA(std::string_view str, uint8_t out[4]);
+    static std::map<std::string, int> m_IMGUI_COL_IDS;
 
-    static std::map<std::string, int> IMGUI_COL_IDS;
-
-    std::map<std::string, Theme> themes;
+    std::map<std::string, Theme> m_themes;
 };

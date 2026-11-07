@@ -1,12 +1,12 @@
 #pragma once
 #include <imgui.h>
-#include <json.hpp>
+#include <config.h>
 #include <string>
 #include <utility>
 
-using nlohmann::json;
 
-struct FrequencyBookmark {
+struct FrequencyBookmark
+{
     double frequency;
     double bandwidth;
     int mode;
@@ -18,7 +18,8 @@ struct FrequencyBookmark {
     std::string geoinfo;
 };
 
-struct WaterfallBookmark {
+struct WaterfallBookmark
+{
     std::string listName;
     std::string bookmarkName;
     ImU32 color;
@@ -29,21 +30,24 @@ struct WaterfallBookmark {
     ImVec2 clampedRectMax;
 };
 
-struct BookmarkRectangle {
+struct BookmarkRectangle
+{
     double min;
     double max;
 };
 
-FrequencyBookmark bookmarkFromJson(const json& j);
-json bookmarkToJson(const FrequencyBookmark& bm);
+void bookmarkFromJson(const ConfigManager::ReadSection& sec, FrequencyBookmark& bm);
+void bookmarkToJson(const FrequencyBookmark& bm, ConfigManager::EditSection& sec);
 
-enum class ExternalBookmarkModeStatus {
+enum class ExternalBookmarkModeStatus
+{
     Unrecorded,
     Resolved,
     Invalid
 };
 
-struct ExternalBookmarkParseResult {
+struct ExternalBookmarkParseResult
+{
     FrequencyBookmark bookmark;
     ExternalBookmarkModeStatus modeStatus;
 };
@@ -51,7 +55,7 @@ struct ExternalBookmarkParseResult {
 // External files may use this fork's canonical string or upstream SDR++'s
 // numeric mode. Internal config loading deliberately uses bookmarkFromJson()
 // and remains string-only.
-ExternalBookmarkParseResult bookmarkFromExternalJson(const json& j);
+void bookmarkFromExternalJson(const ConfigManager::ReadSection& sec, ExternalBookmarkParseResult& result);
 
 bool compareWaterfallBookmarks(const WaterfallBookmark& wbm1, const WaterfallBookmark& wbm2);
 bool compareBookmarksFreqAsc(const std::pair<std::string, FrequencyBookmark>& a, const std::pair<std::string, FrequencyBookmark>& b);

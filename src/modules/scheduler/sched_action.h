@@ -1,9 +1,6 @@
 #pragma once
-#include <json.hpp>
 #include <memory>
 #include <utils/flog.h>
-
-using namespace nlohmann;
 
 namespace sched_action {
     class ActionClass {
@@ -12,8 +9,6 @@ namespace sched_action {
         virtual void trigger() = 0;
         virtual void prepareEditMenu() = 0;
         virtual bool showEditMenu(bool& valid) = 0;
-        virtual void loadFromConfig(json config) = 0;
-        virtual json saveToConfig() = 0;
         virtual std::string getName() = 0;
 
         virtual bool isValid() {

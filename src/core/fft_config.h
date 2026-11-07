@@ -1,7 +1,7 @@
 #pragma once
 
-#define use_muFFT 1
-//#define use_PFFFT 1  // 2.167 ms
+//#define use_muFFT 1    //2.670 ms
+#define use_PFFFT 1  // 2.167 ms
 //#define use_fftwf 1    //14.218 ms
 
 
@@ -137,7 +137,7 @@ inline void fft_destroy_plan(fft_plan& plan)
 #endif
 
 #ifdef use_fftwf
-
+del !! big and slow
 #include <fftw3.h>
 
 typedef fftwf_plan fft_plan;

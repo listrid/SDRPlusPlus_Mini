@@ -160,7 +160,7 @@ namespace dsp {
 
                 flog::debug("logmmse: sampling noise, srate={}, Slen={}, nFFT={}", Srate, params->Slen, params->nFFT);
                 auto noise_mean = npzeros(params->nFFT);
-                for (int j = 0; j < params->Slen * noise_frames; j += params->Slen) {
+                for (int j = 0; j < params->Slen * noise_frames && (j +params->Slen) <= x.size() ; j += params->Slen) {
                     npfftfft((muleach(params->win, nparange(x, j, j + params->Slen))), params->forwardPlan);
                     auto noise = npabsolute(params->forwardPlan->getOutput());
                     noise_mean = addeach(noise_mean, noise);

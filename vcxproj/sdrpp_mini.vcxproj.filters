@@ -486,9 +486,6 @@
     <ClInclude Include="..\src\core\credits.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\core\json.hpp">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\core\meteor_demodulator_interface.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -1239,6 +1236,7 @@
     <ClInclude Include="..\src\core\fft_config.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\include\SDRpp_api.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="..\src\utf8.manifest" />

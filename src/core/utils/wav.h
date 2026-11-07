@@ -23,7 +23,7 @@ namespace wav {
     enum Format {
         FORMAT_WAV,
         FORMAT_RF64,
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
         FORMAT_FLAC,
 #endif
 #ifdef OPUS_ENABLE

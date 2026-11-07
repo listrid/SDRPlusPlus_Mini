@@ -26,16 +26,19 @@
 // These receiver-oriented sources are compatibility evidence, not regulatory
 // authorities. A source range documents why an identity exists; it does not
 // become a legal or globally valid allocation span.
-namespace freq_input {
+namespace freq_input
+{
 
-    namespace {
+    namespace
+    {
 
         // Definitions own only their exact probe count while this translation
         // unit is constant-evaluated. makeRegistry() then flattens them into a
         // compact per-service pool; no builder state or temporary probe arrays
         // survive in the runtime representation.
         template <std::size_t ProbeCount>
-        struct BandDefinition {
+        struct BandDefinition
+        {
             static constexpr std::size_t PROBE_COUNT = ProbeCount;
 
             BandService service;
@@ -51,13 +54,13 @@ namespace freq_input {
         // descriptive and selector label. Individual mappings can instead
         // provide independently reviewable selector text and an optional
         // second line without changing the registry builder.
-        struct BandText {
+        struct BandText
+        {
             std::string_view name;
             std::string_view selectorLabel;
             std::string_view selectorDetail;
 
-            constexpr BandText(const char* label)
-                : name(label), selectorLabel(label), selectorDetail()
+            constexpr BandText(const char* label) : name(label), selectorLabel(label), selectorDetail()
             {}
 
             constexpr BandText(
@@ -71,11 +74,13 @@ namespace freq_input {
         };
 
         template <std::size_t MappingCount, std::size_t ProbeCount>
-        struct BandRegistry {
+        struct BandRegistry
+        {
             std::array<BandMapping, MappingCount> mappings;
             std::array<std::int64_t, ProbeCount> probesHz;
 
-            constexpr BandMappingTable table() const {
+            constexpr BandMappingTable table() const
+            {
                 return {
                     mappings.data(),
                     mappings.size(),
@@ -86,21 +91,21 @@ namespace freq_input {
         };
 
         template <typename... Definitions>
-        constexpr auto makeRegistry(const Definitions&... definitions) {
+        constexpr auto makeRegistry(const Definitions&... definitions)
+        {
             constexpr std::size_t mappingCount = sizeof...(Definitions);
-            constexpr std::size_t probeCount =
-                (std::size_t{0} + ... + Definitions::PROBE_COUNT);
+            constexpr std::size_t probeCount = (std::size_t{0} + ... + Definitions::PROBE_COUNT);
             static_assert(probeCount <= 0xFFFFu, "Probe offsets exceed uint16_t");
-            static_assert(
-                ((Definitions::PROBE_COUNT <= 0xFFu) && ...),
-                "Per-band probe count exceeds uint8_t");
+            static_assert(((Definitions::PROBE_COUNT <= 0xFFu) && ...), "Per-band probe count exceeds uint8_t");
 
             BandRegistry<mappingCount, probeCount> result{};
             std::size_t mappingIndex = 0;
             std::size_t probeOffset = 0;
 
-            const auto append = [&](const auto& definition) constexpr {
-                result.mappings[mappingIndex++] = {
+            const auto append = [&](const auto& definition) constexpr
+            {
+                result.mappings[mappingIndex++] =
+                {
                     definition.service,
                     definition.family,
                     definition.name,
@@ -110,9 +115,8 @@ namespace freq_input {
                     static_cast<std::uint16_t>(probeOffset),
                     static_cast<std::uint8_t>(definition.probesHz.size())
                 };
-                for (std::size_t i = 0; i < definition.probesHz.size(); i++) {
+                for (std::size_t i = 0; i < definition.probesHz.size(); i++)
                     result.probesHz[probeOffset++] = definition.probesHz[i];
-                }
             };
             (append(definitions), ...);
             return result;
@@ -1302,11 +1306,7 @@ namespace freq_input {
         return result;
     }
 
-    const BandMapping* findBandMapping(
-        BandService service,
-        BandFamily family,
-        double startHz,
-        double endHz)
+    const BandMapping* findBandMapping(BandService service, BandFamily family, double startHz, double endHz)
     {
         if (startHz > endHz) { return nullptr; }
 
@@ -1626,20 +1626,11 @@ namespace freq_input {
         return result;
     }
 
-    const BandMapping* findLegacyBandMapping(
-        const LegacyBandClassification& classification,
-        double startHz,
-        double endHz)
+    const BandMapping* findLegacyBandMapping(const LegacyBandClassification& classification, double startHz, double endHz)
     {
-        if (!classification.isBandOrSegment()) {
+        if (!classification.isBandOrSegment())
             return nullptr;
-        }
-
-        return findBandMapping(
-            classification.service,
-            classification.family,
-            startHz,
-            endHz);
+        return findBandMapping(classification.service, classification.family, startHz, endHz);
     }
 
 }

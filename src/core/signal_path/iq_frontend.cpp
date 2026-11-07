@@ -268,13 +268,13 @@ void IQFrontEnd::handler(dsp::complex_t* data, int count, void* ctx) {
 
     // Apply window
     volk_32fc_32f_multiply_32fc((lv_32fc_t*)_this->fftInBuf, (lv_32fc_t*)data, _this->fftWindowBuf, _this->_nzFFTSize);
-    tdTimeCpu _cpu; static uint64_t t_sum = 0; static size_t t_count = 0;;
+ //   tdTimeCpu _cpu; static uint64_t t_sum = 0; static size_t t_count = 0;;
     // Execute FFT
     fft_exec_1d(_this->fftwPlan, _this->fftInBuf, _this->fftOutBuf);
 
 
-    size_t t = _cpu.Delta(); t_sum += t; t_count++;
-    printf("fft %u mc  %u\n", t, t_sum/t_count);
+ //   size_t t = _cpu.Delta(); t_sum += t; t_count++;
+ //   printf("fft %u mc  %u\n", t, t_sum/t_count);
 
     // Aquire buffer
     float* fftBuf = _this->_acquireFFTBuffer(_this->_fftCtx);

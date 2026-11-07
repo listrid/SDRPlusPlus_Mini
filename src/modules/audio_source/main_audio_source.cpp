@@ -20,19 +20,23 @@ static ModuleManager::ModuleInfo_t audio_source_INFO{
     /* Max instances    */ 1
 };
 
-static ConfigManager config;
+static ConfigManagerImpl config;
 
-struct DeviceInfo {
+struct DeviceInfo
+{
     RtAudio::DeviceInfo info;
     int id;
-    bool operator==(const struct DeviceInfo& other) const {
+    bool operator==(const struct DeviceInfo& other) const
+    {
         return other.id == id;
     }
 };
 
-class AudioSourceModule : public ModuleManager::Instance {
+class AudioSourceModule : public ModuleManager::Instance
+{
 public:
-    AudioSourceModule(std::string name) {
+    AudioSourceModule(std::string name)
+    {
         this->name = name;
 
 #if RTAUDIO_VERSION_MAJOR >= 6
@@ -54,68 +58,80 @@ public:
         refresh();
 
         // Select device
-        std::string device = config.read().value("device", std::string());
+        std::string device(config.read().value("device", ""));
         select(device);
         
         sigpath::sourceManager.registerSource("Audio", &handler);
     }
 
-    ~AudioSourceModule() {
+    ~AudioSourceModule()
+    {
         stop(this);
         sigpath::sourceManager.unregisterSource("Audio");
     }
 
     void postInit() {}
 
-    void enable() {
+    void enable()
+    {
         enabled = true;
     }
 
-    void disable() {
+    void disable()
+    {
         enabled = false;
     }
 
-    bool isEnabled() {
+    bool isEnabled()
+    {
         return enabled;
     }
 
-    void refresh() {
+    void refresh()
+    {
         devices.clear();
 
 #if RTAUDIO_VERSION_MAJOR >= 6
-        for (int i : audio.getDeviceIds()) {
+        for (int i : audio.getDeviceIds())
+        {
 #else
         int count = audio.getDeviceCount();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
 #endif
             try {
                 // Get info
                 auto info = audio.getDeviceInfo(i);
 
 #if !defined(RTAUDIO_VERSION_MAJOR) || RTAUDIO_VERSION_MAJOR < 6
-                if (!info.probed) { continue; }
+                if (!info.probed)
+                    continue;
 #endif
                 // Check that it has a stereo input
-                if (info.inputChannels < 2) { continue; }
+                if (info.inputChannels < 2)
+                    continue;
 
                 // Save info
                 DeviceInfo dinfo = { info, i };
                 devices.define(info.name, info.name, dinfo);
-            }
-            catch (const std::exception& e) {
+            }catch (const std::exception& e)
+            {
                 flog::error("Error getting audio device ({}) info: {}", i, e.what());
             }
         }
     }
 
-    void select(std::string name) {
-        if (devices.empty()) {
+    void select(std::string name)
+    {
+        if (devices.empty())
+        {
             selectedDevice.clear();
             return;
         }
 
         // Check that such a device exist. If not select first
-        if (!devices.keyExists(name)) {
+        if (!devices.keyExists(name))
+        {
             select(devices.key(0));
             return;
         }
@@ -127,20 +143,19 @@ public:
 
         // List samplerates and save ID of the preference one
         sampleRates.clear();
-        for (const auto& sr : info.sampleRates) {
+        for (const auto& sr : info.sampleRates)
+        {
             std::string name = getBandwdithScaled(sr);
             sampleRates.define(sr, name, sr);
-            if (sr == info.preferredSampleRate) {
+            if (sr == info.preferredSampleRate)
                 srId = sampleRates.valueId(sr);
-            }
         }
 
         // Load samplerate from config
         {
             auto configAccess = config.read();
-            if (configAccess.section("devices", selectedDevice).tryGet("sampleRate", sampleRate) && sampleRates.keyExists(sampleRate)) {
+            if (configAccess.section("devices", selectedDevice).tryGet("sampleRate", sampleRate) && sampleRates.keyExists(sampleRate))
                 srId = sampleRates.keyId(sampleRate);
-            }
         }
 
         // Update samplerate from ID
@@ -148,37 +163,43 @@ public:
     }
 
 private:
-    std::string getBandwdithScaled(double bw) {
+    std::string getBandwdithScaled(double bw)
+    {
         char buf[1024];
-        if (bw >= 1000000.0) {
+        if (bw >= 1000000.0)
+        {
             sprintf(buf, "%.1lfMHz", bw / 1000000.0);
-        }
-        else if (bw >= 1000.0) {
+        }else if (bw >= 1000.0)
+        {
             sprintf(buf, "%.1lfKHz", bw / 1000.0);
-        }
-        else {
+        }else{
             sprintf(buf, "%.1lfHz", bw);
         }
         return std::string(buf);
     }
 
-    static void menuSelected(void* ctx) {
+    static void menuSelected(void* ctx)
+    {
         AudioSourceModule* _this = (AudioSourceModule*)ctx;
         core::setInputSampleRate(_this->sampleRate);
         flog::info("AudioSourceModule '{0}': Menu Select!", _this->name);
     }
 
-    static void menuDeselected(void* ctx) {
+    static void menuDeselected(void* ctx)
+    {
         AudioSourceModule* _this = (AudioSourceModule*)ctx;
         flog::info("AudioSourceModule '{0}': Menu Deselect!", _this->name);
     }
 
-    static void start(void* ctx) {
+    static void start(void* ctx)
+    {
         AudioSourceModule* _this = (AudioSourceModule*)ctx;
-        if (_this->running) { return; }
+        if (_this->running)
+            return;
 
         // If no device is selected, give up
-        if (_this->selectedDevice.empty()) { return; }
+        if (_this->selectedDevice.empty())
+            return;
         
         // Stream options
         RtAudio::StreamParameters parameters;
@@ -190,21 +211,23 @@ private:
         opts.streamName = "Audio Source";
 
         // Open and start stream
-        try {
+        try
+        {
             _this->audio.openStream(NULL, &parameters, RTAUDIO_FLOAT32, _this->sampleRate, &bufferFrames, callback, _this, &opts);
             _this->audio.startStream();
             _this->running = true;
-        }
-        catch (const std::exception& e) {
+        }catch (const std::exception& e)
+        {
             flog::error("Error opening audio device: {}", e.what());
         }
-        
         flog::info("AudioSourceModule '{}': Start!", _this->name);
     }
 
-    static void stop(void* ctx) {
+    static void stop(void* ctx)
+    {
         AudioSourceModule* _this = (AudioSourceModule*)ctx;
-        if (!_this->running) { return; }
+        if (!_this->running)
+            return;
         _this->running = false;
         
         _this->audio.stopStream();
@@ -213,45 +236,51 @@ private:
         flog::info("AudioSourceModule '{0}': Stop!", _this->name);
     }
 
-    static void tune(double freq, void* ctx) {
+    static void tune(double freq, void* ctx)
+    {
         // Not possible
     }
 
-    static void menuHandler(void* ctx) {
+    static void menuHandler(void* ctx)
+    {
         AudioSourceModule* _this = (AudioSourceModule*)ctx;
 
-        if (_this->running) { SmGui::BeginDisabled(); }
+        if (_this->running)
+            SmGui::BeginDisabled();
 
         SmGui::FillWidth();
         SmGui::ForceSync();
-        if (SmGui::Combo(CONCAT("##_audio_dev_sel_", _this->name), &_this->devId, _this->devices.txt)) {
+        if (SmGui::Combo(CONCAT("##_audio_dev_sel_", _this->name), &_this->devId, _this->devices.txt))
+        {
             std::string dev = _this->devices.key(_this->devId);
             _this->select(dev);
             core::setInputSampleRate(_this->sampleRate);
-            config.edit().set("device", dev);
+            config.edit()["device"] = dev;
         }
 
-        if (SmGui::Combo(CONCAT("##_audio_sr_sel_", _this->name), &_this->srId, _this->sampleRates.txt)) {
+        if (SmGui::Combo(CONCAT("##_audio_sr_sel_", _this->name), &_this->srId, _this->sampleRates.txt))
+        {
             _this->sampleRate = _this->sampleRates[_this->srId];
             core::setInputSampleRate(_this->sampleRate);
-            if (!_this->selectedDevice.empty()) {
-                config.edit().section("devices", _this->selectedDevice).set("sampleRate", _this->sampleRate);
-            }
+            if (!_this->selectedDevice.empty())
+                config.edit().section("devices", _this->selectedDevice)["sampleRate"] = _this->sampleRate;
         }
 
         SmGui::SameLine();
         SmGui::FillWidth();
         SmGui::ForceSync();
-        if (SmGui::Button(CONCAT("Refresh##_audio_refr_", _this->name))) {
+        if (SmGui::Button(CONCAT("Refresh##_audio_refr_", _this->name)))
+        {
             _this->refresh();
             _this->select(_this->selectedDevice);
             core::setInputSampleRate(_this->sampleRate);
         }
-
-        if (_this->running) { SmGui::EndDisabled(); }
+        if(_this->running)
+            SmGui::EndDisabled();
     }
 
-    static int callback(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData) {
+    static int callback(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData)
+    {
         AudioSourceModule* _this = (AudioSourceModule*)userData;
         memcpy(_this->stream.GetWBuf(nBufferFrames), inputBuffer, nBufferFrames * sizeof(dsp::complex_t));
         _this->stream.swap(nBufferFrames);
@@ -259,8 +288,10 @@ private:
     }
 
 #if RTAUDIO_VERSION_MAJOR >= 6
-    static void errorCallback(RtAudioErrorType type, const std::string& errorText) {
-        switch (type) {
+    static void errorCallback(RtAudioErrorType type, const std::string& errorText)
+    {
+        switch (type)
+        {
         case RtAudioErrorType::RTAUDIO_NO_ERROR:
             return;
         case RtAudioErrorType::RTAUDIO_WARNING:
@@ -290,25 +321,30 @@ private:
     RtAudio audio;
 };
 
-static void audio_source_INIT() {
+static void audio_source_INIT()
+{
     config.setFile("audio_source.json");
     config.load();
     config.enableAutoSave();
 }
 
-static ModuleManager::Instance* audio_source_CREATE_INSTANCE(std::string name) {
+static ModuleManager::Instance* audio_source_CREATE_INSTANCE(std::string name)
+{
     return new AudioSourceModule(name);
 }
 
-static void audio_source_DELETE_INSTANCE(ModuleManager::Instance* instance) {
+static void audio_source_DELETE_INSTANCE(ModuleManager::Instance* instance)
+{
     delete (AudioSourceModule*)instance;
 }
 
-static void audio_source_END() {
+static void audio_source_END()
+{
     config.shutdown();
 }
 
 
-ModuleManager::Module_t audio_source_module{
+ModuleManager::Module_t audio_source_module
+{
     NULL, &audio_source_INFO, audio_source_INIT, audio_source_CREATE_INSTANCE, audio_source_DELETE_INSTANCE, audio_source_END
 };

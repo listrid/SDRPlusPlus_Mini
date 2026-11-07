@@ -170,7 +170,7 @@ namespace freq_input {
                 auto configAccess = core::configManager.edit();
                 bands.onOpen(configAccess);
                 spectrum.onOpen(configAccess);
-                const std::string storedPage = freq_memory::root(configAccess).value(
+                const std::string_view storedPage = freq_memory::root(configAccess).value(
                     freq_memory::PAGE,
                     "keypad");
                 if (storedPage == "band") { page = 0; }
@@ -231,10 +231,7 @@ namespace freq_input {
             auto configAccess = core::configManager.edit();
             if (page == 0) { bands.onActivate(configAccess); }
             else if (page == 1) { spectrum.onActivate(configAccess); }
-            freq_memory::root(configAccess).set(
-                freq_memory::PAGE,
-                (page == 0) ? "band" :
-                (page == 1) ? "spectrum" : "keypad");
+            freq_memory::root(configAccess)[freq_memory::PAGE] = (page == 0) ? "band" : (page == 1) ? "spectrum" : "keypad";
         }
         ImGui::SameLine();
         const bool closePressed =

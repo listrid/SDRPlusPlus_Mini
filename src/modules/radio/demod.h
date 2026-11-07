@@ -174,29 +174,23 @@ namespace demod {
     protected:
         friend struct AGCControls;
 
-        // The demodulator's own config subtree, copied out under one read access.
-        // The loadConf() readers below then work on a plain document, so the
-        // config lock is held for exactly one call rather than for the whole of
-        // a constructor that also builds the DSP chain. Returns an empty object
-        // for a demodulator the config has never seen.
-        nlohmann::json loadSection() {
-            auto configAccess = _config->read();
-            return configAccess.section(name).value(getName(), nlohmann::json::object());
-        }
-
-        // Load a value from the demodulator's config section if present
-        template <class T>
-        static void loadConf(const nlohmann::json& j, const char* key, T& out) {
-            if (j.contains(key)) { out = j[key]; }
-        }
-
         // Save a value into the demodulator's config section
-        template <class T>
-        void saveConf(const char* key, const T& value) {
-            auto configAccess = _config->edit();
-            configAccess.section(name, getName()).set(key, value);
+        void saveConf(const char* key, float value)
+        {
+            _config->edit().section(name, getName())[key] = value;
         }
-
+        void saveConf(const char* key, bool value)
+        {
+            _config->edit().section(name, getName())[key] = value;
+        }
+        void saveConf(const char* key, int value)
+        {
+            _config->edit().section(name, getName())[key] = value;
+        }
+        void saveConf(const char* key, const char* value)
+        {
+            _config->edit().section(name, getName())[key] = value;
+        }
         ConfigManager* _config = NULL;
         std::string name;
     };
@@ -210,11 +204,12 @@ namespace demod {
         float attack = 50.0f;
         float decay = 5.0f;
 
-        void load(const nlohmann::json& j) {
-            Demodulator::loadConf(j, "agcEnabled", enabled);
-            Demodulator::loadConf(j, "agcGain", gain);
-            Demodulator::loadConf(j, "agcAttack", attack);
-            Demodulator::loadConf(j, "agcDecay", decay);
+        void load(ConfigManager::ReadSection& cfg)
+        {
+            cfg.tryGet("agcEnabled", enabled);
+            cfg.tryGet("agcGain", gain);
+            cfg.tryGet("agcAttack", attack);
+            cfg.tryGet("agcDecay", decay);
         }
 
         // Apply the enabled state and manual gain to a freshly init()ed demodulator

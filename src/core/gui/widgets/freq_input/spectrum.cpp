@@ -95,7 +95,7 @@ namespace freq_input {
 
     }
 
-    void Spectrum::onOpen(const ConfigManager::ReadAccess& configAccess) {
+    void Spectrum::onOpen(const ConfigManager::ReadSection& configAccess) {
         lastRangeId = freq_memory::spectrum(configAccess).value(
             freq_memory::ACTIVE_RANGE,
             "");
@@ -103,7 +103,7 @@ namespace freq_input {
 
     // Which grid owns the frequency memory: the lifecycle coordinator reads the
     // selector to decide where the current frequency belongs when written back.
-    void Spectrum::onActivate(ConfigManager::EditAccess& configAccess) {
+    void Spectrum::onActivate(ConfigManager::EditSection& configAccess) {
         freq_memory::activate(configAccess, freq_memory::SELECTOR_SPECTRUM);
     }
 
@@ -132,8 +132,7 @@ namespace freq_input {
             }
         }
 
-        const std::int64_t currentFrequency =
-            static_cast<std::int64_t>(ctx.frequency);
+        const int64_t currentFrequency = static_cast<int64_t>(ctx.frequency);
         const SpectrumRange* active = nullptr;
         const SpectrumRange* persisted =
             findSpectrumRange(lastRangeId);
@@ -148,7 +147,7 @@ namespace freq_input {
         {
             lastRangeId = std::string(active->rangeId);
             auto configAccess = core::configManager.edit();
-            freq_memory::spectrum(configAccess).set(freq_memory::ACTIVE_RANGE, lastRangeId);
+            freq_memory::spectrum(configAccess)[freq_memory::ACTIVE_RANGE] = lastRangeId;
         }
 
         if (ranges.empty()) {
@@ -222,20 +221,19 @@ namespace freq_input {
                 {
                     auto configAccess = core::configManager.edit();
                     ConfigManager::EditSection spectrum = freq_memory::spectrum(configAccess);
-                    ConfigManager::EditSection memory =
-                        spectrum.section(freq_memory::LAST_FREQUENCY);
+                    ConfigManager::EditSection memory = spectrum.section(freq_memory::LAST_FREQUENCY);
 
                     // Remember the current frequency for the one non-overlapping
                     // range that owns it. This is a one-slot navigation memory,
                     // intentionally separate from the service-band register stack.
                     if (active)
                     {
-                        memory.set(active->rangeId, currentFrequency);
+                        memory[active->rangeId] = currentFrequency;
                     }
 
                     out.frequency = static_cast<std::uint64_t>(
                         rememberedFrequency(memory, available));
-                    spectrum.set(freq_memory::ACTIVE_RANGE, range.rangeId);
+                    spectrum[freq_memory::ACTIVE_RANGE] = range.rangeId;
                 }
 
                 lastRangeId = std::string(range.rangeId);

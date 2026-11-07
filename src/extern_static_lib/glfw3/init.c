@@ -418,7 +418,6 @@ GLFWAPI int glfwInit(void)
 
     _glfwPlatformSetTls(&_glfw.errorSlot, &_glfwMainThreadError);
 
-  //xx  _glfwInitGamepadMappings();
 
     _glfwPlatformInitTimer();
     _glfw.timer.offset = _glfwPlatformGetTimerValue();

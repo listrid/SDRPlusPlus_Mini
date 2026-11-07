@@ -11,8 +11,10 @@
 
 #define WATERFALL_RESOLUTION 1000000
 
-namespace ImGui {
-    class WaterfallVFO {
+namespace ImGui
+{
+    class WaterfallVFO
+    {
     public:
         void setOffset(double offset);
         void setCenterOffset(double offset);
@@ -24,7 +26,8 @@ namespace ImGui {
         void updateDrawingVars(double viewBandwidth, float dataWidth, double viewOffset, ImVec2 widgetPos, int fftHeight); // NOTE: Datawidth double???
         void draw(ImGuiWindow* window, bool selected);
 
-        enum {
+        enum
+        {
             REF_LOWER,
             REF_CENTER,
             REF_UPPER,
@@ -81,7 +84,8 @@ namespace ImGui {
         Event<double> m_onUserChangedNotch;
     };
 
-    class WaterFall {
+    class WaterFall
+    {
     public:
         WaterFall();
 
@@ -168,7 +172,8 @@ namespace ImGui {
         std::string m_selectedVFO = "";
         bool m_selectedVFOChanged = false;
 
-        struct FFTRedrawArgs {
+        struct FFTRedrawArgs
+        {
             ImVec2 min;
             ImVec2 max;
             double lowFreq;
@@ -180,7 +185,8 @@ namespace ImGui {
 
         Event<FFTRedrawArgs> m_onFFTRedraw;
 
-        struct InputHandlerArgs {
+        struct InputHandlerArgs
+        {
             ImVec2 fftRectMin;
             ImVec2 fftRectMax;
             ImVec2 freqScaleRectMin;
@@ -197,14 +203,16 @@ namespace ImGui {
         bool m_VFOMoveSingleClick = false;
         Event<InputHandlerArgs> m_onInputProcess;
 
-        enum {
+        enum
+        {
             REF_LOWER,
             REF_CENTER,
             REF_UPPER,
             _REF_COUNT
         };
 
-        enum {
+        enum
+        {
             BANDPLAN_POS_BOTTOM,
             BANDPLAN_POS_TOP,
             _BANDPLAN_POS_COUNT

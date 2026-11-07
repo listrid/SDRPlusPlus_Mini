@@ -156,8 +156,8 @@ namespace freq_input {
 
         // Both take the dialog's access: opening the dialog settles every page's
         // state in one config transaction. See freq_memory::activate().
-        void onOpen(const ConfigManager::ReadAccess& configAccess);
-        void onActivate(ConfigManager::EditAccess& configAccess);
+        void onOpen(const ConfigManager::ReadSection& configAccess);
+        void onActivate(ConfigManager::EditSection& configAccess);
         Outcome draw(const Context& ctx, const Metrics& m);
 
     private:
@@ -171,11 +171,11 @@ namespace freq_input {
     // service-band stacking registers. See spectrum.cpp.
     class Spectrum {
     public:
-        void onOpen(const ConfigManager::ReadAccess& configAccess);
+        void onOpen(const ConfigManager::ReadSection& configAccess);
         // This page has become the visible one. It claims the frequency memory
         // here, mirroring how the band grid claims it when it resolves a band,
         // rather than restating the claim on every frame it is drawn.
-        void onActivate(ConfigManager::EditAccess& configAccess);
+        void onActivate(ConfigManager::EditSection& configAccess);
         Outcome draw(const Context& ctx, const Metrics& m);
 
     private:

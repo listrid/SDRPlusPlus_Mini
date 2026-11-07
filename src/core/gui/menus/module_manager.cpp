@@ -109,12 +109,12 @@ namespace module_manager_menu {
 
         if (modified) {
             // Update enabled and disabled modules
-            json instances = json::object();
+            auto instances = core::configManager.edit().section("moduleInstances");
             for (auto [_name, inst] : core::moduleManager.instances) {
-                instances[_name]["module"] = inst.module.info->name;
-                instances[_name]["enabled"] = inst.instance->isEnabled();
+                auto mod = instances.section(_name);
+                mod["module"] = inst.module.info->name;
+                mod["enabled"] = inst.instance->isEnabled();
             }
-            core::configManager.edit().set("moduleInstances", instances);
         }
     }
 }

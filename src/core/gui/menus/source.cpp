@@ -140,17 +140,21 @@ namespace sourcemenu {
         // Load custom offsets
         {
             auto configAccess = core::configManager.read();
-            if (const json* ofs = configAccess.section("offsets").peek()) {
-                for (auto& o : ofs->items()) {
-                    if (o.value().is_number()) { namedOffsets[o.key()] = (double)o.value(); }
+            auto ofs = configAccess.section("offsets").peek();
+            for(auto& o : ofs)
+            {
+                double value = 0;
+                if(o.tryGet(value))
+                {
+                    std::string key = o.GetName();
+                    namedOffsets[key] = value;
                 }
             }
         }
 
         // Define custom offsets
-        for (auto& [name, offset] : namedOffsets) {
+        for (auto& [name, offset] : namedOffsets) 
             offsets.define(name, offsets.size());
-        }
     }
 
     void init() {
@@ -204,7 +208,7 @@ namespace sourcemenu {
 
     void addOffset(const std::string& name, double offset) {
         // Define a new offset
-        core::configManager.edit().section("offsets").set(name, offset);
+        core::configManager.edit().section("offsets")[name] = offset;
 
         // Reload the offsets
         reloadOffsets();
@@ -270,7 +274,7 @@ namespace sourcemenu {
         if (ImGui::Combo("##source", &sourceId, sources.txt)) {
             std::string newSource = sources.value(sourceId);
             selectSource(newSource);
-            core::configManager.edit().set("source", newSource);
+            core::configManager.edit()["source"] = newSource;
         }
 
         if (running) { style::endDisabled(); }
@@ -279,19 +283,19 @@ namespace sourcemenu {
 
         if (ImGui::Checkbox("IQ Correction##_sdrpp_iq_corr", &iqCorrection)) {
             sigpath::iqFrontEnd.setDCBlocking(iqCorrection);
-            core::configManager.edit().set("iqCorrection", iqCorrection);
+            core::configManager.edit()["iqCorrection"] = iqCorrection;
         }
 
         if (ImGui::Checkbox("Invert IQ##_sdrpp_inv_iq", &invertIQ)) {
             sigpath::iqFrontEnd.setInvertIQ(invertIQ);
-            core::configManager.edit().set("invertIQ", invertIQ);
+            core::configManager.edit()["invertIQ"] = invertIQ;
         }
 
         ImGui::LeftLabel("Offset mode");
         ImGui::SetNextItemWidth(itemWidth - ImGui::GetCursorPosX() - 1.3*(lineHeight + spacing));
         if (ImGui::Combo("##_sdrpp_offset", &offsetId, offsets.txt)) {
             selectOffsetById(offsetId);
-            core::configManager.edit().set("selectedOffset", offsets.key(offsetId));
+            core::configManager.edit()["selectedOffset"] = offsets.key(offsetId);
         }
         ImGui::SameLine();
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() - spacing);
@@ -324,7 +328,7 @@ namespace sourcemenu {
             if (offsetId == OFFSET_ID_MANUAL) {
                 if (ImGui::InputDouble("##freq_offset", &manualOffset, 1.0, 100.0)) {
                     updateOffset();
-                    core::configManager.edit().set("manualOffset", manualOffset);
+                    core::configManager.edit()["manualOffset"] = manualOffset;
                 }
             }
             else {
@@ -339,7 +343,7 @@ namespace sourcemenu {
         ImGui::FillWidth();
         if (ImGui::Combo("##source_decim", &decimId, decimations.txt)) {
             sigpath::iqFrontEnd.setDecimation(decimations.value(decimId));
-            core::configManager.edit().set("decimation", decimations.key(decimId));
+            core::configManager.edit()["decimation"] = decimations.key(decimId);
         }
         if (running) { style::endDisabled(); }
     }

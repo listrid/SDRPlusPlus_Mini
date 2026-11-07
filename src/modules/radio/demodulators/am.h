@@ -18,18 +18,20 @@ namespace demod {
             _config = config;
 
             // Load config
-            nlohmann::json cfg = loadSection();
-            if (cfg.contains("agcMode")) {
-                agcMode = std::clamp<int>(cfg["agcMode"], 0, 2);
-            }
-            else if (cfg.contains("carrierAgc")) {
+            auto cfg = _config->read().section(name, getName());
+            if (cfg.contains("agcMode"))
+            {
+                agcMode = std::clamp<int>(cfg.value("agcMode", int64_t(0)), 0, 2);
+            }else if (cfg.contains("carrierAgc"))
+            {
                 // Legacy config format with a carrier AGC on/off flag
-                bool carrierAgc = cfg["carrierAgc"];
+                bool carrierAgc = true;
+                cfg.tryGet("carrierAgc", carrierAgc);
                 agcMode = carrierAgc ? dsp::demod::AM<dsp::stereo_t>::AGCMode::CARRIER : dsp::demod::AM<dsp::stereo_t>::AGCMode::AUDIO;
             }
-            loadConf(cfg, "agcGain", agcGain);
-            loadConf(cfg, "agcAttack", agcAttack);
-            loadConf(cfg, "agcDecay", agcDecay);
+            cfg.tryGet("agcGain", agcGain);
+            cfg.tryGet("agcAttack", agcAttack);
+            cfg.tryGet("agcDecay", agcDecay);
 
             // Define structure
             demod.init(input, (dsp::demod::AM<dsp::stereo_t>::AGCMode)agcMode, bandwidth, agcAttack / getIFSampleRate(), agcDecay / getIFSampleRate(), 100.0 / getIFSampleRate(), getIFSampleRate());

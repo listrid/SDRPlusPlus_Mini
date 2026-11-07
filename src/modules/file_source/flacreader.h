@@ -7,7 +7,7 @@
 // decoder already hands back WAV-style packed little-endian PCM, so this
 // presents the stream as WAVE_FORMAT::PCM: main.cpp's existing PCM converters
 // (convU8/convI16/convI24/convI32) then handle it with no FLAC-specific code.
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
 class FlacReader : public SampleReader {
 public:
     FlacReader(const std::string& path) : _dec(path) {}

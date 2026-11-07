@@ -30,49 +30,35 @@ namespace vfo_color_menu {
         auto configAccess = core::configManager.edit();
         ConfigManager::EditSection colors = configAccess.section("vfoColors");
         for (const auto& [name, color] : updates) {
-            colors.set(name, color);
+            colors[name] = color;
         }
     }
 
-    void repairColors(const std::vector<std::pair<std::string, json>>& repairs) {
-        if (repairs.empty()) { return; }
-
-        auto configAccess = core::configManager.edit();
-        ConfigManager::EditSection colors = configAccess.section("vfoColors");
-        for (const auto& [name, observed] : repairs) {
-            // Preserve a value replaced after the read snapshot.
-            if (colors.contains(name.c_str()) && colors.value(name.c_str(), json()) == observed) {
-                colors.set(name, "#FFFFFF");
-            }
-        }
-    }
-
-    void init() {
+    void init()
+    {
         // Snapshot the subtree so parsing and VFO callbacks do not hold the config mutex.
-        json conf;
-        {
-            auto configAccess = core::configManager.read();
-            const json* stored = configAccess.section("vfoColors").peek();
-            conf = stored ? *stored : json::object();
-        }
+        auto configAccess = core::configManager.read().section("vfoColors");
+        auto conf = configAccess.peek();
 
-        std::vector<std::pair<std::string, json>> repairs;
-        for (auto& [name, val] : conf.items()) {
+        for (auto& o : conf)
+        {
+            std::string name = o.GetName();
+            std::string col;
             // If not a string, repair with default
-            if (!val.is_string()) {
-                repairs.emplace_back(name, val);
+            if(!o.tryGet(col))
+            {
+                core::configManager.edit().section("vfoColors")[name] = "#FFFFFF";
                 vfoColors[name] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-                if (sigpath::vfoManager.vfoExists(name)) {
+                if (sigpath::vfoManager.vfoExists(name))
                     sigpath::vfoManager.setColor(name, IM_COL32(255, 255, 255, 50));
-                }
                 continue;
             }
 
             // If not a valid hex color, repair with default
-            const std::string col = val;
             const auto color = color_utils::parseHex<3>(col);
-            if (!color) {
-                repairs.emplace_back(name, val);
+            if (!color)
+            {
+                core::configManager.edit().section("vfoColors")[name] = "#FFFFFF";
                 vfoColors[name] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
                 if (sigpath::vfoManager.vfoExists(name)) {
                     sigpath::vfoManager.setColor(name, IM_COL32(255, 255, 255, 50));
@@ -86,11 +72,9 @@ namespace vfo_color_menu {
             const float g = static_cast<float>(green);
             const float b = static_cast<float>(blue);
             vfoColors[name] = ImVec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
-            if (sigpath::vfoManager.vfoExists(name)) {
+            if (sigpath::vfoManager.vfoExists(name))
                 sigpath::vfoManager.setColor(name, IM_COL32(red, green, blue, 50));
-            }
         }
-        repairColors(repairs);
 
         // Iterate existing VFOs and set their color if in the config, if not set to
         // default. In memory only -- the entry is written when the user picks a colour.
@@ -155,7 +139,7 @@ namespace vfo_color_menu {
                 vfo->m_color = IM_COL32((int)roundf(col.x * 255), (int)roundf(col.y * 255), (int)roundf(col.z * 255), 50);
                 char buf[16];
                 sprintf(buf, "#%02X%02X%02X", (int)roundf(col.x * 255), (int)roundf(col.y * 255), (int)roundf(col.z * 255));
-                core::configManager.edit().section("vfoColors").set(name, buf);
+                core::configManager.edit().section("vfoColors")[name] = buf;
             }
             ImGui::SameLine();
             ImGui::TextUnformatted(name.c_str());

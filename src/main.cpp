@@ -1,24 +1,6 @@
 #include <core.h>
 
 
-#include <exception>
-
-
-namespace std {
-    class _ExceptionPtr_static {
-    public:
-        void* _Data[4];
-        _ExceptionPtr_static() noexcept {}
-        ~_ExceptionPtr_static() noexcept {}
-    };
-}
-extern "C" {
-    void __cdecl _ExceptionPtrCreate(void*) {}
-    void __cdecl _ExceptionPtrDestroy(void*) {}
-    void __cdecl _ExceptionPtrCopy(void*, const void*) {}
-    void __cdecl _ExceptionPtrAssign(void*, const void*) {}
-}
-
 
 
 

@@ -12,7 +12,8 @@
 #include <utils/optionlist.h>
 #include <algorithm>
 
-namespace displaymenu {
+namespace displaymenu
+{
     bool showWaterfall;
     bool fullWaterfallUpdate = true;
     bool saveWaterfallHistory = true;
@@ -37,12 +38,14 @@ namespace displaymenu {
     OptionList<float, float> uiScaleFactors;
     OptionList<std::string, IQFrontEnd::FFTWindow> fftWindows;
 
-    void updateFFTSpeeds() {
+    void updateFFTSpeeds()
+    {
         gui::waterfall.setFFTHoldSpeed((float)fftHoldSpeed / ((float)fftRate * 10.0f));
         gui::waterfall.setFFTSmoothingSpeed(std::min<float>((float)fftSmoothingSpeed / (float)(fftRate * 10.0f), 1.0f));
     }
 
-    void init() {
+    void init()
+    {
         // Define FFT sizes
         // 1M disabled until the waterfall allocation path is hardened: it stores
         // rawFFTSize * waterfallHeight floats (>1 GiB at a few hundred rows) and
@@ -84,18 +87,7 @@ namespace displaymenu {
             configAccess.tryGet("fftSize", fftSize);
             configAccess.tryGet("fftRate", fftRate);
 
-            // The window is stored by name; legacy configs stored an index into
-            // the {Rectangular, Blackman, Nuttall} list.
-            json fftWindowConf = configAccess.value("fftWindow", json());
-            if (fftWindowConf.is_string()) {
-                winName = fftWindowConf;
-            }
-            else if (fftWindowConf.is_number_integer()) {
-                const char* legacyWindows[] = { "Rectangular", "Blackman", "Nuttall" };
-                winName = legacyWindows[std::clamp<int>(fftWindowConf, 0, 2)];
-                configAccess.set("fftWindow", winName);
-            }
-
+            winName = configAccess.value("fftWindow", "Blackman");
             configAccess.tryGet("lockMenuOrder", gui::menu.locked);
             configAccess.tryGet("fftHold", fftHold);
             configAccess.tryGet("fftHoldSpeed", fftHoldSpeed);
@@ -111,19 +103,20 @@ namespace displaymenu {
         }
 
         showWaterfall ? gui::waterfall.showWaterfall() : gui::waterfall.hideWaterfall();
-        if (const auto selected = colormaps::maps.find(colormapName);
-            selected != colormaps::maps.end())
+        if (const auto selected = colormaps::g_maps.find(colormapName);
+            selected != colormaps::g_maps.end())
         {
             const colormaps::Map& map = selected->second;
-            gui::waterfall.updatePalletteFromArray(
-                map.colors.data(), map.entryCount());
+            gui::waterfall.updatePalletteFromArray(map.colors.data(), map.entryCount());
         }
 
-        for (auto const& [name, map] : colormaps::maps) {
+        for (auto const& [name, map] : colormaps::g_maps)
+        {
             colorMapNames.push_back(name);
             colorMapNamesTxt += name;
             colorMapNamesTxt += '\0';
-            if (name == colormapName) {
+            if (name == colormapName)
+            {
                 colorMapId = (int)(colorMapNames.size() - 1);
                 colorMapAuthor = map.author;
             }
@@ -156,67 +149,76 @@ namespace displaymenu {
         uiScaleFactorId = uiScaleFactors.valueExists(factor) ? uiScaleFactors.valueId(factor) : uiScaleFactors.valueId(1.00f);
     }
 
-    void setWaterfallShown(bool shown) {
+    void setWaterfallShown(bool shown)
+    {
         showWaterfall = shown;
         showWaterfall ? gui::waterfall.showWaterfall() : gui::waterfall.hideWaterfall();
-        core::configManager.edit().set("showWaterfall", showWaterfall);
+        core::configManager.edit()["showWaterfall"] = showWaterfall;
     }
 
-    void checkKeybinds() {
-        if (ImGui::IsKeyPressed(ImGuiKey_Home, false)) {
+    void checkKeybinds()
+    {
+        if (ImGui::IsKeyPressed(ImGuiKey_Home, false))
             setWaterfallShown(!showWaterfall);
-        }
     }
 
-    void draw(void* ctx) {
+    void draw(void* ctx)
+    {
         thememenu::draw(ctx);
         float menuWidth = ImGui::GetContentRegionAvail().x;
 
-        if (ImGui::Checkbox("Show Waterfall##_sdrpp", &showWaterfall)) {
+        if (ImGui::Checkbox("Show Waterfall##_sdrpp", &showWaterfall))
             setWaterfallShown(showWaterfall);
-        }
 
-        if(ImGui::Checkbox("Save waterfall history##_sdrpp", &saveWaterfallHistory)) {
+        if(ImGui::Checkbox("Save waterfall history##_sdrpp", &saveWaterfallHistory))
+        {
             gui::waterfall.setFullWaterfallUpdate(saveWaterfallHistory, fullWaterfallUpdate);
-            core::configManager.edit().set("saveWaterfallHistory", saveWaterfallHistory);
+            core::configManager.edit()["saveWaterfallHistory"] = saveWaterfallHistory;
         }
-        if(!saveWaterfallHistory) { style::beginDisabled(); }
-        if (ImGui::Checkbox("Full Waterfall Update##_sdrpp", &fullWaterfallUpdate)) {
+        if(!saveWaterfallHistory)
+            style::beginDisabled();
+        if (ImGui::Checkbox("Full Waterfall Update##_sdrpp", &fullWaterfallUpdate))
+        {
             gui::waterfall.setFullWaterfallUpdate(saveWaterfallHistory, fullWaterfallUpdate);
-            core::configManager.edit().set("fullWaterfallUpdate", fullWaterfallUpdate);
+            core::configManager.edit()["fullWaterfallUpdate"] = fullWaterfallUpdate;
         }
-        if(!saveWaterfallHistory) { style::endDisabled(); }
+        if(!saveWaterfallHistory)
+            style::endDisabled();
 
-        if (ImGui::Checkbox("Lock Menu Order##_sdrpp", &gui::menu.locked)) {
-            core::configManager.edit().set("lockMenuOrder", gui::menu.locked);
-        }
+        if (ImGui::Checkbox("Lock Menu Order##_sdrpp", &gui::menu.locked))
+            core::configManager.edit()["lockMenuOrder"] = gui::menu.locked;
 
-        if (ImGui::Checkbox("FFT Hold##_sdrpp", &fftHold)) {
+        if (ImGui::Checkbox("FFT Hold##_sdrpp", &fftHold))
+        {
             gui::waterfall.setFFTHold(fftHold);
-            core::configManager.edit().set("fftHold", fftHold);
+            core::configManager.edit()["fftHold"] = fftHold;
         }
         ImGui::SameLine();
         ImGui::FillWidth();
-        if (ImGui::InputInt("##sdrpp_fft_hold_speed", &fftHoldSpeed)) {
+        if (ImGui::InputInt("##sdrpp_fft_hold_speed", &fftHoldSpeed))
+        {
             updateFFTSpeeds();
-            core::configManager.edit().set("fftHoldSpeed", fftHoldSpeed);
+            core::configManager.edit()["fftHoldSpeed"] = fftHoldSpeed;
         }
 
-        if (ImGui::Checkbox("FFT Smoothing##_sdrpp", &fftSmoothing)) {
+        if (ImGui::Checkbox("FFT Smoothing##_sdrpp", &fftSmoothing))
+        {
             gui::waterfall.setFFTSmoothing(fftSmoothing);
-            core::configManager.edit().set("fftSmoothing", fftSmoothing);
+            core::configManager.edit()["fftSmoothing"] = fftSmoothing;
         }
         ImGui::SameLine();
         ImGui::FillWidth();
-        if (ImGui::InputInt("##sdrpp_fft_smoothing_speed", &fftSmoothingSpeed)) {
+        if (ImGui::InputInt("##sdrpp_fft_smoothing_speed", &fftSmoothingSpeed))
+        {
             fftSmoothingSpeed = std::max<int>(fftSmoothingSpeed, 1);
             updateFFTSpeeds();
-            core::configManager.edit().set("fftSmoothingSpeed", fftSmoothingSpeed);
+            core::configManager.edit()["fftSmoothingSpeed"] = fftSmoothingSpeed;
         }
 
-        if (ImGui::Checkbox("Touch-Friendly UI##_sdrpp", &style::touchStyle)) {
+        if (ImGui::Checkbox("Touch-Friendly UI##_sdrpp", &style::touchStyle))
+        {
             style::applyScaledStyle(thememenu::applyTheme);
-            core::configManager.edit().set("touchStyle", style::touchStyle);
+            core::configManager.edit()["touchStyle"] = style::touchStyle;
         }
 
         ImGui::LeftLabel("UI Scale Adjustment");
@@ -226,79 +228,86 @@ namespace displaymenu {
         // show them disabled instead of pretending they apply. Evaluated per
         // frame because the detected scale follows the current monitor.
         float detectedScale = backend::getContentScale();
-        if (ImGui::BeginCombo("##sdrpp_ui_scale", uiScaleFactors.name(uiScaleFactorId).c_str())) {
-            for (int i = 0; i < uiScaleFactors.size(); i++) {
+        if (ImGui::BeginCombo("##sdrpp_ui_scale", uiScaleFactors.name(uiScaleFactorId).c_str()))
+        {
+            for (int i = 0; i < uiScaleFactors.size(); i++)
+            {
                 bool dead = (detectedScale * uiScaleFactors.value(i)) < 0.999f;
                 bool selected = (i == uiScaleFactorId);
-                if (ImGui::Selectable(uiScaleFactors.name(i).c_str(), selected, dead ? ImGuiSelectableFlags_Disabled : 0) && !dead) {
+                if (ImGui::Selectable(uiScaleFactors.name(i).c_str(), selected, dead ? ImGuiSelectableFlags_Disabled : 0) && !dead)
+                {
                     uiScaleFactorId = i;
                     backend::setUserScaleFactor(uiScaleFactors.value(i));
                 }
-                if (selected) { ImGui::SetItemDefaultFocus(); }
+                if (selected)
+                    ImGui::SetItemDefaultFocus();
             }
             ImGui::EndCombo();
         }
 
         // MPX Analysis Settings Section
-        if(ImGui::CollapsingHeader("MPX Analysis Settings")) {
+        if(ImGui::CollapsingHeader("MPX Analysis Settings"))
+        {
             ImGui::Indent(20.0f);
             ImGui::LeftLabel("MPX Refresh Rate");
             ImGui::FillWidth();
-            if(ImGui::InputInt("##sdrpp_mpx_rate", &mpxRefreshRate, 1, 10)) {
+            if(ImGui::InputInt("##sdrpp_mpx_rate", &mpxRefreshRate, 1, 10))
+            {
                 mpxRefreshRate = std::max<int>(1, mpxRefreshRate);
                 mpxRefreshRate = std::min<int>(60, mpxRefreshRate);  // Limit to 60 Hz max
-                core::configManager.edit().set("mpxRefreshRate", mpxRefreshRate);
+                core::configManager.edit()["mpxRefreshRate"] = mpxRefreshRate;
             }
 
             ImGui::LeftLabel("MPX Line Width");
             ImGui::FillWidth();
-            if(ImGui::SliderFloat("##sdrpp_mpx_width", &mpxLineWidth, 0.5f, 5.0f, "%.1f px")) {
-                core::configManager.edit().set("mpxLineWidth", mpxLineWidth);
-            }
+            if(ImGui::SliderFloat("##sdrpp_mpx_width", &mpxLineWidth, 0.5f, 5.0f, "%.1f px"))
+                core::configManager.edit()["mpxLineWidth"] = mpxLineWidth;
 
             ImGui::LeftLabel("MPX Smoothing");
             ImGui::FillWidth();
-            if(ImGui::SliderInt("##sdrpp_mpx_smooth", &mpxSmoothingFactor, 1, 10, "%d")) {
-                core::configManager.edit().set("mpxSmoothingFactor", mpxSmoothingFactor);
-            }
-            if(ImGui::IsItemHovered()) {
+            if(ImGui::SliderInt("##sdrpp_mpx_smooth", &mpxSmoothingFactor, 1, 10, "%d"))
+                core::configManager.edit()["mpxSmoothingFactor"] = mpxSmoothingFactor;
+            if(ImGui::IsItemHovered())
                 ImGui::SetTooltip("1 = No smoothing (noisy), 10 = Maximum smoothing (very smooth)");
-            }
             ImGui::Unindent(20.0f);
         }
 
         ImGui::LeftLabelFill("FFT Framerate");
-        if (ImGui::InputInt("##sdrpp_fft_rate", &fftRate, 1, 10)) {
+        if (ImGui::InputInt("##sdrpp_fft_rate", &fftRate, 1, 10))
+        {
             fftRate = std::max<int>(1, fftRate);
             sigpath::iqFrontEnd.setFFTRate(fftRate);
             updateFFTSpeeds();
-            core::configManager.edit().set("fftRate", fftRate);
+            core::configManager.edit()["fftRate"] = fftRate;
         }
 
         ImGui::LeftLabelFill("FFT Size");
-        if (ImGui::Combo("##sdrpp_fft_size", &fftSizeId, fftSizes.txt)) {
+        if (ImGui::Combo("##sdrpp_fft_size", &fftSizeId, fftSizes.txt))
+        {
             sigpath::iqFrontEnd.setFFTSize(fftSizes.value(fftSizeId));
-            core::configManager.edit().set("fftSize", fftSizes.key(fftSizeId));
+            core::configManager.edit()["fftSize"] = fftSizes.key(fftSizeId);
         }
 
         ImGui::LeftLabelFill("FFT Window");
-        if (ImGui::Combo("##sdrpp_fft_window", &selectedWindow, fftWindows.txt)) {
+        if (ImGui::Combo("##sdrpp_fft_window", &selectedWindow, fftWindows.txt))
+        {
             sigpath::iqFrontEnd.setFFTWindow(fftWindows.value(selectedWindow));
-            core::configManager.edit().set("fftWindow", fftWindows.key(selectedWindow));
+            core::configManager.edit()["fftWindow"] = fftWindows.key(selectedWindow);
         }
 
-        if (colorMapNames.size() > 0) {
+        if (colorMapNames.size() > 0)
+        {
             ImGui::LeftLabelFill("Color Map");
-            if (ImGui::Combo("##_sdrpp_color_map_sel", &colorMapId, colorMapNamesTxt.c_str())) {
-                const colormaps::Map& map = colormaps::maps.at(colorMapNames[colorMapId]);
+            if (ImGui::Combo("##_sdrpp_color_map_sel", &colorMapId, colorMapNamesTxt.c_str()))
+            {
+                const colormaps::Map& map = colormaps::g_maps.at(colorMapNames[colorMapId]);
                 gui::waterfall.updatePalletteFromArray(
                     map.colors.data(), map.entryCount());
-                core::configManager.edit().set("colorMap", colorMapNames[colorMapId]);
+                core::configManager.edit()["colorMap"] = colorMapNames[colorMapId];
                 colorMapAuthor = map.author;
             }
-            if(colorMapAuthor.size()) {
+            if(colorMapAuthor.size())
                 ImGui::Text("Color map Author: %s", colorMapAuthor.c_str());
-            }
         }
 
     }

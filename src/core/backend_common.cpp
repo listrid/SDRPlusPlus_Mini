@@ -41,7 +41,7 @@ namespace backend::common {
     void setUserScaleFactor(ScaleState& state, float userScaleFactor) {
         // Defer the real apply until before NewFrame(), when the font atlas is not locked.
         state.pendingUserScaleFactor = userScaleFactor;
-        core::configManager.edit().set("uiScaleFactor", userScaleFactor);
+        core::configManager.edit()["uiScaleFactor"] = userScaleFactor;
     }
 
     bool applyScale(ScaleState& state, float detectedContentScale, float userScaleFactor, bool rebuildFonts, bool rescaleMainWindow) {
@@ -103,7 +103,7 @@ namespace backend::common {
     void renderOpenGLFrame(int width, int height) {
         ImGui::Render();
         glViewport(0, 0, width, height);
-        glClearColor(gui::themeManager.clearColor.x, gui::themeManager.clearColor.y, gui::themeManager.clearColor.z, gui::themeManager.clearColor.w);
+        glClearColor(gui::themeManager.m_clearColor.x, gui::themeManager.m_clearColor.y, gui::themeManager.m_clearColor.z, gui::themeManager.m_clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }

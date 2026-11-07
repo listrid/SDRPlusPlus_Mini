@@ -37,7 +37,7 @@ static ModuleManager::ModuleInfo_t recorder_INFO{
     /* Max instances    */ -1
 };
 
-static ConfigManager config;
+static ConfigManagerImpl config;
 
 enum TimeZone {
     TIME_ZONE_LOCAL,
@@ -57,7 +57,7 @@ public:
 
         // Define option lists
         containers.define("WAV", wav::FORMAT_WAV);
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
         // containers.define("RF64", wav::FORMAT_RF64); // Disabled for now
         containers.define("FLAC", wav::FORMAT_FLAC);
 #endif
@@ -265,12 +265,12 @@ private:
         ImGui::Columns(2, CONCAT("RecorderModeColumns##_", _this->name), false);
         if (ImGui::RadioButton(CONCAT("Baseband##_recorder_mode_", _this->name), _this->recMode == RECORDER_MODE_BASEBAND)) {
             _this->recMode = RECORDER_MODE_BASEBAND;
-            config.edit().section(_this->name).set("mode", _this->recMode);
+            config.edit().section(_this->name)["mode"] = _this->recMode;
         }
         ImGui::NextColumn();
         if (ImGui::RadioButton(CONCAT("Audio##_recorder_mode_", _this->name), _this->recMode == RECORDER_MODE_AUDIO)) {
             _this->recMode = RECORDER_MODE_AUDIO;
-            config.edit().section(_this->name).set("mode", _this->recMode);
+            config.edit().section(_this->name)["mode"] = _this->recMode;
         }
         ImGui::Columns(1, CONCAT("EndRecorderModeColumns##_", _this->name), false);
         ImGui::EndGroup();
@@ -278,20 +278,20 @@ private:
         // Recording path
         if (_this->folderSelect.render("##_recorder_fold_" + _this->name)) {
             if (_this->folderSelect.pathIsValid()) {
-                config.edit().section(_this->name).set("recPath", _this->folderSelect.path);
+                config.edit().section(_this->name)["recPath"] = _this->folderSelect.path;
             }
         }
 
         ImGui::LeftLabel("Name template");
         ImGui::FillWidth();
         if (ImGui::InputText(CONCAT("##_recorder_name_template_", _this->name), _this->nameTemplate, 1023)) {
-            config.edit().section(_this->name).set("nameTemplate", _this->nameTemplate);
+            config.edit().section(_this->name)["nameTemplate"] = _this->nameTemplate;
         }
 
         ImGui::LeftLabel("Time zone");
         ImGui::FillWidth();
         if (ImGui::Combo(CONCAT("##_recorder_timezone_", _this->name), &_this->timezoneId, _this->timezones.txt)) {
-            config.edit().section(_this->name).set("timezone", _this->timezones.key(_this->timezoneId));
+            config.edit().section(_this->name)["timezone"] = _this->timezones.key(_this->timezoneId);
         }
 
         ImGui::LeftLabel("Container");
@@ -302,8 +302,8 @@ private:
             _this->refreshSampleTypes();
             auto configAccess = config.edit();
             ConfigManager::EditSection inst = configAccess.section(_this->name);
-            inst.set("container", _this->containers.key(_this->containerId));
-            inst.set("sampleType", _this->sampleTypes.key(_this->sampleTypeId));
+            inst["container"] = _this->containers.key(_this->containerId);
+            inst["sampleType"] = _this->sampleTypes.key(_this->sampleTypeId);
         }
 
         // Opus quality is set by bitrate, not sample type — swap the control.
@@ -322,7 +322,7 @@ private:
             ImGui::LeftLabel("Sample type");
             ImGui::FillWidth();
             if (ImGui::Combo(CONCAT("##_recorder_st_", _this->name), &_this->sampleTypeId, _this->sampleTypes.txt)) {
-                config.edit().section(_this->name).set("sampleType", _this->sampleTypes.key(_this->sampleTypeId));
+                config.edit().section(_this->name)["sampleType"] = _this->sampleTypes.key(_this->sampleTypeId);
             }
         }
 
@@ -335,7 +335,7 @@ private:
             ImGui::FillWidth();
             if (ImGui::Combo(CONCAT("##_recorder_stream_", _this->name), &_this->streamId, _this->audioStreams.txt)) {
                 _this->selectStream(_this->audioStreams.value(_this->streamId));
-                config.edit().section(_this->name).set("audioStream", _this->audioStreams.key(_this->streamId));
+                config.edit().section(_this->name)["audioStream"] = _this->audioStreams.key(_this->streamId);
             }
             if (_this->recording) { style::endDisabled(); }
 
@@ -348,17 +348,17 @@ private:
             ImGui::FillWidth();
             if (ImGui::SliderFloat(CONCAT("##_recorder_vol_", _this->name), &_this->audioVolume, 0, 1, "")) {
                 _this->volume.setVolume(_this->audioVolume);
-                config.edit().section(_this->name).set("audioVolume", _this->audioVolume);
+                config.edit().section(_this->name)["audioVolume"] = _this->audioVolume;
             }
 
             if (_this->recording) { style::beginDisabled(); }
             if (ImGui::Checkbox(CONCAT("Stereo##_recorder_stereo_", _this->name), &_this->stereo)) {
-                config.edit().section(_this->name).set("stereo", _this->stereo);
+                config.edit().section(_this->name)["stereo"] = _this->stereo;
             }
             if (_this->recording) { style::endDisabled(); }
 
             if (ImGui::Checkbox(CONCAT("Ignore silence##_recorder_ignore_silence_", _this->name), &_this->ignoreSilence)) {
-                config.edit().section(_this->name).set("ignoreSilence", _this->ignoreSilence);
+                config.edit().section(_this->name)["ignoreSilence"] = _this->ignoreSilence;
             }
         }
 
@@ -416,7 +416,7 @@ private:
         sampleTypes.define(wav::SAMP_TYPE_INT16, "Int16", wav::SAMP_TYPE_INT16);
         sampleTypes.define(wav::SAMP_TYPE_INT24, "Int24", wav::SAMP_TYPE_INT24);
         sampleTypes.define(wav::SAMP_TYPE_INT32, "Int32", wav::SAMP_TYPE_INT32);
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
         if (containers[containerId] != wav::FORMAT_FLAC)
 #endif
         {

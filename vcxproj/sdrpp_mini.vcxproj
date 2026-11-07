@@ -309,9 +309,9 @@
     <ClInclude Include="..\src\core\imgui\imutils.h" />
     <ClInclude Include="..\src\core\imgui\stb_image.h" />
     <ClInclude Include="..\src\core\imgui\stb_image_resize.h" />
-    <ClInclude Include="..\src\core\json.hpp" />
     <ClInclude Include="..\src\core\meteor_demodulator_interface.h" />
     <ClInclude Include="..\src\core\module.h" />
+    <ClInclude Include="..\src\include\SDRpp_api.h" />
     <ClInclude Include="..\src\modules\file_source\flacreader.h" />
     <ClInclude Include="..\src\modules\file_source\sample_reader.h" />
     <ClInclude Include="..\src\modules\file_source\wavreader.h" />
@@ -458,7 +458,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SDRPP_IS_CORE;LIBAD9361_STATIC;LIBIIO_STATIC;FLAC__NO_DLL;WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SDRPP_IS_CORE;FLAC_ENABLE;LIBAD9361_STATIC;STBI_ONLY_PNG;LIBIIO_STATIC;FLAC__NO_DLL;WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\src\core\imgui;..\src\backends\glfw;..\src\backends\glfw\imgui;..\src\libcorrect\include;..\src\include;..\src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
@@ -479,7 +479,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SDRPP_IS_CORE;LIBAD9361_STATIC;LIBIIO_STATIC;FLAC__NO_DLL;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SDRPP_IS_CORE;FLAC_ENABLE;LIBAD9361_STATIC;LIBIIO_STATIC;FLAC__NO_DLL;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\src\core\imgui;..\src\backends\glfw;..\src\backends\glfw\imgui;..\src\libcorrect\include;..\src\include;..\src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
@@ -517,7 +517,7 @@
       <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SDRPP_IS_CORE;LIBAD9361_STATIC;LIBIIO_STATIC;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SDRPP_IS_CORE;LIBAD9361_STATIC;STBI_ONLY_PNGPNG;SLIBIIO_STATIC;STBI_NO_PNG:WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\src\core\imgui;..\src\backends\glfw;..\src\backends\glfw\imgui;..\src\libcorrect\include;..\src\include;..\src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
@@ -534,13 +534,13 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>.\lib\ucrt.lib;.\lib\libucrt.lib;.\lib\vcruntime.lib;.\lib\libvcruntime.lib;legacy_stdio_definitions.lib;dsound.lib;dxguid.lib;opengl32.lib;wsock32.lib;ws2_32.lib;iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>vcruntime.lib;libvcruntime.lib;libucrt.lib;</IgnoreSpecificDefaultLibraries>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalOptions>/IGNORE:4099 /FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
       <FixedBaseAddress>true</FixedBaseAddress>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

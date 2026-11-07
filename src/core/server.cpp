@@ -280,15 +280,14 @@ namespace server {
         // Load config
         std::string modulesDir = core::getModulesDirectory();
         std::vector<std::string> modules;
-        json moduleInstances;
+
         std::string sourceName;
-        {
-            auto configAccess = core::configManager.read();
-            configAccess.tryGet("modules", modules);
-            moduleInstances = configAccess.value("moduleInstances", json::object());
-            configAccess.tryGet("source", sourceName);
-        }
-        auto modList = moduleInstances.items();
+        auto configAccess = core::configManager.read();
+        configAccess.tryGet("modules", modules);
+        ConfigManager::ReadSection moduleInstances = configAccess.section("moduleInstances");
+        configAccess.tryGet("source", sourceName);
+
+        auto modList = moduleInstances.peek();
 
         // Initialize SmGui in server mode
         SmGui::init(true);
@@ -329,17 +328,26 @@ namespace server {
             flog::info("Loading {0}", path);
             core::moduleManager.loadModule(path);
         }
-
         // Create module instances
-        for (auto const& [name, _module] : modList) {
-            std::string mod = _module["module"];
-            bool enabled = _module["enabled"];
-            if (core::moduleManager.modules.find(mod) == core::moduleManager.modules.end()) { continue; }
+        for(auto const& o : modList)
+        {
+            std::string mod;
+            bool enabled;
+            if(!o.isSection())
+                continue;
+            auto sec = o.toSection();
+
+            if(!sec.tryGet("module", mod))
+                continue;
+            if(!sec.tryGet("enabled", enabled))
+                continue;
+
+            std::string name = o.GetName();
+            if(core::moduleManager.modules.find(mod) == core::moduleManager.modules.end()) { continue; }
             flog::info("Initializing {0} ({1})", name, mod);
             core::moduleManager.createInstance(name, mod);
-            if (!enabled) { core::moduleManager.disableInstance(name); }
+            if(!enabled) { core::moduleManager.disableInstance(name); }
         }
-
         // Do post-init
         core::moduleManager.doPostInitAll();
 
@@ -763,7 +771,7 @@ namespace server {
         SmGui::ForceSync();
         if (SmGui::Combo("##sdrpp_server_src_sel", &sourceId, sourceList.txt)) {
             sigpath::sourceManager.selectSource(sourceList[sourceId]);
-            core::configManager.edit().set("source", sourceList.key(sourceId));
+            core::configManager.edit()["source"] = sourceList.key(sourceId);
         }
         if (running) { SmGui::EndDisabled(); }
 

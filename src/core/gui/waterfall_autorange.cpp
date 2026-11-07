@@ -51,20 +51,20 @@ void WaterfallAutoRange::oneShotFit() {
     if (!ok) { return; }
     applyRef(ref);
     auto configAccess = core::configManager.edit();
-    configAccess.set("min", *fftMin);
-    configAccess.set("max", *fftMax);
+    configAccess["min"] = *fftMin;
+    configAccess["max"] = *fftMax;
 }
 
 void WaterfallAutoRange::setSticky(bool on) {
     stickyEnabled = on;
     initialized = false; // snap to the first fit on (re)acquire
     auto configAccess = core::configManager.edit();
-    configAccess.set("waterfallAutoRange", stickyEnabled);
+    configAccess["waterfallAutoRange"] = stickyEnabled;
     if (!stickyEnabled) {
         // Persist wherever the auto-scaler left the range so the manual
         // sliders resume from there.
-        configAccess.set("min", *fftMin);
-        configAccess.set("max", *fftMax);
+        configAccess["min"] = *fftMin;
+        configAccess["max"] = *fftMax;
     }
 }
 

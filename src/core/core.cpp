@@ -43,19 +43,25 @@
 #endif
 
 namespace core {
-    ConfigManager configManager;
+    ConfigManagerImpl configManager;
     ModuleManager moduleManager;
     ModuleComManager modComManager;
     CommandArgsParser args;
 
-    bool saveState() {
+    bool saveState()
+    {
         freq_memory::commitCurrent();
-        return ConfigManager::flushAll();
+        return ConfigManagerImpl::flushAll();
     }
 
-    void setInputSampleRate(double samplerate) {
+    void setInputSampleRate(double samplerate)
+    {
         // Forward this to the server
-        if (args["server"].b()) { server::setInputSampleRate(samplerate); return; }
+        if (args["server"].b())
+        {
+            server::setInputSampleRate(samplerate);
+            return;
+        }
         
         // Update IQ frontend input samplerate and get effective samplerate
         sigpath::iqFrontEnd.setSampleRate(samplerate);
@@ -90,7 +96,7 @@ namespace core {
             return std::string(appdir) + "/usr/lib/sdrpp_mini/plugins";
         }
 #endif
-        std::string path = core::configManager.read().value("modulesDirectory", std::string());
+        std::string path(core::configManager.read().value("modulesDirectory", ""));
         std::filesystem::path p(path);
         if(!p.is_absolute()) {
             path = getExecutableDirectory().string() + path;
@@ -105,10 +111,259 @@ namespace core {
         }
 #endif
 
-        std::string path = core::configManager.read().value("resourcesDirectory", std::string());
+        std::string path(core::configManager.read().value("resourcesDirectory", ""));
         return resolveConfigPath(path);
     }
 };
+
+static void DefConfig(ConfigManager &configMng)
+{
+    auto conf = configMng.edit();
+   
+    auto bandColors = conf.section("bandColors");
+
+    bandColors.ensure("amateur", "#FF0000FF");
+    bandColors.ensure("aviation", "#00FF00FF");
+    bandColors.ensure("broadcast", "#0000FFFF");
+    bandColors.ensure("marine", "#00FFFFFF");
+    bandColors.ensure("military", "#FFFF00FF");
+    conf.ensure("bandPlan", "General");
+    conf.ensure("bandPlanEnabled", true);
+    conf.ensure("bandPlanPos", 0);
+    conf.ensure("centerTuning", false);
+    conf.ensure("colorMap", "Classic");
+    conf.ensure("fftHold", false);
+    conf.ensure("fftHoldSpeed", 60);
+    conf.ensure("fftSmoothing", false);
+    conf.ensure("fftSmoothingSpeed", 100);
+    conf.ensure("fastFFT", false);
+    conf.ensure("fftHeight", 300);
+    conf.ensure("fftHeightLogical", true);
+    conf.ensure("fftRate", 20);
+    conf.ensure("fftSize", 65536);
+    conf.ensure("fftWindow", "Nuttall");
+    conf.ensure("mpxLineWidth", displaymenu::MPX_DEFAULT_LINE_WIDTH);
+    conf.ensure("mpxRefreshRate", displaymenu::MPX_DEFAULT_REFRESH_RATE);
+    conf.ensure("mpxSmoothingFactor", displaymenu::MPX_DEFAULT_SMOOTHING_FACTOR);
+    conf.ensure("frequency", 100000000.0);
+    {//freq_memory defaults
+        auto root = conf.section(freq_memory::ROOT);
+        root.ensure(freq_memory::VERSION, freq_memory::CURRENT_VERSION);
+        root.ensure(freq_memory::PAGE, "keypad");
+        root.ensure(freq_memory::SELECTOR, freq_memory::SELECTOR_BAND);
+
+        auto band = root.section(freq_memory::SELECTOR_BAND);
+        band.ensure(freq_memory::GROUP, "ham");
+        band.ensure(freq_memory::PREFERRED_SERVICE, "other");
+        band.section(freq_memory::STACKING_REGISTERS);
+
+        auto spectrum =  root.section(freq_memory::SELECTOR_SPECTRUM);
+        spectrum.ensure(freq_memory::ACTIVE_RANGE, "");
+        spectrum.section(freq_memory::LAST_FREQUENCY);
+    }
+    conf.ensure("fullWaterfallUpdate", false);
+    conf.ensure("max", 0.0);
+    conf.ensure("maximized", false);
+    conf.ensure("fullscreen", false);
+
+    // Menu
+    {
+        auto menu = conf.array("menuElements");
+        menu[0].ensure("name", "Source");
+        menu[0].ensure("open", true);
+
+        menu[1].ensure("name", "Radio");
+        menu[1].ensure("open",  true);
+
+        menu[2].ensure("name", "Frequency Manager");
+        menu[2].ensure("open", true);
+
+        menu[3].ensure("name", "Sinks");
+        menu[3].ensure("open", false);
+
+        menu[4].ensure("name", "Recorder");
+        menu[4].ensure("open", false);
+
+        menu[5].ensure("name", "VFO Color");
+        menu[5].ensure("open", false);
+
+        menu[6].ensure("name", "Band Plan");
+        menu[6].ensure("open", false);
+
+        menu[7].ensure("name", "Noise Reduction");
+        menu[7].ensure("open", false);
+
+        menu[8].ensure("name", "Display");
+        menu[8].ensure("open", false);
+
+        menu[9].ensure("name", "Module Manager");
+        menu[9].ensure("open", false);
+
+        menu[10].ensure("name", "Scanner");
+        menu[10].ensure("open", false);
+    }
+    conf.ensure("menuWidth", 400);
+    conf.ensure("menuWidthLogical", true);
+    conf.ensure("min", -70.0);
+
+    // Module instances
+    auto moduleInstances =conf.section("moduleInstances");
+    moduleInstances.section("Audio Source").ensure("module", "audio_source");
+    moduleInstances.section("Audio Source").ensure("enabled", true);
+    moduleInstances.section("File Source").ensure("module", "file_source");
+    moduleInstances.section("File Source").ensure("enabled", true);
+    moduleInstances.section("Network Source").ensure("module", "network_source");
+    moduleInstances.section("Network Source").ensure("enabled", true);
+    moduleInstances.section("SDRPP_MINI Server Source").ensure("module", "sdrpp_mini_server_source");
+    moduleInstances.section("SDRPP_MINI Server Source").ensure("enabled", true);
+    moduleInstances.section("HackRF Source").ensure("module", "hackrf_source");
+    moduleInstances.section("HackRF Source").ensure("enabled", true);
+    moduleInstances.section("PlutoSDR Source").ensure("module", "plutosdr_source");
+    moduleInstances.section("PlutoSDR Source").ensure("enabled", true);
+
+    moduleInstances.section("Radio").ensure("module", "radio");
+    moduleInstances.section("Radio").ensure("enabled", true);
+
+    moduleInstances.section("Frequency Manager").ensure("module", "frequency_manager");
+    moduleInstances.section("Frequency Manager").ensure("enabled", true);
+
+    moduleInstances.section("Audio Sink").ensure("module", "audio_sink");
+    moduleInstances.section("Audio Sink").ensure("enabled", false);
+    moduleInstances.section("Network Sink").ensure("module", "network_sink");
+    moduleInstances.section("Network Sink").ensure("enabled", false);
+
+//    moduleInstances.section("Airspy Source").ensure("module", "airspy_source");
+//    moduleInstances.section("Airspy Source").ensure("enabled", true);
+    moduleInstances.section("AirspyHF+ Source").ensure("module", "airspyhf_source");
+    moduleInstances.section("AirspyHF+ Source").ensure("enabled", true);
+//    moduleInstances.section("BladeRF Source").ensure("module", "bladerf_source");
+//    moduleInstances.section("BladeRF Source").ensure("enabled", true);
+//    moduleInstances.section("Dragon Labs Source").ensure("module", "dragonlabs_source");
+//    moduleInstances.section("Dragon Labs Source").ensure("enabled", true);
+//    moduleInstances.section("FobosSDR Source").ensure("module", "fobossdr_source");
+//    moduleInstances.section("FobosSDR Source").ensure("enabled", true);
+//    moduleInstances.section("Harogic Source").ensure("module", "harogic_source");
+//    moduleInstances.section("Harogic Source").ensure("enabled", true);
+//    moduleInstances.section("Hermes Source").ensure("module", "hermes_source");
+//    moduleInstances.section("Hermes Source").ensure("enabled", true);
+//    moduleInstances.section("HydraSDR Source").ensure("module", "hydrasdr_source");
+//    moduleInstances.section("HydraSDR Source").ensure("enabled", true);
+//    moduleInstances.section("KiwiSDR Source").ensure("module", "kiwisdr_source");
+//    moduleInstances.section("KiwiSDR Source").ensure("enabled", true);
+//    moduleInstances.section("LimeSDR Source").ensure("module", "limesdr_source");
+//    moduleInstances.section("LimeSDR Source").ensure("enabled", true);
+//    moduleInstances.section("PerseusSDR Source").ensure("module", "perseus_source");
+//    moduleInstances.section("PerseusSDR Source").ensure("enabled", true);
+//    moduleInstances.section("QMX Source").ensure("module", "qmx_source");
+//    moduleInstances.section("QMX Source").ensure("enabled", true);
+//    moduleInstances.section("QMX Server Source").ensure("module", "qmxserver_source");
+//    moduleInstances.section("QMX Server Source").ensure("enabled", true);
+//    moduleInstances.section("RFNM Source").ensure("module", "rfnm_source");
+//    moduleInstances.section("RFNM Source").ensure("enabled", true);
+//    moduleInstances.section("RFspace Source").ensure("module", "rfspace_source");
+//    moduleInstances.section("RFspace Source").ensure("enabled", true);
+//    moduleInstances.section("RTL-SDR Source").ensure("module", "rtl_sdr_source");
+//    moduleInstances.section("RTL-SDR Source").ensure("enabled", true);
+//    moduleInstances.section("RTL-TCP Source").ensure("module", "rtl_tcp_source");
+//    moduleInstances.section("RTL-TCP Source").ensure("enabled", true);
+//    moduleInstances.section("SDRplay Source").ensure("module", "sdrplay_source");
+//    moduleInstances.section("SDRplay Source").ensure("enabled", true);
+//    moduleInstances.section("Spectran HTTP Source").ensure("module", "spectran_http_source");
+//    moduleInstances.section("Spectran HTTP Source").ensure("enabled", true);
+//    moduleInstances.section("SpyServer Source").ensure("module", "spyserver_source");
+//    moduleInstances.section("SpyServer Source").ensure("enabled", true);
+    moduleInstances.section("USRP Source").ensure("module", "usrp_source");
+    moduleInstances.section("USRP Source").ensure("enabled", true);
+
+
+//    moduleInstances.section("Radiosonde Decoder").ensure("module", "radiosonde_decoder");
+//    moduleInstances.section("Radiosonde Decoder").ensure("enabled", false);
+
+    moduleInstances.section("Recorder").ensure("module", "recorder");
+    moduleInstances.section("Recorder").ensure("enabled", false);
+    moduleInstances.section("Rigctl Server").ensure("module", "rigctl_server");
+    moduleInstances.section("Rigctl Server").ensure("enabled", false);
+
+    moduleInstances.section("Noise Reduction").ensure("module", "noise_reduction_logmmse");
+    moduleInstances.section("Noise Reduction").ensure("enabled", false);
+//    moduleInstances.section("Spots").ensure("module", "spots");
+//    moduleInstances.section("Spots").ensure("enabled", false);
+//    moduleInstances.section("WebSDR View").ensure("module", "websdr_view");
+//    moduleInstances.section("WebSDR View").ensure("enabled", false);
+    moduleInstances.section("Rigctl Client").ensure("module", "rigctl_client");
+    moduleInstances.section("Rigctl Client").ensure("enabled", false);
+
+    moduleInstances.section("Scanner").ensure("module", "scanner");
+    moduleInstances.section("Scanner").ensure("enabled", false);
+
+    // Themes
+    conf.ensure("theme", "Dark");
+    conf.ensure("uiScaleFactor", 1.0f);
+    conf.ensure("touchStyle", style::touchStyle);
+
+    conf.array("modules");
+    {
+        auto offsets = conf.section("offsets");
+        offsets.ensure("SpyVerter", 120000000.0);
+        offsets.ensure("Ham-It-Up", 125000000.0);
+        offsets.ensure("MMDS S-band (1998MHz)", -1998000000.0);
+        offsets.ensure("DK5AV X-Band", -6800000000.0);
+        offsets.ensure("Ku LNB (9750MHz)", -9750000000.0);
+        offsets.ensure("Ku LNB (10700MHz)", -10700000000.0);
+    }
+
+    conf.ensure("selectedOffset", "None");
+    conf.ensure("manualOffset", 0.0);
+    conf.ensure("showMenu", true);
+    conf.ensure("showWaterfall", true);
+    conf.ensure("waterfallAutoRange", false);
+    conf.ensure("source", "PlutoSDR");
+    conf.ensure("decimation", 1);
+    conf.ensure("iqCorrection", false);
+    conf.ensure("invertIQ", false);
+
+    conf.ensure("bandPlanPos", 1);
+    {
+        auto radio = conf.section("streams", "Radio");
+        radio.ensure("muted", false);
+        radio.ensure("sink", "Audio");
+        radio.ensure("volume", 1.0f);
+    }
+    {
+        auto size = conf.section("windowSize");
+        size.ensure("h", 720);
+        size.ensure("w", 1280);
+    }
+    conf.section("vfoColors").ensure("Radio", "#00FF00");
+
+#ifdef __ANDROID__
+    conf.ensure("lockMenuOrder", true);
+#else
+    conf.ensure("lockMenuOrder", false);
+#endif
+
+#if defined(_WIN32)
+    conf.ensure("modulesDirectory", "./modules");
+    conf.ensure("resourcesDirectory", "./res");
+    conf.ensure("configDirectory", "./conf");
+
+#elif defined(IS_MACOS_BUNDLE)
+    conf.ensure("modulesDirectory", "../Plugins");
+    conf.ensure("resourcesDirectory", "../Resources");
+    conf.ensure("configDirectory",  "../Config");
+#elif defined(__ANDROID__)
+    conf.ensure("modulesDirectory", root + "/modules");
+    conf.ensure("resourcesDirectory", root + "/res");
+    conf.ensure("configDirectory", root + "/conf");
+
+#else
+    // Linux, BSD, etc.
+    conf.ensure("modulesDirectory", INSTALL_PREFIX "/lib/sdrpp_mini/plugins");
+    conf.ensure("resourcesDirectory", INSTALL_PREFIX "/share/sdrpp_mini");
+#endif
+}
+
+
 
 // main
 int sdrpp_main(int argc, char* argv[]) {
@@ -137,7 +392,8 @@ int sdrpp_main(int argc, char* argv[]) {
 
 #ifdef _WIN32
     // Free console if the user hasn't asked for a console and not in server mode
-    if (!core::args["con"].b() && !serverMode) { FreeConsole(); }
+    if (!core::args["con"].b() && !serverMode)
+        FreeConsole();
 
     // Set error mode to avoid abnoxious popups
     SetErrorMode(SEM_NOOPENFILEERRORBOX | SEM_NOGPFAULTERRORBOX | SEM_FAILCRITICALERRORS);
@@ -145,20 +401,25 @@ int sdrpp_main(int argc, char* argv[]) {
 
     // Check root directory
     std::string root = (std::string)core::args["root"];
-    if (!std::filesystem::exists(root)) {
+    if (!std::filesystem::exists(root))
+    {
         flog::warn("Root directory {0} does not exist, creating it", root);
-        if (!std::filesystem::create_directories(root)) {
+        if (!std::filesystem::create_directories(root))
+        {
             flog::error("Could not create root directory {0}", root);
             return -1;
         }
     }
 #if defined(_WIN32)
-    if(!std::filesystem::is_directory(root + "\\res")) {
+    if(!std::filesystem::is_directory(root + "\\res"))
+    {
         char path[MAX_PATH];
-        if(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, path))) {
+        if(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, path)))
+        {
             root = std::string(path) + "\\SDRPP_mini";
             core::args.set("root", root);
-            if(!std::filesystem::exists(root)) {
+            if(!std::filesystem::exists(root))
+            {
 
                 std::filesystem::create_directories(root);
                 std::filesystem::create_directories(root+"/recordings");
@@ -172,244 +433,22 @@ int sdrpp_main(int argc, char* argv[]) {
 #endif
 
     // Check that the path actually is a directory
-    if (!std::filesystem::is_directory(root)) {
+    if (!std::filesystem::is_directory(root))
+    {
         flog::error("{0} is not a directory", root);
         return -1;
     }
 
     // ======== DEFAULT CONFIG ========
     constexpr int CURRENT_CONFIG_VERSION = 1;
-    json defConfig;
-    // Increment when a released core config needs an explicit migration. Nested
-    // subsystems may carry their own versions as frequencyMemory does below.
-    defConfig["configVersion"] = CURRENT_CONFIG_VERSION;
-    defConfig["bandColors"]["amateur"] = "#FF0000FF";
-    defConfig["bandColors"]["aviation"] = "#00FF00FF";
-    defConfig["bandColors"]["broadcast"] = "#0000FFFF";
-    defConfig["bandColors"]["marine"] = "#00FFFFFF";
-    defConfig["bandColors"]["military"] = "#FFFF00FF";
-    defConfig["bandPlan"] = "General";
-    defConfig["bandPlanEnabled"] = true;
-    defConfig["bandPlanPos"] = 0;
-    defConfig["centerTuning"] = false;
-    defConfig["colorMap"] = "Classic";
-    defConfig["fftHold"] = false;
-    defConfig["fftHoldSpeed"] = 60;
-    defConfig["fftSmoothing"] = false;
-    defConfig["fftSmoothingSpeed"] = 100;
-    defConfig["fastFFT"] = false;
-    defConfig["fftHeight"] = 300;
-    defConfig["fftHeightLogical"] = true;
-    defConfig["fftRate"] = 20;
-    defConfig["fftSize"] = 65536;
-    defConfig["fftWindow"] = "Nuttall";
-    defConfig["mpxLineWidth"] = displaymenu::MPX_DEFAULT_LINE_WIDTH;
-    defConfig["mpxRefreshRate"] = displaymenu::MPX_DEFAULT_REFRESH_RATE;
-    defConfig["mpxSmoothingFactor"] = displaymenu::MPX_DEFAULT_SMOOTHING_FACTOR;
-    defConfig["frequency"] = 100000000.0;
-    defConfig[freq_memory::ROOT] = freq_memory::defaults();
-    defConfig["fullWaterfallUpdate"] = false;
-    defConfig["max"] = 0.0;
-    defConfig["maximized"] = false;
-    defConfig["fullscreen"] = false;
-
-    // Menu
-    defConfig["menuElements"] = json::array();
-
-    defConfig["menuElements"][0]["name"] = "Source";
-    defConfig["menuElements"][0]["open"] = true;
-
-    defConfig["menuElements"][1]["name"] = "Radio";
-    defConfig["menuElements"][1]["open"] = true;
-
-    defConfig["menuElements"][2]["name"] = "Frequency Manager";
-    defConfig["menuElements"][2]["open"] = true;
-
-    defConfig["menuElements"][3]["name"] = "Sinks";
-    defConfig["menuElements"][3]["open"] = false;
-
-    defConfig["menuElements"][4]["name"] = "Recorder";
-    defConfig["menuElements"][4]["open"] = false;
-
-    defConfig["menuElements"][5]["name"] = "VFO Color";
-    defConfig["menuElements"][5]["open"] = false;
-
-    defConfig["menuElements"][6]["name"] = "Band Plan";
-    defConfig["menuElements"][6]["open"] = false;
-
-    defConfig["menuElements"][7]["name"] = "Noise Reduction";
-    defConfig["menuElements"][7]["open"] = false;
-
-    defConfig["menuElements"][8]["name"] = "Display";
-    defConfig["menuElements"][8]["open"] = false;
-
-    defConfig["menuElements"][9]["name"] = "Module Manager";
-    defConfig["menuElements"][9]["open"] = false;
-
-    defConfig["menuElements"][10]["name"] = "Scanner";
-    defConfig["menuElements"][10]["open"] = false;
-
-    defConfig["menuWidth"] = 400;
-    defConfig["menuWidthLogical"] = true;
-    defConfig["min"] = -70.0;
-
-    // Module instances
-    defConfig["moduleInstances"]["Audio Source"]["module"] = "audio_source";
-    defConfig["moduleInstances"]["Audio Source"]["enabled"]  = true;
-    defConfig["moduleInstances"]["File Source"]["module"] = "file_source";
-    defConfig["moduleInstances"]["File Source"]["enabled"]  = true;
-    defConfig["moduleInstances"]["Network Source"]["module"] = "network_source";
-    defConfig["moduleInstances"]["Network Source"]["enabled"]  = true;
-    defConfig["moduleInstances"]["SDRPP_MINI Server Source"]["module"] = "sdrpp_mini_server_source";
-    defConfig["moduleInstances"]["SDRPP_MINI Server Source"]["enabled"]  = true;
-    defConfig["moduleInstances"]["HackRF Source"]["module"] = "hackrf_source";
-    defConfig["moduleInstances"]["HackRF Source"]["enabled"]  = true;
-    defConfig["moduleInstances"]["PlutoSDR Source"]["module"] = "plutosdr_source";
-    defConfig["moduleInstances"]["PlutoSDR Source"]["enabled"]  = true;
-
-    defConfig["moduleInstances"]["Radio"]["module"] = "radio";
-    defConfig["moduleInstances"]["Radio"]["enabled"]  = true;
-
-    defConfig["moduleInstances"]["Frequency Manager"]["module"] = "frequency_manager";
-    defConfig["moduleInstances"]["Frequency Manager"]["enabled"]  = true;
-
-    defConfig["moduleInstances"]["Audio Sink"]["module"] = "audio_sink";
-    defConfig["moduleInstances"]["Audio Sink"]["enabled"] = false;
-    defConfig["moduleInstances"]["Network Sink"]["module"] = "network_sink";
-    defConfig["moduleInstances"]["Network Sink"]["enabled"] = false;
-
-//    defConfig["moduleInstances"]["Airspy Source"]["module"] = "airspy_source";
-//    defConfig["moduleInstances"]["Airspy Source"]["enabled"] = true;
-    defConfig["moduleInstances"]["AirspyHF+ Source"]["module"] = "airspyhf_source";
-    defConfig["moduleInstances"]["AirspyHF+ Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["BladeRF Source"]["module"] = "bladerf_source";
-//    defConfig["moduleInstances"]["BladeRF Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["Dragon Labs Source"]["module"] = "dragonlabs_source";
-//    defConfig["moduleInstances"]["Dragon Labs Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["FobosSDR Source"]["module"] = "fobossdr_source";
-//    defConfig["moduleInstances"]["FobosSDR Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["Harogic Source"]["module"] = "harogic_source";
-//    defConfig["moduleInstances"]["Harogic Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["Hermes Source"]["module"] = "hermes_source";
-//    defConfig["moduleInstances"]["Hermes Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["HydraSDR Source"]["module"] = "hydrasdr_source";
-//    defConfig["moduleInstances"]["HydraSDR Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["KiwiSDR Source"]["module"] = "kiwisdr_source";
-//    defConfig["moduleInstances"]["KiwiSDR Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["LimeSDR Source"]["module"] = "limesdr_source";
-//    defConfig["moduleInstances"]["LimeSDR Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["PerseusSDR Source"]["module"] = "perseus_source";
-//    defConfig["moduleInstances"]["PerseusSDR Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["QMX Source"]["module"] = "qmx_source";
-//    defConfig["moduleInstances"]["QMX Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["QMX Server Source"]["module"] = "qmxserver_source";
-//    defConfig["moduleInstances"]["QMX Server Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["RFNM Source"]["module"] = "rfnm_source";
-//    defConfig["moduleInstances"]["RFNM Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["RFspace Source"]["module"] = "rfspace_source";
-//    defConfig["moduleInstances"]["RFspace Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["RTL-SDR Source"]["module"] = "rtl_sdr_source";
-//    defConfig["moduleInstances"]["RTL-SDR Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["RTL-TCP Source"]["module"] = "rtl_tcp_source";
-//    defConfig["moduleInstances"]["RTL-TCP Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["SDRplay Source"]["module"] = "sdrplay_source";
-//    defConfig["moduleInstances"]["SDRplay Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["Spectran HTTP Source"]["module"] = "spectran_http_source";
-//    defConfig["moduleInstances"]["Spectran HTTP Source"]["enabled"] = true;
-//    defConfig["moduleInstances"]["SpyServer Source"]["module"] = "spyserver_source";
-//    defConfig["moduleInstances"]["SpyServer Source"]["enabled"] = true;
-    defConfig["moduleInstances"]["USRP Source"]["module"] = "usrp_source";
-    defConfig["moduleInstances"]["USRP Source"]["enabled"] = true;
-
-
-//    defConfig["moduleInstances"]["Radiosonde Decoder"]["module"] = "radiosonde_decoder";
-//    defConfig["moduleInstances"]["Radiosonde Decoder"]["enabled"] = false;
-
-    defConfig["moduleInstances"]["Recorder"]["module"] = "recorder";
-    defConfig["moduleInstances"]["Recorder"]["enabled"] = false;
-    defConfig["moduleInstances"]["Rigctl Server"]["module"] = "rigctl_server";
-    defConfig["moduleInstances"]["Rigctl Server"]["enabled"] = false;
-
-    defConfig["moduleInstances"]["Noise Reduction"]["module"] = "noise_reduction_logmmse";
-    defConfig["moduleInstances"]["Noise Reduction"]["enabled"] = false;
-//    defConfig["moduleInstances"]["Spots"]["module"] = "spots";
-//    defConfig["moduleInstances"]["Spots"]["enabled"] = false;
-//    defConfig["moduleInstances"]["WebSDR View"]["module"] = "websdr_view";
-//    defConfig["moduleInstances"]["WebSDR View"]["enabled"] = false;
-    defConfig["moduleInstances"]["Rigctl Client"]["module"] = "rigctl_client";
-    defConfig["moduleInstances"]["Rigctl Client"]["enabled"] = false;
-    
-    defConfig["moduleInstances"]["Scanner"]["module"] = "scanner";
-    defConfig["moduleInstances"]["Scanner"]["enabled"] = false;
-
-    // Themes
-    defConfig["theme"] = "Dark";
-    defConfig["uiScaleFactor"] = 1.0f;
-    defConfig["touchStyle"] = style::touchStyle;
-
-    defConfig["modules"] = json::array();
-
-    defConfig["offsets"]["SpyVerter"] = 120000000.0;
-    defConfig["offsets"]["Ham-It-Up"] = 125000000.0;
-    defConfig["offsets"]["MMDS S-band (1998MHz)"] = -1998000000.0;
-    defConfig["offsets"]["DK5AV X-Band"] = -6800000000.0;
-    defConfig["offsets"]["Ku LNB (9750MHz)"] = -9750000000.0;
-    defConfig["offsets"]["Ku LNB (10700MHz)"] = -10700000000.0;
-
-    defConfig["selectedOffset"] = "None";
-    defConfig["manualOffset"] = 0.0;
-    defConfig["showMenu"] = true;
-    defConfig["showWaterfall"] = true;
-    defConfig["waterfallAutoRange"] = false;
-    defConfig["source"] = "PlutoSDR";
-    defConfig["decimation"] = 1;
-    defConfig["iqCorrection"] = false;
-    defConfig["invertIQ"] = false;
-
-    defConfig["bandPlanPos"]= 1;
-
-    defConfig["streams"]["Radio"]["muted"] = false;
-    defConfig["streams"]["Radio"]["sink"] = "Audio";
-    defConfig["streams"]["Radio"]["volume"] = 1.0f;
-
-    defConfig["windowSize"]["h"] = 720;
-    defConfig["windowSize"]["w"] = 1280;
-
-    defConfig["vfoOffsets"] = json::object();
-
-    defConfig["vfoColors"]["Radio"] = "#FFFFFF";
-
-#ifdef __ANDROID__
-    defConfig["lockMenuOrder"] = true;
-#else
-    defConfig["lockMenuOrder"] = false;
-#endif
-
-#if defined(_WIN32)
-    defConfig["modulesDirectory"] = "./modules";
-    defConfig["resourcesDirectory"] = "./res";
-    defConfig["configDirectory"] = "./conf";
-
-#elif defined(IS_MACOS_BUNDLE)
-    defConfig["modulesDirectory"] = "../Plugins";
-    defConfig["resourcesDirectory"] = "../Resources";
-    defConfig["configDirectory"] =  "../Config";
-#elif defined(__ANDROID__)
-    defConfig["modulesDirectory"] = root + "/modules";
-    defConfig["resourcesDirectory"] = root + "/res";
-    defConfig["configDirectory"] = root + "/conf";
-
-#else
-    // Linux, BSD, etc.
-    defConfig["modulesDirectory"] = INSTALL_PREFIX "/lib/sdrpp_mini/plugins";
-    defConfig["resourcesDirectory"] = INSTALL_PREFIX "/share/sdrpp_mini";
-#endif
 
     // Load config
     flog::info("Loading config");
     core::configManager.setFile((root + "/config.json").c_str(), true);
     bool firstStart = !std::filesystem::exists(root + "/config.json");
-    core::configManager.load(&defConfig);
+    if(!core::configManager.load())
+        core::configManager.edit().ensure("configVersion", CURRENT_CONFIG_VERSION);
+    DefConfig(core::configManager);
     core::configManager.enableAutoSave();
 
     {//init config dir
@@ -461,62 +500,55 @@ int sdrpp_main(int argc, char* argv[]) {
 #endif
 
         int storedConfigVersion = 0;
-        const bool validConfigVersion =
-            configAccess.tryGet("configVersion", storedConfigVersion);
-        if (!validConfigVersion || storedConfigVersion < CURRENT_CONFIG_VERSION) {
-            flog::info("Migrating core config schema from version {0} to {1}",
-                       storedConfigVersion,
-                       CURRENT_CONFIG_VERSION);
+        const bool validConfigVersion = configAccess.tryGet("configVersion", storedConfigVersion);
+        if (!validConfigVersion || storedConfigVersion < CURRENT_CONFIG_VERSION)
+        {
+            flog::info("Migrating core config schema from version {0} to {1}", storedConfigVersion, CURRENT_CONFIG_VERSION);
             // Version 1 establishes the explicit schema marker. Future migrations
             // run immediately before advancing this value.
-            configAccess.set("configVersion", CURRENT_CONFIG_VERSION);
-        }
-        else if (storedConfigVersion > CURRENT_CONFIG_VERSION) {
-            flog::warn("Core config schema version {0} is newer than supported version {1}; "
-                       "unknown keys will be preserved",
-                       storedConfigVersion, CURRENT_CONFIG_VERSION);
+            configAccess["configVersion"] = CURRENT_CONFIG_VERSION;
+        }else if (storedConfigVersion > CURRENT_CONFIG_VERSION)
+        {
+            flog::warn("Core config schema version {0} is newer than supported version {1}; unknown keys will be preserved", storedConfigVersion, CURRENT_CONFIG_VERSION);
         }
 
-        // Fix missing elements in config
-        for (auto const& item : defConfig.items()) {
-            const bool missing = !configAccess.contains(item.key().c_str());
-            if (!configAccess.ensure(item.key(), item.value())) { continue; }
-            if (missing) {
-                flog::info("Missing key in config {0}, repairing", item.key());
-            }
-        }
 
         // Subtrees evolve independently of the flat core settings. Seed their
         // schema marker explicitly because the top-level repair above does not
         // recurse into an already existing object.
         ConfigManager::EditSection frequencyMemory = freq_memory::root(configAccess);
         int frequencyMemoryVersion = 0;
-        if (!frequencyMemory.tryGet(freq_memory::VERSION, frequencyMemoryVersion) ||
-            frequencyMemoryVersion < freq_memory::CURRENT_VERSION) {
-            frequencyMemory.set(freq_memory::VERSION, freq_memory::CURRENT_VERSION);
-        }
-        else if (frequencyMemoryVersion > freq_memory::CURRENT_VERSION) {
-            flog::warn("Frequency-memory config schema version {0} is newer than "
-                       "supported version {1}; unknown keys will be preserved",
-                       frequencyMemoryVersion, freq_memory::CURRENT_VERSION);
+        if (!frequencyMemory.tryGet(freq_memory::VERSION, frequencyMemoryVersion) || frequencyMemoryVersion < freq_memory::CURRENT_VERSION)
+        {
+            frequencyMemory[freq_memory::VERSION] = freq_memory::CURRENT_VERSION;
+        }else if (frequencyMemoryVersion > freq_memory::CURRENT_VERSION)
+        {
+            flog::warn("Frequency-memory config schema version {0} is newer than supported version {1}; unknown keys will be preserved", frequencyMemoryVersion, freq_memory::CURRENT_VERSION);
         }
 
         // Preserve unknown keys. They may belong to a newer application version;
         // deleting them here would make a temporary downgrade destructive.
 
         // Update to new module representation in config if needed
-        ConfigManager::EditSection instances = configAccess.section("moduleInstances");
-        std::vector<std::pair<std::string, std::string>> legacyInstances;
-        if (const json* insts = instances.peek()) {
-            for (auto const& [_name, inst] : insts->items()) {
-                if (inst.is_string()) { legacyInstances.emplace_back(_name, inst.get<std::string>()); }
+        {
+            ConfigManager::EditSection instances = configAccess.section("moduleInstances");
+            std::vector<std::pair<std::string, std::string>> legacyInstances;
+            {
+                auto insts = instances.peek();
+                for(auto const& obj : insts)
+                {
+                     std::string _name = obj.GetName();
+                     std::string inst;
+                     if(obj.tryGet(inst))
+                         legacyInstances.emplace_back(_name, inst);
+                }
             }
-        }
-        for (auto const& [_name, mod] : legacyInstances) {
-            json newMod;
-            newMod["module"] = mod;
-            newMod["enabled"] = true;
-            instances.set(_name, newMod);
+            for(auto const& [_name, mod] : legacyInstances)
+            {
+                auto newMod  = instances.section(_name);
+                newMod["module"] = mod;
+                newMod["enabled"] = true;
+            }
         }
 
         // Load UI scale factor; detected scale is not known yet (backend not initialized),
@@ -537,24 +569,18 @@ int sdrpp_main(int argc, char* argv[]) {
         });
     }
 
-    if (serverMode) {
+    if (serverMode)
+    {
         int rc = server::main();
         return rc;
     }
 
     std::string resDir = core::getResourcesDirectory();
-    json bandColors = core::configManager.read().value("bandColors", json::object());
-
-    // Check that the resource directory exists
-/*
-    if (!std::filesystem::is_directory(resDir)) {
-        flog::error("Resource directory doesn't exist! Please make sure that you've configured it correctly in config.json (check readme for details)");
-        return 1;
-    }*/
 
     // Initialize backend
     int biRes = backend::init(resDir);
-    if (biRes < 0) { return biRes; }
+    if (biRes < 0)
+        return biRes;
 
     // Apply the correct effective scale now that the backend (GLFW) can report the actual
     // OS display scale. detectedScale is kept in memory only — not persisted to config.
@@ -565,30 +591,34 @@ int sdrpp_main(int argc, char* argv[]) {
         flog::info("UI scale: detected={:.2f}, factor={:.2f}, effective={:.2f}", detected, uiScaleFactor, effective);
     }
 
-    if (firstStart) {
-        core::configManager.edit().set("menuWidth", 400);
-    }
+    if (firstStart)
+        core::configManager.edit()["menuWidth"] = 400;
 
     // Initialize SmGui in normal mode
     SmGui::init(false);
 
-    if (!style::loadFonts(resDir)) { return -1; }
+    if (!style::loadFonts(resDir))
+        return -1;
     thememenu::init(resDir);
     LoadingScreen::init();
 
     LoadingScreen::show("Loading icons");
     flog::info("Loading icons");
-    if (!icons::load(resDir)) { return -1; }
+    if (!icons::load(resDir))
+        return -1;
 
     LoadingScreen::show("Loading band plans");
     flog::info("Loading band plans");
-    bandplan::loadFromDir(resDir + "/bandplans");
     bandplan::loadInternal();
+    bandplan::loadFromDir(resDir + "/bandplans");
+
 
     LoadingScreen::show("Loading band plan colors");
     flog::info("Loading band plans color table");
-    bandplan::loadColorTable(bandColors);
-
+    {
+        auto bandColors = core::configManager.read().section("bandColors");
+        bandplan::loadColorTable(bandColors);
+    }
     gui::mainWindow.init();
 
     flog::info("Ready.");
@@ -621,9 +651,8 @@ int sdrpp_main(int argc, char* argv[]) {
     // }
 
     // Shut down all modules
-    for (auto& [name, mod] : core::moduleManager.modules) {
+    for (auto& [name, mod] : core::moduleManager.modules)
         mod.end();
-    }
 
     // Terminate backend (TODO: CHECK RETURN VALUE)
     backend::end();
@@ -633,7 +662,8 @@ int sdrpp_main(int argc, char* argv[]) {
     coreConfigSaved = core::configManager.shutdown();
 #endif
 
-    if (coreConfigSaved) {
+    if (coreConfigSaved)
+    {
         flog::info("Exiting successfully");
         return 0;
     }

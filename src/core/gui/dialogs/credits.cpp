@@ -69,32 +69,39 @@ namespace credits {
         ImGui::Spacing();
         ImGui::Spacing();
 
-        ImGui::TextUnformatted("Maintained by Vojtech Bubnik (OK1IAK), original software by Alexandre Rouma (ON5RYZ) with the help of\n\n");
+        ImGui::TextUnformatted("Maintained by Vojtech Bubnik (OK1IAK), original software by Alexandre Rouma (ON5RYZ) with the help of\n\n"
+
+                               "main fork:         https://github.com/bubnikv/sdriak\n"
+                               "original software: https://github.com/AlexandreRouma/SDRPlusPlus\n"
+                               "others:\n"
+                               "https://github.com/kholia/SDRPlusPlusBrown\n"
+                               "https://github.com/LunaeMons/SDRPlusPlus_CommunityEdition\n"
+                               "\n\n");
 
         ImGui::Columns(4, "CreditColumns", true);
 
-        ImGui::TextUnformatted("Contributors");
-        for (int i = 0; i < sdrpp_credits::contributorCount; i++) {
-            ImGui::BulletText("%s", sdrpp_credits::contributors[i]);
-        }
+//         ImGui::TextUnformatted("Contributors");
+//         for (int i = 0; i < sdrpp_credits::contributorCount; i++) {
+//             ImGui::BulletText("%s", sdrpp_credits::contributors[i]);
+//         }
 
-        ImGui::NextColumn();
-        ImGui::TextUnformatted("Libraries");
-        for (int i = 0; i < sdrpp_credits::libraryCount; i++) {
-            ImGui::BulletText("%s", sdrpp_credits::libraries[i]);
-        }
-
-        ImGui::NextColumn();
-        ImGui::TextUnformatted("Hardware Donators");
-        for (int i = 0; i < sdrpp_credits::hardwareDonatorCount; i++) {
-            ImGui::BulletText("%s", sdrpp_credits::hardwareDonators[i]);
-        }
-
-        ImGui::NextColumn();
-        ImGui::TextUnformatted("Patrons");
-        for (int i = 0; i < sdrpp_credits::patronCount; i++) {
-            ImGui::BulletText("%s", sdrpp_credits::patrons[i]);
-        }
+//         ImGui::NextColumn();
+//         ImGui::TextUnformatted("Libraries");
+//         for (int i = 0; i < sdrpp_credits::libraryCount; i++) {
+//             ImGui::BulletText("%s", sdrpp_credits::libraries[i]);
+//         }
+// 
+//         ImGui::NextColumn();
+//         ImGui::TextUnformatted("Hardware Donators");
+//         for (int i = 0; i < sdrpp_credits::hardwareDonatorCount; i++) {
+//             ImGui::BulletText("%s", sdrpp_credits::hardwareDonators[i]);
+//         }
+// 
+//         ImGui::NextColumn();
+//         ImGui::TextUnformatted("Patrons");
+//         for (int i = 0; i < sdrpp_credits::patronCount; i++) {
+//             ImGui::BulletText("%s", sdrpp_credits::patrons[i]);
+//         }
 
         ImGui::Columns(1, "CreditColumnsEnd", true);
 

@@ -28,7 +28,7 @@ static ModuleManager::ModuleInfo_t file_source_INFO{
     /* Max instances    */ 1
 };
 
-static ConfigManager config;
+static ConfigManagerImpl config;
 
 // Converters from one WAV sample to float, all little-endian
 // (per-format conversion adopted from qrp73/SDRPP)
@@ -86,7 +86,7 @@ static SampleConv getSampleConv(WAVE_FORMAT format, int bitDepth) {
 static SampleReader* openReader(const std::string& path) {
     uint8_t magic[4] = { 0 };
     std::ifstream(path, std::ios::binary).read((char*)magic, sizeof(magic));
-#ifdef FLAC__NO_DLL
+#ifdef FLAC_ENABLE
     if (!memcmp(magic, "fLaC", 4)) { return new FlacReader(path); }
 #endif
     if (!memcmp(magic, "RIFF", 4) || !memcmp(magic, "RF64", 4)) { return new WavReader(path); }
@@ -111,7 +111,7 @@ public:
 
         if (core::args["server"].b()) { return; }
 
-        fileSelect.setPath(config.read().value("path", std::string()), true);
+        fileSelect.setPath(std::string(config.read().value("path", "")), true);
 
         handler.ctx = this;
         handler.selectHandler = menuSelected;
@@ -241,7 +241,7 @@ private:
                 }
             }
             _this->updateFormatStr();
-            config.edit().set("path", _this->fileSelect.path);
+            config.edit()["path"] = _this->fileSelect.path;
         }
 
         if (!_this->formatStr.empty()) {

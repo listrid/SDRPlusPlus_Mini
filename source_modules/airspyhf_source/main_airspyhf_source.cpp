@@ -48,7 +48,7 @@ public:
 
         refresh();
 
-        std::string devSerial = config->read().value("device", std::string());
+        std::string devSerial(config->read().value("device", ""));
         selectByString(devSerial);
 
         SourceManager_registerSource("Airspy HF+", &handler);
@@ -362,7 +362,7 @@ private:
             _this->selectBySerial(_this->devList[_this->devId]);
             core::setInputSampleRate(_this->sampleRate);
             if (_this->selectedSerStr != "")
-                config->edit().set("device", _this->selectedSerStr);
+                config->edit()["device"] = _this->selectedSerStr;
         }
 
         if (SmGui::Combo(CONCAT("##_airspyhf_sr_sel_", _this->name), &_this->srId, _this->sampleRateListTxt.c_str()))
@@ -370,7 +370,7 @@ private:
             _this->sampleRate = _this->sampleRateList[_this->srId];
             core::setInputSampleRate(_this->sampleRate);
             if (_this->selectedSerStr != "")
-                config->edit().section("devices", _this->selectedSerStr).set("sampleRate", _this->sampleRate);
+                config->edit().section("devices", _this->selectedSerStr)["sampleRate"] = _this->sampleRate;
         }
 
         SmGui::SameLine();
@@ -382,7 +382,7 @@ private:
             _this->refreshAndroidSelection();
 #else
             _this->refresh();
-            std::string devSerial = config->read().value("device", std::string());
+            std::string devSerial(config->read().value("device", ""));
             _this->selectByString(devSerial);
             core::setInputSampleRate(_this->sampleRate);
 #endif
@@ -402,7 +402,7 @@ private:
                     airspyhf_set_hf_agc_threshold(_this->openDev, _this->agcMode - 1);
             }
             if (_this->selectedSerStr != "")
-                config->edit().section("devices", _this->selectedSerStr).set("agcMode", _this->agcMode);
+                config->edit().section("devices", _this->selectedSerStr)["agcMode"] = _this->agcMode;
         }
 
         SmGui::LeftLabel("Attenuation");
@@ -412,7 +412,7 @@ private:
             if (_this->running)
                 airspyhf_set_hf_att(_this->openDev, _this->atten / 6.0f);
             if (_this->selectedSerStr != "")
-                config->edit().section("devices", _this->selectedSerStr).set("attenuation", _this->atten);
+                config->edit().section("devices", _this->selectedSerStr)["attenuation"] = _this->atten;
         }
 
         if (SmGui::Checkbox(CONCAT("HF LNA##_airspyhf_lna_", _this->name), &_this->hfLNA))
@@ -420,7 +420,7 @@ private:
             if (_this->running)
                 airspyhf_set_hf_lna(_this->openDev, _this->hfLNA);
             if (_this->selectedSerStr != "")
-                config->edit().section("devices", _this->selectedSerStr).set("lna", _this->hfLNA);
+                config->edit().section("devices", _this->selectedSerStr)["lna"] = _this->hfLNA;
         }
     }
 

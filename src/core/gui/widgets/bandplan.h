@@ -1,36 +1,28 @@
 #pragma once
 #include <gui/widgets/band_mapping.h>
-#include <json.hpp>
+#include <config.h>
 #include <imgui/imgui.h>
 #include <stdint.h>
+#include <map>
 
-using nlohmann::json;
 
-namespace bandplan {
-    struct ResolvedBandData_t {
+namespace bandplan
+{
+    struct ResolvedBandData_t
+    {
         // BandMapping registries have static application lifetime. A null
         // mapping denotes a classified legacy row without stable identity.
         const freq_input::BandMapping* mapping = nullptr;
         freq_input::LegacyBandClassification legacy;
 
-        std::string_view bandId() const {
-            return mapping ? mapping->bandId : std::string_view{};
-        }
-
-        freq_input::BandService service() const {
-            return mapping ? mapping->service : legacy.service;
-        }
-
-        freq_input::BandFamily family() const {
-            return mapping ? mapping->family : legacy.family;
-        }
-
-        bool isBandOrSegment() const noexcept {
-            return legacy.isBandOrSegment();
-        }
+        std::string_view bandId() const { return mapping ? mapping->bandId : std::string_view{}; }
+        freq_input::BandService service() const { return mapping ? mapping->service : legacy.service; }
+        freq_input::BandFamily family() const { return mapping ? mapping->family : legacy.family; }
+        bool isBandOrSegment() const noexcept { return legacy.isBandOrSegment(); }
     };
 
-    struct Band_t {
+    struct Band_t
+    {
         std::string name;
         std::string type;
         double start;
@@ -48,9 +40,8 @@ namespace bandplan {
         bool containsFrequency(double frequency) const noexcept;
     };
 
-    void from_json(const json& j, Band_t& b);
-
-    struct BandPlan_t {
+    struct BandPlan_t
+    {
         std::string name;
         std::string countryName;
         std::string countryCode;
@@ -65,31 +56,26 @@ namespace bandplan {
         // A stable band may be represented by adjacent or disjoint source
         // segments. Return the first eligible segment containing the
         // frequency, preserving source order.
-        const Band_t* findMappedSegmentAtFrequency(
-            const freq_input::BandMapping& mapping,
-            double frequency) const;
+        const Band_t* findMappedSegmentAtFrequency(const freq_input::BandMapping& mapping,  double frequency) const;
     };
 
-    void from_json(const json& j, BandPlan_t& b);
-
-    struct BandPlanColor_t {
+    struct BandPlanColor_t
+    {
         // Defaults match the waterfall's fallback for an untyped band, so a
         // default-constructed entry is never an indeterminate color.
         uint32_t colorValue = IM_COL32(255, 255, 255, 255);
         uint32_t transColorValue = IM_COL32(255, 255, 255, 100);
     };
 
-    void from_json(const json& j, BandPlanColor_t& ct);
-
     void loadBandPlan(const std::string& path);
     void loadFromDir(const std::string& path);
     void loadInternal();
     // Replaces the color table. Malformed entries are reported and skipped;
     // the call does not propagate parse errors out of the user's config.
-    void loadColorTable(const json& table);
+    void loadColorTable(const ConfigManager::ReadSection& table);
 
-    extern std::map<std::string, BandPlan_t> bandplans;
-    extern std::vector<std::string> bandplanNames;
-    extern std::string bandplanNameTxt;
-    extern std::map<std::string, BandPlanColor_t> colorTable;
+    extern std::map<std::string, BandPlan_t> g_bandplans;
+    extern std::vector<std::string> g_bandplanNames;
+    extern std::string g_bandplanNameTxt;
+    extern std::map<std::string, BandPlanColor_t> g_colorTable;
 };
