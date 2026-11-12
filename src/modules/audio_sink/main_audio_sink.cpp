@@ -440,7 +440,7 @@ static void audio_sink_INIT()
 {
     config.setFile("audio_sink.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
 static ModuleManager::Instance* audio_sink_CREATE_INSTANCE(std::string name)

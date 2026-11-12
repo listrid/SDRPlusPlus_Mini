@@ -69,15 +69,20 @@ static ModuleManager::Module_t* modules[] =
 };
 
 
-namespace {
-    void invalidateChildLayoutCache(ImGuiWindow* parent, const char* childName) {
-        if (parent == NULL) { return; }
+namespace
+{
+    void invalidateChildLayoutCache(ImGuiWindow* parent, const char* childName)
+    {
+        if (parent == NULL)
+            return;
 
         ImGuiID childId = parent->GetID(childName);
         ImGuiContext& g = *GImGui;
-        for (int i = 0; i < g.Windows.Size; i++) {
+        for (int i = 0; i < g.Windows.Size; i++)
+        {
             ImGuiWindow* child = g.Windows[i];
-            if (child == NULL || child->ParentWindow != parent || child->ChildId != childId) { continue; }
+            if (child == NULL || child->ParentWindow != parent || child->ChildId != childId)
+                continue;
 
             child->ContentSize = ImVec2(0, 0);
             child->ContentSizeIdeal = ImVec2(0, 0);
@@ -89,7 +94,8 @@ namespace {
     }
 }
 
-void MainWindow::init() {
+void MainWindow::init()
+{
     LoadingScreen::show("Initializing UI");
     gui::waterfall.init();
     gui::waterfall.setRawFFTSize(8192 * 8);
@@ -107,7 +113,8 @@ void MainWindow::init() {
     
     // Load menu elements
     gui::menu.order.clear();
-    for (auto& o : menuElements) {
+    for (auto& o : menuElements)
+    {
         Menu::MenuOption_t opt;
         auto elem = o.toSection();
         if (!elem.tryGet("name", opt.name))
@@ -150,18 +157,19 @@ void MainWindow::init() {
 
     // Load modules from /module directory
     if (std::filesystem::is_directory(modulesDir)) {
-        for (const auto& file : std::filesystem::directory_iterator(modulesDir)) {
+        for (const auto& file : std::filesystem::directory_iterator(modulesDir))
+        {
             std::string path = file.path().generic_string();
-            if (file.path().extension().generic_string() != SDRPP_MOD_EXTENTSION) {
+            if (file.path().extension().generic_string() != SDRPP_MOD_EXTENTSION)
                 continue;
-            }
-            if (!file.is_regular_file()) { continue; }
+
+            if (!file.is_regular_file())
+                continue;
             flog::info("Loading {0}", path);
             LoadingScreen::show("Loading " + file.path().filename().string());
             core::moduleManager.loadModule(path);
         }
-    }
-    else {
+    }else{
         flog::warn("Module directory {0} does not exist, not loading modules from directory", modulesDir);
     }
 
@@ -176,7 +184,8 @@ void MainWindow::init() {
     // Load additional modules specified through config. Relative paths are
     // interpreted relative to the executable's directory, like the module and
     // resource directories.
-    for (auto const& path : modules) {
+    for (auto const& path : modules)
+    {
 #ifndef __ANDROID__
         std::string apath = core::resolveConfigPath(path);
         flog::info("Loading {0}", apath);
@@ -293,12 +302,15 @@ void MainWindow::init() {
 
     // Correct the offset of all VFOs so that they fit on the screen
     float finalBwHalf = gui::waterfall.getBandwidth() / 2.0;
-    for (auto& [_name, _vfo] : gui::waterfall.m_map_vfos) {
-        if (_vfo->m_lowerOffset < -finalBwHalf) {
+    for (auto& [_name, _vfo] : gui::waterfall.m_map_vfos)
+    {
+        if (_vfo->m_lowerOffset < -finalBwHalf)
+        {
             sigpath::vfoManager.setCenterOffset(_name, (_vfo->m_bandwidth / 2) - finalBwHalf);
             continue;
         }
-        if (_vfo->m_upperOffset > finalBwHalf) {
+        if (_vfo->m_upperOffset > finalBwHalf)
+        {
             sigpath::vfoManager.setCenterOffset(_name, finalBwHalf - (_vfo->m_bandwidth / 2));
             continue;
         }
@@ -310,15 +322,18 @@ void MainWindow::init() {
     core::moduleManager.doPostInitAll();
 }
 
-float* MainWindow::acquireFFTBuffer(void* ctx) {
+float* MainWindow::acquireFFTBuffer(void* ctx)
+{
     return gui::waterfall.getFFTBuffer();
 }
 
-void MainWindow::releaseFFTBuffer(void* ctx) {
+void MainWindow::releaseFFTBuffer(void* ctx)
+{
     gui::waterfall.pushFFT();
 }
 
-void MainWindow::onContentScaleChanged(float oldScale) {
+void MainWindow::onContentScaleChanged(float oldScale)
+{
     // style::uiScale already holds the new scale when this is called.
     // Rescale physical splitter positions proportionally, then persist logical values.
     menuWidth = style::rescale(menuWidth, oldScale);
@@ -330,13 +345,15 @@ void MainWindow::onContentScaleChanged(float oldScale) {
     configAccess["fftHeight"] = style::unscale(fftHeight);
 }
 
-void MainWindow::vfoAddedHandler(VFOManager::VFO* vfo, void* ctx) {
+void MainWindow::vfoAddedHandler(VFOManager::VFO* vfo, void* ctx)
+{
     MainWindow* _this = (MainWindow*)ctx;
     std::string name = vfo->getName();
     double offset;
     {
         auto configAccess = core::configManager.read();
-        if (!configAccess.section("vfoOffsets").tryGet(name.c_str(), offset)) { return; }
+        if (!configAccess.section("vfoOffsets").tryGet(name.c_str(), offset))
+            return;
     }
 
     double viewBW = gui::waterfall.getViewBandwidth();
@@ -350,7 +367,8 @@ void MainWindow::vfoAddedHandler(VFOManager::VFO* vfo, void* ctx) {
     sigpath::vfoManager.setCenterOffset(name, _this->initComplete ? newOffset : offset);
 }
 
-void MainWindow::draw() {
+void MainWindow::draw()
+{
     ImGui::Begin("Main", NULL, WINDOW_FLAGS);
     ImVec4 textCol = ImGui::GetStyleColorVec4(ImGuiCol_Text);
 
@@ -367,23 +385,27 @@ void MainWindow::draw() {
             lastLayoutScaleEpoch = currentLayoutEpoch;
             const char* names[] = { "Left Column", "Waterfall", "WaterfallControls" };
             ImGuiWindow* mainWindow = ImGui::GetCurrentWindow();
-            for (const char* name : names) {
+            for (const char* name : names)
+            {
                 invalidateChildLayoutCache(mainWindow, name);
             }
         }
     }
 
     ImGui::WaterfallVFO* vfo = NULL;
-    if (gui::waterfall.m_selectedVFO != "") {
+    if (gui::waterfall.m_selectedVFO != "")
         vfo = gui::waterfall.m_map_vfos[gui::waterfall.m_selectedVFO];
-    }
 
     // Handle VFO movement
-    if (vfo != NULL) {
-        if (vfo->m_centerOffsetChanged) {
-            if (tuningMode == tuner::TUNER_MODE_CENTER) {
+    if (vfo != NULL)
+    {
+        if (vfo->m_centerOffsetChanged)
+        {
+            if (tuningMode == tuner::TUNER_MODE_CENTER)
+            {
                 tuner::tune(tuner::TUNER_MODE_CENTER, gui::waterfall.m_selectedVFO, gui::waterfall.getCenterFrequency() + vfo->m_generalOffset);
-            } else if (tuningMode == tuner::TUNER_MODE_NORMAL && tuner::vfoLockedToCenter()) {
+            } else if (tuningMode == tuner::TUNER_MODE_NORMAL && tuner::vfoLockedToCenter())
+            {
                 // If the VFO is locked to IQ center frequency, then dragging a VFO should be suppressed.
                 assert(gui::waterfall.m_VFOMoveSingleClick);
                 // The tuner will synchronize VFO with the IQ center frequency.
@@ -399,30 +421,33 @@ void MainWindow::draw() {
     sigpath::vfoManager.updateFromWaterfall(&gui::waterfall);
 
     // Handle selection of another VFO
-    if (gui::waterfall.m_selectedVFOChanged) {
+    if (gui::waterfall.m_selectedVFOChanged)
+    {
         gui::freqSelect.setFrequency((vfo != NULL) ? (vfo->m_generalOffset + gui::waterfall.getCenterFrequency()) : gui::waterfall.getCenterFrequency());
         gui::waterfall.m_selectedVFOChanged = false;
         gui::freqSelect.frequencyChanged = false;
     }
 
     // Handle change in selected frequency
-    if (gui::freqSelect.frequencyChanged) {
+    if (gui::freqSelect.frequencyChanged)
+    {
         gui::freqSelect.frequencyChanged = false;
         tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, gui::freqSelect.frequency);
-        if (vfo != NULL) {
+        if (vfo != NULL)
+        {
             vfo->m_centerOffsetChanged = false;
             vfo->m_lowerOffsetChanged = false;
             vfo->m_upperOffsetChanged = false;
         }
         auto configAccess = core::configManager.edit();
         configAccess["frequency"] = gui::waterfall.getCenterFrequency();
-        if (vfo != NULL) {
+        if (vfo != NULL)
             configAccess.section("vfoOffsets")[gui::waterfall.m_selectedVFO] = vfo->m_generalOffset;
-        }
     }
 
     // Handle dragging the frequency scale
-    if (gui::waterfall.m_centerFreqMoved) {
+    if (gui::waterfall.m_centerFreqMoved)
+    {
         gui::waterfall.m_centerFreqMoved = false;
         sigpath::sourceManager.tune(gui::waterfall.getCenterFrequency());
         gui::freqSelect.setFrequency(gui::waterfall.getCenterFrequency() + (vfo == NULL ? 0 : vfo->m_generalOffset));
@@ -430,7 +455,8 @@ void MainWindow::draw() {
     }
 
     int _fftHeight = gui::waterfall.getFFTHeight();
-    if (fftHeight != _fftHeight) {
+    if (fftHeight != _fftHeight)
+    {
         fftHeight = _fftHeight;
         core::configManager.edit()["fftHeight"] = style::unscale(fftHeight);
     }
@@ -451,7 +477,8 @@ void MainWindow::draw() {
     // from here, rather than each widget carrying its own offset -- those were
     // all tuned at uiScale 1 and drifted apart by up to 22 px on a phone.
     float rowTop = ImGui::GetCursorPosY();
-    auto centerInRow = [rowTop](float itemHeight) {
+    auto centerInRow = [rowTop](float itemHeight)
+    {
         ImGui::SetCursorPosY(rowTop + style::topBarRowOffset(itemHeight));
     };
 
@@ -467,21 +494,24 @@ void MainWindow::draw() {
 #ifdef __ANDROID__
     // Hold the hamburger button to ask about exiting the app; a tap keeps
     // toggling the menu. The release after a long press must not toggle.
-    if (ImGui::IsItemActive()) {
+    if (ImGui::IsItemActive())
+    {
         menuBtnHoldTime += ImGui::GetIO().DeltaTime;
-        if (!menuBtnLongPressFired && menuBtnHoldTime >= 0.6f) {
+        if (!menuBtnLongPressFired && menuBtnHoldTime >= 0.6f)
+        {
             menuBtnLongPressFired = true;
             backend::hapticTick();
             exitDialogRequest = true;
         }
-    }
-    else {
-        if (menuBtnLongPressFired) { menuClicked = false; }
+    }else{
+        if (menuBtnLongPressFired)
+            menuClicked = false;
         menuBtnHoldTime = 0.0f;
         menuBtnLongPressFired = false;
     }
 #endif
-    if (menuClicked) {
+    if (menuClicked)
+    {
         showMenu = !showMenu;
         core::configManager.edit()["showMenu"] = showMenu;
     }
@@ -490,25 +520,26 @@ void MainWindow::draw() {
     ImGui::SameLine();
 
     bool tmpPlaySate = playing;
-    if (playButtonLocked && !tmpPlaySate) { style::beginDisabled(); }
-    if (playing) {
+    if (playButtonLocked && !tmpPlaySate)
+        style::beginDisabled();
+    if (playing)
+    {
         ImGui::PushID(ImGui::GetID("sdrpp_stop_btn"));
-        if (ImGui::ImageButton(icons::STOP, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol) || ImGui::IsKeyPressed(ImGuiKey_End, false)) {
+        if (ImGui::ImageButton(icons::STOP, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol) || ImGui::IsKeyPressed(ImGuiKey_End, false))
             setPlayState(false);
-        }
         ImGui::PopID();
-    }
-    else { // TODO: Might need to check if there even is a device
+    }else{ // TODO: Might need to check if there even is a device
         ImGui::PushID(ImGui::GetID("sdrpp_play_btn"));
-        if (ImGui::ImageButton(icons::PLAY, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol) || ImGui::IsKeyPressed(ImGuiKey_End, false)) {
+        if (ImGui::ImageButton(icons::PLAY, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol) || ImGui::IsKeyPressed(ImGuiKey_End, false))
             setPlayState(true);
-        }
         ImGui::PopID();
     }
-    if (playButtonLocked && !tmpPlaySate) { style::endDisabled(); }
+    if (playButtonLocked && !tmpPlaySate)
+        style::endDisabled();
 
     // Handle auto-start
-    if (autostart) {
+    if (autostart)
+    {
         autostart = false;
         setPlayState(true);
     }
@@ -550,7 +581,8 @@ void MainWindow::draw() {
         // large and the meter landed a gap right of where it was placed.
         float pool = topBarWidth - ImGui::GetCursorPosX() - freqCost - tuningCost - itemSpacing - meterOffset;
         showKeypadButton = (pool - keypadCost >= volMin + meterMin);
-        if (showKeypadButton) { pool -= keypadCost; }
+        if (showKeypadButton)
+            pool -= keypadCost;
 
         // Even 50/50 split, honoring the volume cap and handing its surplus to
         // the meter.
@@ -575,29 +607,31 @@ void MainWindow::draw() {
 
     ImGui::SameLine();
 
-    if (showKeypadButton) {
+    if (showKeypadButton)
+    {
         ImGui::SetCursorPosY(rowTop);
         ImGui::PushID(ImGui::GetID("sdrpp_freq_keypad_btn"));
-        if (ImGui::ImageButton(icons::KEYPAD, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol)) {
+        if (ImGui::ImageButton(icons::KEYPAD, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol))
             gui::freqSelect.openKeypad();
-        }
         ImGui::PopID();
         ImGui::SameLine();
     }
 
     ImGui::SetCursorPosY(rowTop);
-    if (tuningMode == tuner::TUNER_MODE_CENTER) {
+    if (tuningMode == tuner::TUNER_MODE_CENTER)
+    {
         ImGui::PushID(ImGui::GetID("sdrpp_ena_st_btn"));
-        if (ImGui::ImageButton(icons::CENTER_TUNING, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol)) {
+        if (ImGui::ImageButton(icons::CENTER_TUNING, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol))
+        {
             tuningMode = tuner::TUNER_MODE_NORMAL;
             gui::waterfall.m_VFOMoveSingleClick = false;
             core::configManager.edit()["centerTuning"] = false;
         }
         ImGui::PopID();
-    }
-    else { // TODO: Might need to check if there even is a device
+    }else{ // TODO: Might need to check if there even is a device
         ImGui::PushID(ImGui::GetID("sdrpp_dis_st_btn"));
-        if (ImGui::ImageButton(icons::NORMAL_TUNING, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol)) {
+        if (ImGui::ImageButton(icons::NORMAL_TUNING, btnSize, ImVec2(0, 0), ImVec2(1, 1), toolbarButtonPadding, ImVec4(0, 0, 0, 0), textCol))
+        {
             tuningMode = tuner::TUNER_MODE_CENTER;
             gui::waterfall.m_VFOMoveSingleClick = true;
             tuner::tune(tuner::TUNER_MODE_CENTER, gui::waterfall.m_selectedVFO, gui::freqSelect.frequency);
@@ -619,10 +653,10 @@ void MainWindow::draw() {
     ImGui::SetCursorPosX(meterPos);
     centerInRow(ImGui::GetLevelMeterHeight());
     ImGui::SetNextItemWidth(meterDrawWidth);
-    if (vfo != NULL) {
+    if (vfo != NULL)
+    {
         ImGui::LevelMeter(gui::waterfall.m_selectedVFOLevel, gui::waterfall.m_selectedVFOLevelMax, gui::waterfall.m_selectedVFOSNR);
-    }
-    else {
+    }else{
         ImGui::LevelMeter(-INFINITY, -INFINITY, NAN);
     }
 
@@ -636,9 +670,8 @@ void MainWindow::draw() {
     // only happened to look centred at uiScale 1.
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x - logoRightInset - logoSize);
     centerInRow(logoSize);
-    if (ImGui::ImageButton(icons::LOGO, ImVec2(logoSize, logoSize), ImVec2(0, 0), ImVec2(1, 1), 0)) {
+    if (ImGui::ImageButton(icons::LOGO, ImVec2(logoSize, logoSize), ImVec2(0, 0), ImVec2(1, 1), 0))
         showCredits = true;
-    }
 
     // Reset waterfall lock
     lockWaterfallControls = showCredits;
@@ -649,9 +682,11 @@ void MainWindow::draw() {
 #ifdef __ANDROID__
     bool isWindowHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem);
 #endif
-    if (showMenu && !grabbingMenu) {
+    if (showMenu && !grabbingMenu)
+    {
         int clampedMenuWidth = style::clampSplit(menuWidth, winSize.x, 270.0f, 270.0f);
-        if (clampedMenuWidth != menuWidth) {
+        if (clampedMenuWidth != menuWidth)
+        {
             menuWidth = clampedMenuWidth;
             newWidth = clampedMenuWidth;
         }
@@ -663,12 +698,14 @@ void MainWindow::draw() {
     // with a touch screen has the same problem a phone does.
     bool menuPillVisible = false;
     ImVec2 menuPillCenter;
-    if (!lockWaterfallControls && showMenu) {
+    if (!lockWaterfallControls && showMenu)
+    {
         float curY = ImGui::GetCursorPosY();
         bool click = ImGui::IsMouseClicked(ImGuiMouseButton_Left);
         bool down = ImGui::IsMouseDown(ImGuiMouseButton_Left);
         float splitBottom = winSize.y - style::dp(10.0f);
-        if (grabbingMenu) {
+        if (grabbingMenu)
+        {
             newWidth = mousePos.x + menuGrabOffset;
             newWidth = style::clampSplit(newWidth, winSize.x, 270.0f, 270.0f);
             ImGui::GetForegroundDrawList()->AddLine(ImVec2(newWidth, curY), ImVec2(newWidth, splitBottom), ImGui::GetColorU32(ImGuiCol_SeparatorActive));
@@ -682,11 +719,12 @@ void MainWindow::draw() {
         bool inPillBox = style::touchStyle &&
                          mousePos.x >= newWidth - style::dp(2.0f) && mousePos.x <= newWidth + style::dp(30.0f) &&
                          fabsf(mousePos.y - pillCenter.y) <= pillHalfH + style::dp(10.0f);
-        if (style::touchStyle) {
+        if (style::touchStyle)
+        {
             // The pill hit box overlaps the waterfall child window, so hover of
             // any child of the main window counts for it.
-            if (!grabbingMenu && click && inPillBox && !ImGui::IsAnyItemActive() &&
-                ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_AllowWhenBlockedByActiveItem)) {
+            if (!grabbingMenu && click && inPillBox && !ImGui::IsAnyItemActive() && ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
+            {
                 grabbingMenu = true;
                 menuGrabOffset = newWidth - mousePos.x;
 #ifdef __ANDROID__
@@ -703,23 +741,27 @@ void MainWindow::draw() {
         // scrolling. Android only: it withholds the grab for a few frames, which
         // a mouse user would feel as lag, so the desktop keeps its thin band and
         // gains only the pill above.
-        if (menuSplitterPending) {
+        if (menuSplitterPending)
+        {
             float dx = mousePos.x - menuSplitterDownPos.x;
             float dy = mousePos.y - menuSplitterDownPos.y;
-            if (!down) {
+            if (!down)
+            {
                 menuSplitterPending = false;
-            }
-            else if (std::max(fabsf(dx), fabsf(dy)) >= style::dp(6.0f)) {
+            }else if (std::max(fabsf(dx), fabsf(dy)) >= style::dp(6.0f))
+            {
                 menuSplitterPending = false;
-                if (fabsf(dx) > fabsf(dy)) {
+                if (fabsf(dx) > fabsf(dy))
+                {
                     grabbingMenu = true;
                     menuGrabOffset = newWidth - menuSplitterDownPos.x;
                     backend::hapticTick();
                 }
             }
-        }
-        else if (!grabbingMenu && click && !inPillBox) {
-            if (isWindowHovered && fabsf(mousePos.x - (float)newWidth) <= style::dp(20.0f) && mousePos.y > curY) {
+        }else if (!grabbingMenu && click && !inPillBox)
+        {
+            if (isWindowHovered && fabsf(mousePos.x - (float)newWidth) <= style::dp(20.0f) && mousePos.y > curY)
+            {
                 menuSplitterPending = true;
                 menuSplitterDownPos = mousePos;
             }
@@ -734,18 +776,20 @@ void MainWindow::draw() {
         // inPillBox so the resize cursor also appears over the pill when the
         // touch style is on; the grab itself was already taken above.
         bool overSplit = inPillBox || (fabsf(mousePos.x - (float)newWidth) <= separatorHitRadius && mousePos.y > curY);
-        if (grabbingMenu || (overSplit && !ImGui::IsAnyItemActive() && ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))) {
+        if (grabbingMenu || (overSplit && !ImGui::IsAnyItemActive() && ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_AllowWhenBlockedByActiveItem)))
+        {
             ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-            if (click && !grabbingMenu) {
+            if (click && !grabbingMenu)
+            {
                 grabbingMenu = true;
                 menuGrabOffset = newWidth - mousePos.x;
             }
-        }
-        else {
+        }else{
             ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
         }
 #endif
-        if (!down && grabbingMenu) {
+        if (!down && grabbingMenu)
+        {
             grabbingMenu = false;
             menuWidth = newWidth;
             core::configManager.edit()["menuWidth"] = style::unscale(menuWidth);
@@ -759,14 +803,16 @@ void MainWindow::draw() {
     displaymenu::checkKeybinds();
     const float currentRightPanelWidth = 46.0f;
     // Left Column
-    if (showMenu) {
+    if (showMenu)
+    {
         ImGui::Columns(3, "WindowColumns", false);
         ImGui::SetColumnWidth(0, menuWidth);
         ImGui::SetColumnWidth(1, std::max<int>(winSize.x - menuWidth - (currentRightPanelWidth * style::uiScale), 100.0f * style::uiScale));
         ImGui::SetColumnWidth(2, currentRightPanelWidth * style::uiScale);
         ImGui::BeginChild("Left Column");
 
-        if (gui::menu.draw(firstMenuRender)) {
+        if (gui::menu.draw(firstMenuRender))
+        {
 
             auto arr = core::configManager.edit().array("menuElements");
             for (int i = 0; i < gui::menu.order.size(); i++)
@@ -812,11 +858,11 @@ void MainWindow::draw() {
 
             // ImGui::Text("Buffering: %d", (sigpath::iqFrontEnd.inputBuffer.writeCur - sigpath::iqFrontEnd.inputBuffer.readCur + 32) % 32);
 
-            if (ImGui::Button("Test Bug")) {
+            if (ImGui::Button("Test Bug"))
                 flog::error("Will this make the software crash?");
-            }
 
-            if (ImGui::Button("Testing something")) {
+            if (ImGui::Button("Testing something"))
+            {
                 gui::menu.order[0].open = true;
                 firstMenuRender = true;
             }
@@ -829,8 +875,7 @@ void MainWindow::draw() {
 #endif
 
         ImGui::EndChild();
-    }
-    else {
+    }else{
         // When hiding the menu bar
         ImGui::Columns(3, "WindowColumns", false);
         ImGui::SetColumnWidth(0, 8 * style::uiScale);
@@ -851,7 +896,8 @@ void MainWindow::draw() {
     // this child's draw list so floating windows and popups paint over it, with
     // an expanded clip rect since it straddles the child's left edge. The dark
     // backing keeps it readable on any theme.
-    if (menuPillVisible) {
+    if (menuPillVisible)
+    {
         float halfW = style::dp(grabbingMenu ? 6.0f : 4.5f);
         float halfH = style::dp(16.0f) + (grabbingMenu ? style::dp(4.0f) : 0.0f);
         float pad = style::dp(2.0f);
@@ -865,28 +911,32 @@ void MainWindow::draw() {
 
     ImGui::EndChild();
 
-    if (!lockWaterfallControls) {
+    if (!lockWaterfallControls)
+    {
         // Handle arrow keys
-        if (vfo != NULL && (gui::waterfall.m_mouseInFFT || gui::waterfall.m_mouseInWaterfall)) {
+        if (vfo != NULL && (gui::waterfall.m_mouseInFFT || gui::waterfall.m_mouseInWaterfall))
+        {
             bool freqChanged = false;
-            if (ImGui::IsKeyPressed(ImGuiKey_LeftArrow) && !gui::freqSelect.digitHovered) {
+            if (ImGui::IsKeyPressed(ImGuiKey_LeftArrow) && !gui::freqSelect.digitHovered)
+            {
                 double nfreq = gui::waterfall.getCenterFrequency() + vfo->m_generalOffset - vfo->m_snapInterval;
                 nfreq = roundl(nfreq / vfo->m_snapInterval) * vfo->m_snapInterval;
                 tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, nfreq);
                 freqChanged = true;
             }
-            if (ImGui::IsKeyPressed(ImGuiKey_RightArrow) && !gui::freqSelect.digitHovered) {
+            if (ImGui::IsKeyPressed(ImGuiKey_RightArrow) && !gui::freqSelect.digitHovered)
+            {
                 double nfreq = gui::waterfall.getCenterFrequency() + vfo->m_generalOffset + vfo->m_snapInterval;
                 nfreq = roundl(nfreq / vfo->m_snapInterval) * vfo->m_snapInterval;
                 tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, nfreq);
                 freqChanged = true;
             }
-            if (freqChanged) {
+            if (freqChanged)
+            {
                 auto configAccess = core::configManager.edit();
                 configAccess["frequency"] = gui::waterfall.getCenterFrequency();
-                if (vfo != NULL) {
+                if (vfo != NULL)
                     configAccess.section("vfoOffsets")[gui::waterfall.m_selectedVFO] = vfo->m_generalOffset;
-                }
             }
         }
 
@@ -895,42 +945,42 @@ void MainWindow::draw() {
         // accumulate and only tune on whole steps. The accumulator is
         // cleared outside the FFT/waterfall area (and while Ctrl-zooming)
         // so partial scrolls elsewhere can't discharge into a tune later.
-        if (!ImGui::GetIO().KeyCtrl && (gui::waterfall.m_mouseInFFT || gui::waterfall.m_mouseInWaterfall)) {
+        if (!ImGui::GetIO().KeyCtrl && (gui::waterfall.m_mouseInFFT || gui::waterfall.m_mouseInWaterfall))
+        {
             wheelAccum += ImGui::GetIO().MouseWheel;
-        }
-        else {
+        }else{
             wheelAccum = 0.0f;
         }
         int wheel = (int)wheelAccum;
-        if (wheel != 0) {
+        if (wheel != 0)
+        {
             wheelAccum -= (float)wheel;
             double nfreq;
-            if (vfo != NULL) {
+            if (vfo != NULL)
+            {
                 // Select factor depending on modifier keys
                 double interval;
-                if (ImGui::IsKeyDown(ImGuiKey_LeftShift)) {
+                if (ImGui::IsKeyDown(ImGuiKey_LeftShift))
+                {
                     interval = vfo->m_snapInterval * 10.0;
-                }
-                else if (ImGui::IsKeyDown(ImGuiKey_LeftAlt)) {
+                }else if (ImGui::IsKeyDown(ImGuiKey_LeftAlt))
+                {
                     interval = vfo->m_snapInterval * 0.1;
-                }
-                else {
+                }else{
                     interval = vfo->m_snapInterval;
                 }
 
                 nfreq = gui::waterfall.getCenterFrequency() + vfo->m_generalOffset + (interval * wheel);
                 nfreq = roundl(nfreq / interval) * interval;
-            }
-            else {
+            }else{
                 nfreq = gui::waterfall.getCenterFrequency() - (gui::waterfall.getViewBandwidth() * wheel / 20.0);
             }
             tuner::tune(tuningMode, gui::waterfall.m_selectedVFO, nfreq);
             gui::freqSelect.setFrequency(nfreq);
             auto configAccess = core::configManager.edit();
             configAccess["frequency"] = gui::waterfall.getCenterFrequency();
-            if (vfo != NULL) {
+            if (vfo != NULL)
                 configAccess.section("vfoOffsets")[gui::waterfall.m_selectedVFO] = vfo->m_generalOffset;
-            }
         }
     }
 
@@ -959,20 +1009,22 @@ void MainWindow::draw() {
     // Exit confirmation, requested by holding the hamburger menu button.
     // Back with the dialog open lands in handleBackPress()'s popup branch
     // and cancels it.
-    if (exitDialogRequest) {
+    if (exitDialogRequest)
+    {
         exitDialogRequest = false;
         ImGui::OpenPopup("Exit##sdrpp_exit_confirm");
     }
     ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-    if (ImGui::BeginPopupModal("Exit##sdrpp_exit_confirm", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+    if (ImGui::BeginPopupModal("Exit##sdrpp_exit_confirm", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
         ImGui::TextUnformatted(playing ? "Stop the radio and exit the application?" : "Exit the application?");
         ImGui::Spacing();
         ImVec2 exitBtnSize(style::dp(120.0f), 0.0f);
-        if (ImGui::Button("Cancel##sdrpp_exit_cancel", exitBtnSize)) {
+        if (ImGui::Button("Cancel##sdrpp_exit_cancel", exitBtnSize))
             ImGui::CloseCurrentPopup();
-        }
         ImGui::SameLine();
-        if (ImGui::Button("Exit##sdrpp_exit_ok", exitBtnSize)) {
+        if (ImGui::Button("Exit##sdrpp_exit_ok", exitBtnSize))
+        {
             setPlayState(false);
             backend::finishAppAndRemoveTask();
             ImGui::CloseCurrentPopup();
@@ -983,19 +1035,18 @@ void MainWindow::draw() {
 
     ImGui::End();
 
-    if (showCredits) {
+    if (showCredits)
         showCredits = credits::show();
-    }
 
 #ifdef SDRPP_ENABLE_DEBUG_MENU
-    if (demoWindow) {
+    if (demoWindow)
         ImGui::ShowDemoWindow();
-    }
 #endif
 }
 
 // Right-hand strip: Zoom / Range / Ref sliders and the auto-range button.
-void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& textCol) {
+void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& textCol)
+{
     // The strip must fit without scrolling: a scrollbar here is as wide as the
     // sliders themselves and would eat a third of this already narrow column
     // (and offset the centering, which is computed from the full window width).
@@ -1040,7 +1091,8 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
     // ideal-height layout still fits with them. The same cost drives that
     // choice, the Ref decision and the slider height, so the computed layout
     // matches what actually gets drawn.
-    auto fixedCost = [&](int sliders, bool separators) {
+    auto fixedCost = [&](int sliders, bool separators)
+    {
         const int textLines = sliders * (separators ? 2 : 1); // labels [+ a blank line after each slider]
         const int items     = textLines + sliders + 1;        // + the sliders themselves + the button
         return textLines * textH + btnSide + (items - 1) * spacingY;
@@ -1081,7 +1133,8 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
     // Applies to the last submitted item: keeps wheel events over the slider
     // from scrolling the child window under it.
     ImGui::SetItemUsingMouseWheel();
-    if (zoomSliderChanged) {
+    if (zoomSliderChanged)
+    {
         double factor = (double)bw * (double)bw;
 
         // Map 0.0 -> 1.0 to 1000.0 -> bandwidth
@@ -1090,12 +1143,12 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
         double finalBw = std::min<double>(1000.0 + (factor * delta), wfBw);
 
         gui::waterfall.setViewBandwidth(finalBw);
-        if (vfo != NULL) {
+        if (vfo != NULL)
             gui::waterfall.setViewOffset(vfo->m_centerOffset); // center vfo on screen
-        }
     }
 
-    if (sliderSeparators) ImGui::NewLine();
+    if (sliderSeparators)
+        ImGui::NewLine();
 
     // Range = displayed dynamic range / contrast (fftMax - fftMin). Always
     // live: the user owns contrast even while sticky auto-range tracks Ref.
@@ -1106,20 +1159,23 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
     centerFor(sliderW);
     bool rangeSliderChanged = ImGui::VSliderFloat("##_8_", wfSliderSize, &wfRange, WaterfallAutoRange::RANGE_MIN, WaterfallAutoRange::RANGE_MAX, "");
     ImGui::SetItemUsingMouseWheel();
-    if (rangeSliderChanged) {
+    if (rangeSliderChanged)
+    {
         fftMax = fftMin + wfRange;
         auto configAccess = core::configManager.edit();
         configAccess["min"] = fftMin;
         configAccess["max"] = fftMax;
     }
 
-    if (sliderSeparators) ImGui::NewLine();
+    if (sliderSeparators)
+        ImGui::NewLine();
 
     // Ref = noise-floor level (fftMin, bottom of the window). Sticky auto-range
     // drives it, so grey it out while sticky (and see showRef above: on a short
     // strip it is dropped rather than greyed). Dragging it slides the whole
     // window, preserving Range.
-    if (showRef) {
+    if (showRef)
+    {
         float wfRef = fftMin;
         ImGui::BeginDisabled(autoRange.sticky());
         centerFor(ImGui::CalcTextSize("Ref").x);
@@ -1127,7 +1183,8 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
         centerFor(sliderW);
         bool refSliderChanged = ImGui::VSliderFloat("##_9_", wfSliderSize, &wfRef, WaterfallAutoRange::REF_MIN, WaterfallAutoRange::REF_MAX, "");
         ImGui::SetItemUsingMouseWheel();
-        if (refSliderChanged) {
+        if (refSliderChanged)
+        {
             float range = fftMax - fftMin; // keep the user's Range, slide the window
             fftMin = wfRef;
             fftMax = wfRef + range;
@@ -1148,16 +1205,18 @@ void MainWindow::drawWaterfallControls(ImGui::WaterfallVFO* vfo, const ImVec4& t
     ImGui::EndChild();
 }
 
-void MainWindow::setPlayState(bool _playing) {
-    if (_playing == playing) { return; }
-    if (_playing) {
+void MainWindow::setPlayState(bool _playing)
+{
+    if (_playing == playing)
+        return;
+    if (_playing)
+    {
         sigpath::iqFrontEnd.flushInputBuffer();
         sigpath::sourceManager.start();
         sigpath::sourceManager.tune(gui::waterfall.getCenterFrequency());
         playing = true;
         onPlayStateChange.emit(true);
-    }
-    else {
+    }else{
         playing = false;
         onPlayStateChange.emit(false);
         sigpath::sourceManager.stop();
@@ -1165,19 +1224,23 @@ void MainWindow::setPlayState(bool _playing) {
     }
 }
 
-void MainWindow::setViewBandwidthSlider(float bandwidth) {
+void MainWindow::setViewBandwidthSlider(float bandwidth)
+{
     bw = bandwidth;
 }
 
-bool MainWindow::sdrIsRunning() {
+bool MainWindow::sdrIsRunning()
+{
     return playing;
 }
 
-bool MainWindow::isPlaying() {
+bool MainWindow::isPlaying()
+{
     return playing;
 }
 
-bool MainWindow::handleBackPress() {
+bool MainWindow::handleBackPress()
+{
     // Runs on the app thread between frames (same thread as the render loop),
     // so mutating popup state here is safe.
     ImGuiContext* g = ImGui::GetCurrentContext();
@@ -1186,7 +1249,8 @@ bool MainWindow::handleBackPress() {
     // credits overlay is one of these (BeginPopupModal), so it is dismissed
     // here; credits::show() notices its popup is gone and clears showCredits
     // on the next frame.
-    if (g && g->OpenPopupStack.Size > 0) {
+    if (g && g->OpenPopupStack.Size > 0)
+    {
         ImGui::ClosePopupToLevel(g->OpenPopupStack.Size - 1, true);
         return true;
     }
@@ -1195,7 +1259,8 @@ bool MainWindow::handleBackPress() {
     // the frame that would have cleared the flag above. show() never runs
     // again in that case, so its lifecycle state has to be dropped here or the
     // next presentation opens nothing.
-    if (showCredits) {
+    if (showCredits)
+    {
         showCredits = false;
         credits::reset();
         return true;
@@ -1207,6 +1272,7 @@ bool MainWindow::handleBackPress() {
     return false;
 }
 
-void MainWindow::setFirstMenuRender() {
+void MainWindow::setFirstMenuRender()
+{
     firstMenuRender = true;
 }

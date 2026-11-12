@@ -5,19 +5,7 @@
 #include <utils/flog.h>
 #include <core.h>
 
-#include <algorithm>
-#include <atomic>
-#include <cerrno>
-#include <chrono>
-#include <condition_variable>
-#include <exception>
 #include <filesystem>
-#include <fstream>
-#include <functional>
-#include <memory>
-#include <mutex>
-#include <system_error>
-#include <thread>
 #include <vector>
 
 #ifdef _WIN32
@@ -26,7 +14,8 @@
 #include <unistd.h>
 #endif
 
-namespace {
+namespace
+{
     std::atomic<uint64_t> g_temporaryFileSequence{ 0 };
 
     enum class ReadResult
@@ -165,159 +154,77 @@ public:
 
     void enable(ConfigManagerImpl* manager)
     {
-        std::lock_guard<std::mutex> lifecycleGuard(m_lifecycleMtx);
-        {
-            std::lock_guard<std::mutex> managerGuard(manager->m_mtx);
-            if (manager->m_lifecycleState != ConfigManagerImpl::LifecycleState::Open)
-                throw std::logic_error("ConfigManager::enableAutoSave called after shutdown began");
-            if (manager->m_autoSaveEnabled)
-                return;
-        }
-
-        {
-            std::lock_guard<std::mutex> guard(m_mtx);
-            m_managers.push_back(std::make_shared<Registration>(manager));
-            m_pending = true;
-            if (!m_worker.joinable())
-            {
-                m_stopping = false;
-                m_worker = std::thread(&ConfigSaver::run, this);
-            }
-        }
-        m_cond.notify_one();
+        std::lock_guard<std::mutex> guard(m_mtx);
+        if(manager->m_lifecycleState != ConfigManagerImpl::LifecycleState::Open)
+            throw std::logic_error("ConfigManager::enableAutoSave called after shutdown began");
+        if(manager->m_auto_save)
+             return;
+        m_managers.push_back(manager);
+        manager->m_auto_save = true;
     }
 
     void disable(ConfigManagerImpl* manager)
     {
-        std::lock_guard<std::mutex> lifecycleGuard(m_lifecycleMtx);
-        if (!manager->m_autoSaveEnabled)
+        std::lock_guard<std::mutex> guard(m_mtx);
+        if (!manager->m_auto_save)
             return;
-
-        bool join = false;
-        std::shared_ptr<Registration> registration;
-        {
-            std::lock_guard<std::mutex> guard(m_mtx);
-            const auto it = std::find_if( m_managers.begin(), m_managers.end(), [manager](const std::shared_ptr<Registration>& entry) {
-                    return entry->m_manager == manager;
-                });
-            if (it != m_managers.end())
-            {
-                registration = *it;
-                m_managers.erase(it);
-            }
-            if (m_managers.empty() && m_worker.joinable())
-            {
-                m_stopping = true;
-                join = true;
-            }
-        }
-        m_cond.notify_one();
-
-        // A scan keeps this mutex for exactly one save. Waiting here guarantees
-        // the worker has stopped using the manager before its destructor returns,
-        // without keeping the registry mutex across filesystem I/O.
-        if (registration)
-        {
-            std::lock_guard<std::mutex> useGuard(registration->m_useMtx);
-            registration->m_manager = NULL;
-        }
-        if (join)
-            m_worker.join();
+        const auto it = std::find(m_managers.begin(), m_managers.end(), manager);
+        if(it != m_managers.end())
+            m_managers.erase(it);
+        manager->m_auto_save = false;
     }
 
     void notifyDirty(ConfigManagerImpl* manager)
     {
-        if (!manager->m_autoSaveEnabled)
+        if (!manager->m_auto_save)
             return;
-        {
-            std::lock_guard<std::mutex> guard(m_mtx);
-            m_pending = true;
-        }
-        m_cond.notify_one();
+        std::lock_guard<std::mutex> guard(m_mtx);
+        m_pending = true;
     }
 
     bool flushAll()
     {
-        std::vector<std::shared_ptr<Registration>> scan;
+        std::lock_guard<std::mutex> m_guard(m_mtx);
+        if(!m_pending)
+            return true;
+
+        bool allSaved = true;
+        for(const auto& manager : m_managers)
         {
-            std::lock_guard<std::mutex> m_guard(m_mtx);
-            scan = m_managers;
+            if(!manager)
+                continue;
+            if(!manager->m_dirty)
+                continue;
+            if(!manager->m_sec_mtx.try_lock())
+            {
+                allSaved = false;
+                continue;
+            }
+            if(manager->m_section != 0 || !manager->saveImpl(true, true))
+                allSaved = false;
+            manager->m_sec_mtx.unlock();
         }
-        return saveManagers(scan);
+        if(allSaved)
+            m_pending = false;
+        return allSaved;
     }
 
     ~ConfigSaver()
     {
-        std::lock_guard<std::mutex> lifecycleGuard(m_lifecycleMtx);
+        std::lock_guard<std::mutex> guard(m_mtx);
+        for(const auto& manager : m_managers)
         {
-            std::lock_guard<std::mutex> guard(m_mtx);
-            for (const auto& registration : m_managers)
-            {
-                if (registration->m_manager)
-                    registration->m_manager->m_autoSaveEnabled = false;
-            }
-            m_stopping = true;
+            if(manager)
+                manager->m_auto_save = false;
         }
-        m_cond.notify_one();
-        if (m_worker.joinable())
-            m_worker.join();
-        m_managers.clear();
     }
 
 private:
-    struct Registration
-    {
-        explicit Registration(ConfigManagerImpl* manager) : m_manager(manager) {}
-
-        std::mutex m_useMtx;
-        ConfigManagerImpl* m_manager;
-    };
-
-    static bool saveManagers(const std::vector<std::shared_ptr<Registration>>& scan)
-    {
-        bool allSaved = true;
-        for (const auto& registration : scan)
-        {
-            std::lock_guard<std::mutex> useGuard(registration->m_useMtx);
-            if (registration->m_manager && !registration->m_manager->saveIfDirty())
-                allSaved = false;
-        }
-        return allSaved;
-    }
-
-    void run()
-    {
-        std::unique_lock<std::mutex> guard(m_mtx);
-        while (!m_stopping)
-        {
-            m_cond.wait(guard, [this]() { return m_stopping || m_pending; });
-            if (m_stopping)
-                break;
-
-            // Coalesce a burst of UI changes into one save. Notifications during
-            // this interval wake the condition variable but do not extend it.
-            if (m_cond.wait_for(guard, std::chrono::seconds(1), [this]() { return m_stopping; }))
-                break;
-
-            // Everything notified before this snapshot is covered by this scan.
-            // A mutation during the unlocked scan sets pending again.
-            m_pending = false;
-            const auto scan = m_managers;
-            guard.unlock();
-            const bool allSaved = saveManagers(scan);
-            guard.lock();
-            m_pending |= !allSaved;
-        }
-    }
-
-    std::mutex m_lifecycleMtx;
     std::mutex m_mtx;
-    std::condition_variable m_cond;
-    std::vector<std::shared_ptr<Registration>> m_managers;
-    std::thread m_worker;
-    bool m_stopping = false;
+    std::vector<ConfigManagerImpl*> m_managers;
     bool m_pending = false;
 };
+
 
 
 ConfigManagerImpl::ConfigManagerImpl()
@@ -325,16 +232,13 @@ ConfigManagerImpl::ConfigManagerImpl()
     m_json = new tdJSON;
 }
 
-
 ConfigManagerImpl::~ConfigManagerImpl()
 {
-    // Destruction cannot report a nesting error, but it must still unregister
-    // this manager from the process-wide saver before its storage disappears.
-    disableAutoSaveImpl();
+    disableAutoSave();
     bool unsaved = false;
     std::string unsavedPath;
     {
-        std::lock_guard<std::mutex> guard(m_mtx);
+        std::lock_guard<std::recursive_mutex> guard(m_sec_mtx);
         unsaved = m_dirty;
         if(unsaved)
             unsavedPath = m_path;
@@ -346,8 +250,6 @@ ConfigManagerImpl::~ConfigManagerImpl()
 
 void ConfigManagerImpl::setFile(const char* fileName, bool full)
 {
-    if (anyAccessHeldByCurrentThread())
-        throw std::logic_error("ConfigManager::setPath called while a config access is active");
     std::string file;
     if(full)
     {
@@ -356,62 +258,52 @@ void ConfigManagerImpl::setFile(const char* fileName, bool full)
         file = core::args["config"].s() + "/" + fileName;
     }
     const std::string newPath = std::filesystem::absolute(std::move(file)).lexically_normal().string();
-    {
-        std::lock_guard<std::mutex> persistenceGuard(m_persistenceMtx);
-        std::lock_guard<std::mutex> guard(m_mtx);
-        if (m_lifecycleState != LifecycleState::Open)
-            throw std::logic_error("ConfigManager::setPath called after shutdown began");
-        m_path = newPath;
-    }
-    if (m_dirty && m_autoSaveEnabled)
+
+    std::lock_guard<std::recursive_mutex> persistenceGuard(m_sec_mtx);
+    if(m_lifecycleState != LifecycleState::Open)
+        throw std::logic_error("ConfigManager::setPath called after shutdown began");
+    m_path = newPath;
+    if (m_dirty && m_auto_save)
         ConfigSaver::instance().notifyDirty(this);
 }
 
 bool ConfigManagerImpl::load()
 {
-    if (anyAccessHeldByCurrentThread())
-        throw std::logic_error("ConfigManager::load called while a config access is active");
+    std::lock_guard<std::recursive_mutex> persistenceGuard(m_sec_mtx);
+    if(m_section)
+        throw std::logic_error("ConfigManager::load already being edited");
 
-    std::lock_guard<std::mutex> persistenceGuard(m_persistenceMtx);
-    std::string loadPath;
-    {
-        std::lock_guard<std::mutex> guard(m_mtx);
-        if (m_lifecycleState != LifecycleState::Open)
-            throw std::logic_error("ConfigManager::load called after shutdown began");
-        loadPath = m_path;
-    }
+    if (m_lifecycleState != LifecycleState::Open)
+        throw std::logic_error("ConfigManager::load called after shutdown began");
 
-    if (loadPath.empty())
+    if (m_path.empty())
     {
         flog::error("Config manager tried to load file with no path specified");
         return false;
     }
     bool load_json = false;
     {
-        std::lock_guard<std::mutex> m_guard(m_mtx);
-        const ReadResult result = readJsonFile(loadPath, *m_json);
+        const ReadResult result = readJsonFile(m_path, *m_json);
         if (result == ReadResult::OK)
         {
             load_json = true;
         }else{
             if (result == ReadResult::MISSING)
             {
-                flog::warn("Config file '{}' does not exist, creating it", loadPath);
+                flog::warn("Config file '{}' does not exist, creating it", m_path);
             }else{
-                flog::error("Config file '{}' is not a valid JSON file, resetting it", loadPath);
+                flog::error("Config file '{}' is not a valid JSON file, resetting it", m_path);
             }
         }
         m_dirty =!load_json;
     }
-    if (m_dirty && m_autoSaveEnabled)
+    if (m_dirty && m_auto_save)
         ConfigSaver::instance().notifyDirty(this);
     return load_json;
 }
 
 bool ConfigManagerImpl::save()
 {
-    if (anyAccessHeldByCurrentThread())
-        throw std::logic_error("ConfigManager::save called while a config access is active");
     return saveImpl(false);
 }
 
@@ -422,108 +314,69 @@ bool ConfigManagerImpl::flushAll()
 
 bool ConfigManagerImpl::saveImpl(bool onlyIfDirty, bool allowClosing, SaveRetryMode retryMode)
 {
-    std::lock_guard<std::mutex> persistenceGuard(m_persistenceMtx);
+    std::lock_guard<std::recursive_mutex> persistenceGuard(m_sec_mtx);
+    if(m_lifecycleState != LifecycleState::Open)
     {
-        std::lock_guard<std::mutex> guard(m_mtx);
-        if (m_lifecycleState != LifecycleState::Open)
-        {
-            if (!allowClosing)
-                throw std::logic_error("ConfigManager::save called after shutdown began");
-            if (m_lifecycleState == LifecycleState::Closed)
-                return !m_dirty;
-        }
-        if (onlyIfDirty && !m_dirty)
-            return true;
+        if(!allowClosing)
+            throw std::logic_error("ConfigManager::save called after shutdown began");
+        if(m_lifecycleState == LifecycleState::Closed)
+            return !m_dirty;
     }
-
-    std::lock_guard<std::mutex> guard(m_mtx);
+    if(onlyIfDirty && !m_dirty)
+        return true;
     if(!writeJsonAtomically(m_path, *m_json, retryMode == SaveRetryMode::TransientWindowsLocks))
         return false;
     m_dirty = false;
     return true;
 }
 
-bool ConfigManagerImpl::saveIfDirty()
-{
-    return saveImpl(true, true);
-}
 
-void ConfigManagerImpl::enableAutoSave()
+void ConfigManagerImpl::autoSave(bool enable)
 {
-     ConfigSaver::instance().enable(this);
+    std::lock_guard<std::recursive_mutex> guard(m_sec_mtx);
+    if(enable)
+    {
+        ConfigSaver::instance().enable(this);
+        return;
+    }
+    if(m_lifecycleState != LifecycleState::Open)
+        throw std::logic_error("ConfigManager::disableAutoSave called after shutdown began");
+    disableAutoSave();
 }
 
 void ConfigManagerImpl::disableAutoSave()
 {
-    if (anyAccessHeldByCurrentThread())
-        throw std::logic_error("ConfigManager::disableAutoSave called while a config access is active");
-    {
-        std::lock_guard<std::mutex> guard(m_mtx);
-        if (m_lifecycleState != LifecycleState::Open)
-            throw std::logic_error("ConfigManager::disableAutoSave called after shutdown began");
-    }
-    disableAutoSaveImpl();
-}
-
-void ConfigManagerImpl::disableAutoSaveImpl()
-{
-    if (!m_autoSaveEnabled)
+    if (!m_auto_save)
         return;
     ConfigSaver::instance().disable(this);
 }
 
 bool ConfigManagerImpl::shutdown()
 {
-    if (anyAccessHeldByCurrentThread())
-        throw std::logic_error("ConfigManager::shutdown called while a config access is active");
+    std::lock_guard<std::recursive_mutex> persistenceGuard(m_sec_mtx);
+    if (m_lifecycleState == LifecycleState::Closed)
+        return true;
+    m_lifecycleState = LifecycleState::Closing;
 
-    {
-        std::lock_guard<std::mutex> guard(m_mtx);
-        if (m_lifecycleState == LifecycleState::Closed)
-            return true;
-        m_lifecycleState = LifecycleState::Closing;
-    }
-
-    // unregisterAndWait: after this returns the shared saver no longer uses us.
-    disableAutoSaveImpl();
-
-    // New accesses are rejected in Closing, so one final dirty-only commit is a
-    // stable local snapshot. The cross-process lock still merges other SDRIAK
-    // instances that commit before us.
+    disableAutoSave();
     if (!saveImpl(true, true, SaveRetryMode::TransientWindowsLocks))
     {
-        std::string failedPath;
-        {
-            std::lock_guard<std::mutex> guard(m_mtx);
-            failedPath = m_path;
-        }
-        flog::error("Could not save config '{}' during shutdown", failedPath);
+        flog::error("Could not save config '{}' during shutdown", m_path);
         return false;
     }
-
-    bool remainedDirty = false;
-    std::string dirtyPath;
+    if (m_dirty)
     {
-        std::lock_guard<std::mutex> guard(m_mtx);
-        if (m_dirty)
-        {
-            remainedDirty = true;
-            dirtyPath = m_path;
-        }else{
-            m_lifecycleState = LifecycleState::Closed;
-        }
-    }
-    if (remainedDirty)
-    {
-        flog::error("Config '{}' remained dirty after its shutdown save", dirtyPath);
+        flog::error("Config '{}' remained dirty after its shutdown save", m_path);
         return false;
+    }else{
+        m_lifecycleState = LifecycleState::Closed;
     }
     return true;
 }
 
-bool ConfigManagerImpl::Clear()
+bool ConfigManagerImpl::clear()
 {
-    std::lock_guard<std::mutex> persistenceGuard(m_persistenceMtx);
+    std::lock_guard<std::recursive_mutex> persistenceGuard(m_sec_mtx);
     if(m_section)
         return false;
     m_json->Init("{}", 2);
@@ -533,23 +386,21 @@ bool ConfigManagerImpl::Clear()
 
 void ConfigManagerImpl::add_section() noexcept
 {
-    std::lock_guard<std::mutex> persistenceGuard(m_persistenceMtx);
     m_section++;
 }
 
-
-void ConfigManagerImpl::dec_section() noexcept
+void ConfigManagerImpl::dec_section(bool isRoot) noexcept
 {
-    std::lock_guard<std::mutex> persistenceGuard(m_persistenceMtx);
+    if(isRoot)
+        m_sec_mtx.unlock();
     m_section--;
     if(!m_section)
     {
         if(m_modifed)
             m_dirty = true;
         m_modifed = false;
-//        m_mtx.unlock();
     }
-    if(m_dirty && m_autoSaveEnabled)
+    if(m_dirty && m_auto_save)
     {
         try {
             ConfigSaver::instance().notifyDirty(this);
@@ -562,19 +413,8 @@ void ConfigManagerImpl::set_modifed()
     m_modifed = true;
 }
 
-bool ConfigManagerImpl::anyAccessHeldByCurrentThread() const noexcept {
-    return false;// g_activeConfigAccess != NULL;
-}
-
-
-
-
-
-
-
 
 ConfigManager::ReadFields::ReadFields(ConfigManagerImpl& mng, tdJSON_NODE& node) : m_mng(mng), m_node(node){};
-
 
 const std::string ConfigManager::ReadFields::GetName() const
 {
@@ -593,8 +433,8 @@ bool ConfigManager::ReadFields::isSection() const { return m_node.isObject() || 
 ConfigManager::ReadSection ConfigManager::ReadFields::toSection() const
 {
     if(m_node.isObject() || m_node.isArray())
-        return ConfigManager::ReadSection(m_mng, m_node);
-    return ConfigManager::ReadSection(m_mng, m_node[7]);//to NULL;
+        return ConfigManager::ReadSection(m_mng, m_node, false);
+    return ConfigManager::ReadSection(m_mng, m_node[7], false);//to NULL;
 }
 bool ConfigManager::ReadFields::tryGet(std::string& out) const
 {
@@ -640,14 +480,14 @@ const ConfigManager::ReadFields ConfigManager::ReadFields::operator[](const std:
 
 const ConfigManager::ReadSection ConfigManager::ReadSection::section(std::string_view name) const
 {
-    return ReadSection(m_mng, m_node[name.data()]);
+    return ReadSection(m_mng, m_node[name.data()], false);
 }
 
 const ConfigManager::ReadSection ConfigManager::ReadSection::section(std::string_view name1, std::string_view name2) const
 {
     tdJSON_NODE& node1 = m_node[name1.data()];
     tdJSON_NODE& node2 = node1[name2.data()];
-    return ReadSection(m_mng, node2);
+    return ReadSection(m_mng, node2, false);
 }
 
 const ConfigManager::ReadFields ConfigManager::ReadSection::operator[](size_t index) const
@@ -788,10 +628,10 @@ const ConfigManager::ReadFields_proxy ConfigManager::ReadSection::peek() const
 }
 ConfigManager::ReadSection::~ReadSection()
 {
-    m_mng.dec_section();
+    m_mng.dec_section(m_isRoot);
 }
 
-ConfigManager::ReadSection::ReadSection(ConfigManagerImpl& mng, tdJSON_NODE& node) : m_mng(mng), m_node(node)
+ConfigManager::ReadSection::ReadSection(ConfigManagerImpl& mng, tdJSON_NODE& node, bool isRoot) : m_mng(mng), m_node(node), m_isRoot(isRoot)
 {
     m_mng.add_section();
 }
@@ -916,9 +756,7 @@ void ConfigManager::EditArray::ensure(std::string_view key, const char* def)
 
 
 
-
-
-ConfigManager::EditSection::EditSection(ConfigManagerImpl& mng, tdJSON_NODE& node) : ConfigManager::ReadSection(mng, node) {}
+ConfigManager::EditSection::EditSection(ConfigManagerImpl& mng, tdJSON_NODE& node, bool isRoot) : ConfigManager::ReadSection(mng, node, isRoot) {}
 
 bool ConfigManager::EditSection::ReName(std::string_view name, std::string_view newName)
 {
@@ -968,7 +806,7 @@ ConfigManager::EditSection ConfigManager::EditSection::section(std::string_view 
     tdJSON_NODE* node = &m_node[name.data()];
     if(!node->isObject() && !node->isArray())
         node = &m_mng.getUpdate().InsertObject(m_node, name.data(), (uint8_t)name.size());
-    return EditSection(m_mng, *node);
+    return EditSection(m_mng, *node, false);
 }
 
 ConfigManager::EditSection ConfigManager::EditSection::section(std::string_view name1, std::string_view name2)
@@ -979,7 +817,7 @@ ConfigManager::EditSection ConfigManager::EditSection::section(std::string_view 
     tdJSON_NODE* node2 = &((*node1)[name2.data()]);
     if(!node2->isObject())
         node2 = &m_mng.getUpdate().InsertObject(*node1, name2.data(), (uint8_t)name2.size());
-    return EditSection(m_mng, *node2);
+    return EditSection(m_mng, *node2, false);
 }
 
 ConfigManager::EditSection ConfigManager::EditSection::array(std::string_view name)
@@ -987,7 +825,7 @@ ConfigManager::EditSection ConfigManager::EditSection::array(std::string_view na
     tdJSON_NODE* node = &m_node[name.data()];
     if(!node->isArray())
         node = &m_mng.getUpdate().InsertArray(m_node, name.data(), (uint8_t)name.size());
-    return EditSection(m_mng, *node);
+    return EditSection(m_mng, *node, false);
 }
 
 ConfigManager::EditArray ConfigManager::EditSection::operator[](size_t arr_id)
@@ -1004,20 +842,16 @@ ConfigManager::EditArray ConfigManager::EditSection::operator[](size_t arr_id)
 ConfigManager::EditFields ConfigManager::EditSection::operator[](const std::string_view& key) { return ConfigManager::EditFields(m_mng.getUpdate(), m_node, key); }
 
 
-
-
-
-
 ConfigManager::ReadSection ConfigManagerImpl::read()
 {
-//    m_mtx.lock();//unlock in release
-    return ConfigManager::ReadSection(*this, m_json->GetRoot());
+    m_sec_mtx.lock();//unlock in release
+    return ConfigManager::ReadSection(*this, m_json->GetRoot(), true);
 }
 
 ConfigManager::EditSection ConfigManagerImpl::edit()
 {
-//    m_mtx.lock();//unlock in release
-    return ConfigManager::EditSection(*this, m_json->GetRoot());
+    m_sec_mtx.lock();//unlock in release
+    return ConfigManager::EditSection(*this, m_json->GetRoot(), true);
 }
 
 

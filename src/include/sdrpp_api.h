@@ -37,8 +37,7 @@ public:
     virtual void setFile(const char* fileName, bool full = false) = 0;
     virtual bool load() = 0;
     virtual bool save() = 0;
-    virtual void enableAutoSave() = 0;
-    virtual void disableAutoSave() = 0;
+    virtual void autoSave(bool enable) = 0;
     virtual ConfigManager::ReadSection read() = 0;
     virtual ConfigManager::EditSection edit() = 0;
 
@@ -46,7 +45,7 @@ public:
     // the final dirty state. A failed shutdown may be retried, but the manager
     // remains frozen in between so only an external condition can unblock it.
     virtual bool shutdown() = 0;
-    virtual bool Clear() = 0;
+    virtual bool clear() = 0;
 };
 
 
@@ -136,7 +135,8 @@ class ConfigManager::ReadSection
 
     tdJSON_NODE& m_node;
     ConfigManagerImpl& m_mng;
-    ReadSection(ConfigManagerImpl& mng, tdJSON_NODE& node);
+    bool m_isRoot;
+    ReadSection(ConfigManagerImpl& mng, tdJSON_NODE& node, bool isRoot);
 public:
 
     virtual bool tryGet(const char* key, std::string& out) const;
@@ -219,7 +219,7 @@ class ConfigManager::EditSection : public ConfigManager::ReadSection
 {
     friend class ConfigManagerImpl;
 
-    EditSection(ConfigManagerImpl& mng, tdJSON_NODE& node);
+    EditSection(ConfigManagerImpl& mng, tdJSON_NODE& node, bool isRoot);
 public:
     virtual void ensure(std::string_view key, bool def);
     virtual void ensure(std::string_view key, double def);

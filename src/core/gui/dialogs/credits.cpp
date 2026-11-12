@@ -7,6 +7,15 @@
 #include <credits.h>
 #include <version.h>
 
+
+#if defined(_WIN32)
+#include <windows.h>
+#include <shellapi.h>
+#elif defined(__APPLE__) || defined(__linux__)
+#include <cstdlib>
+#endif
+
+
 namespace credits {
     ImFont* bigFont;
     ImVec2 imageSize(128.0f, 128.0f);
@@ -32,6 +41,32 @@ namespace credits {
         dismissArmed = false;
         popupOpened = false;
     }
+
+    void controlURL(const char* name, const char* url)
+    {
+        ImGui::TextColored(ImVec4(0.26f, 0.59f, 0.98f, 1.0f), name);
+        if(ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImVec2 min = ImGui::GetItemRectMin();
+            ImVec2 max = ImGui::GetItemRectMax();
+            ImGui::GetWindowDrawList()->AddLine(ImVec2(min.x, max.y), max, IM_COL32(66, 150, 250, 255));
+        }
+        if(ImGui::IsItemClicked())
+        {
+#if defined(_WIN32)
+            ShellExecuteA(nullptr, "open", url, nullptr, nullptr, SW_SHOWNORMAL);
+#elif defined(__APPLE__)
+            std::string cmd = "open \"" + url + "\" &";
+            std::system(cmd.c_str());
+#elif defined(__linux__)
+            std::string cmd = "xdg-open \"" + url + "\" &";
+            std::system(cmd.c_str());
+#endif
+        }
+    }
+
+
 
     bool show() {
         bool open = true;
@@ -69,40 +104,45 @@ namespace credits {
         ImGui::Spacing();
         ImGui::Spacing();
 
-        ImGui::TextUnformatted("Maintained by Vojtech Bubnik (OK1IAK), original software by Alexandre Rouma (ON5RYZ) with the help of\n\n"
+        ImGui::TextUnformatted("Maintained by Vojtech Bubnik (OK1IAK), original software by Alexandre Rouma (ON5RYZ) with the help of\n\n");
 
-                               "main fork:         https://github.com/bubnikv/sdriak\n"
-                               "original software: https://github.com/AlexandreRouma/SDRPlusPlus\n"
-                               "others:\n"
-                               "https://github.com/kholia/SDRPlusPlusBrown\n"
-                               "https://github.com/LunaeMons/SDRPlusPlus_CommunityEdition\n"
-                               "\n\n");
+        ImGui::Columns(3, "CreditColumns", true);
 
-        ImGui::Columns(4, "CreditColumns", true);
+        ImGui::TextUnformatted("Original software:");
+        ImGui::SameLine();
+        controlURL("SDRPlusPlus", "https://github.com/AlexandreRouma/SDRPlusPlus");
 
-//         ImGui::TextUnformatted("Contributors");
-//         for (int i = 0; i < sdrpp_credits::contributorCount; i++) {
-//             ImGui::BulletText("%s", sdrpp_credits::contributors[i]);
-//         }
 
-//         ImGui::NextColumn();
+        ImGui::TextUnformatted("Main fork:");
+        ImGui::SameLine();
+        controlURL("SDRIAK", "https://github.com/bubnikv/sdriak");
+
+        ImGui::TextUnformatted("-----others-----");
+        controlURL("SDRPlusPlusBrown", "https://github.com/kholia/SDRPlusPlusBrown");
+        controlURL("SDRPlusPlus_CommunityEdition", "https://github.com/LunaeMons/SDRPlusPlus_CommunityEdition");
+
+
+
+
+
+
 //         ImGui::TextUnformatted("Libraries");
 //         for (int i = 0; i < sdrpp_credits::libraryCount; i++) {
 //             ImGui::BulletText("%s", sdrpp_credits::libraries[i]);
 //         }
 // 
-//         ImGui::NextColumn();
+         ImGui::NextColumn();
 //         ImGui::TextUnformatted("Hardware Donators");
 //         for (int i = 0; i < sdrpp_credits::hardwareDonatorCount; i++) {
 //             ImGui::BulletText("%s", sdrpp_credits::hardwareDonators[i]);
 //         }
 // 
-//         ImGui::NextColumn();
+         ImGui::NextColumn();
 //         ImGui::TextUnformatted("Patrons");
 //         for (int i = 0; i < sdrpp_credits::patronCount; i++) {
 //             ImGui::BulletText("%s", sdrpp_credits::patrons[i]);
 //         }
-
+         controlURL("muFFT", "https://github.com/Themaister/muFFT");
         ImGui::Columns(1, "CreditColumnsEnd", true);
 
         ImGui::Spacing();

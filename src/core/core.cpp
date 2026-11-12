@@ -449,7 +449,7 @@ int sdrpp_main(int argc, char* argv[]) {
     if(!core::configManager.load())
         core::configManager.edit().ensure("configVersion", CURRENT_CONFIG_VERSION);
     DefConfig(core::configManager);
-    core::configManager.enableAutoSave();
+    core::configManager.autoSave(true);
 
     {//init config dir
         std::string confDir;

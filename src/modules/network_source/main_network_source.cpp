@@ -329,18 +329,21 @@ private:
 static void network_source_INIT() {
     config.setFile("network_source.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
-static ModuleManager::Instance* network_source_CREATE_INSTANCE(std::string name) {
+static ModuleManager::Instance* network_source_CREATE_INSTANCE(std::string name)
+{
     return new NetworkSourceModule(name);
 }
 
-static void network_source_DELETE_INSTANCE(ModuleManager::Instance* instance) {
+static void network_source_DELETE_INSTANCE(ModuleManager::Instance* instance)
+{
     delete (NetworkSourceModule*)instance;
 }
 
-static void network_source_END() {
+static void network_source_END()
+{
     config.shutdown();
 }
 

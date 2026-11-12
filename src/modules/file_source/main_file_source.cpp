@@ -344,7 +344,7 @@ private:
 static void file_source_INIT() {
     config.setFile("file_source.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
 static ModuleManager::Instance* file_source_CREATE_INSTANCE(std::string name) {

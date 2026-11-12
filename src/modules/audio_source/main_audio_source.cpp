@@ -325,7 +325,7 @@ static void audio_source_INIT()
 {
     config.setFile("audio_source.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
 static ModuleManager::Instance* audio_source_CREATE_INSTANCE(std::string name)

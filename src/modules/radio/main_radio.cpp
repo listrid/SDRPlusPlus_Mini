@@ -971,7 +971,7 @@ static ModuleManager::ModuleInfo_t radio_INFO{
 static void radio_INIT() {
     config.setFile("radio.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
 static ModuleManager::Instance* radio_CREATE_INSTANCE(std::string name) {

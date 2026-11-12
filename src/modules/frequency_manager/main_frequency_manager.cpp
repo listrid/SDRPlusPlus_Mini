@@ -822,7 +822,7 @@ private:
         if (selectedNames.size() == 0 && _this->m_selectedListName != "") { style::beginDisabled(); }
         if (ImGui::Button(("Export##_freq_mgr_exp_" + _this->m_name).c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 0)) && !_this->m_exportOpen)
         {
-            _this->m_exportedBookmarks.Clear();
+            _this->m_exportedBookmarks.clear();
             ConfigManager::ReadSection bms = g_config.read().section("lists").section(_this->m_selectedListName, "bookmarks");
             for (auto& _name : selectedNames)
             {
@@ -1174,7 +1174,6 @@ private:
             flog::error("File does not contain any bookmarks");
             return;
         }
-
         if (!importedBookmarks["bookmarks"].isSection())
         {
             flog::error("Bookmark attribute is invalid");
@@ -1277,7 +1276,7 @@ static void frequency_manager_INIT()
         sec.section("bookmarks");
 
     }
-    g_config.enableAutoSave();
+    g_config.autoSave(true);
 
     // Fill in missing options and convert lists of the old type
     {

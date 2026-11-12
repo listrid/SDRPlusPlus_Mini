@@ -690,7 +690,7 @@ static void recorder_INIT() {
     }
     config.setFile("recorder.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
 static ModuleManager::Instance* recorder_CREATE_INSTANCE(std::string name) {

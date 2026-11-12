@@ -10,15 +10,12 @@
 #include <utility>
 
 
-namespace config_detail
-{
-    struct ConfigManagerTestAccess;
-}
 
 class tdJSON;
 
 class ConfigManagerImpl: public ConfigManager
 {
+    friend class ConfigSaver;
     friend class ConfigManager::EditSection;
     friend class ConfigManager::ReadSection;
     friend class ConfigManager::ReadFields;
@@ -28,8 +25,8 @@ public:
     virtual void setFile(const char* fileName, bool full = false);
     virtual bool load();
     virtual bool save();
-    virtual void enableAutoSave();
-    virtual void disableAutoSave();
+    virtual void autoSave(bool enable);
+
     // Synchronously saves every dirty manager currently registered for
     // autosave, without changing their lifecycle state. Intended for platforms
     // that may resume after a save-state event. It deliberately makes one save
@@ -37,7 +34,7 @@ public:
     // after individual failures and returns true only if every attempted save
     // succeeded.
     static bool flushAll();
-    virtual bool Clear();
+    virtual bool clear();
     virtual bool shutdown();
 
     virtual ConfigManager::ReadSection read();
@@ -48,7 +45,7 @@ private:
     bool   m_modifed = false;
     size_t m_section = 0;
     void add_section() noexcept;
-    void dec_section() noexcept;
+    void dec_section(bool isRoot) noexcept;
     void set_modifed();
     tdJSON& getUpdate()
     {
@@ -56,8 +53,7 @@ private:
         return *m_json;
     };
 
-    bool anyAccessHeldByCurrentThread() const noexcept;
-    void disableAutoSaveImpl();
+    void disableAutoSave();
 
     enum class SaveRetryMode
     {
@@ -65,13 +61,7 @@ private:
         TransientWindowsLocks
     };
 
-    // Called only by the one process-wide ConfigSaver. The dirty flag is guarded
-    // by mtx and is cleared only after a successful disk commit.
-    bool saveIfDirty();
     bool saveImpl(bool onlyIfDirty, bool allowClosing = false, SaveRetryMode retryMode = SaveRetryMode::SingleAttempt);
-
-    friend class ConfigSaver;
-    friend struct config_detail::ConfigManagerTestAccess;
 
     std::string m_path = "";
     enum class LifecycleState
@@ -81,8 +71,7 @@ private:
     LifecycleState m_lifecycleState = LifecycleState::Open;
 
     bool m_dirty = false;
-    bool m_autoSaveEnabled = false;
-    std::mutex m_mtx;
-    std::mutex m_persistenceMtx;
+    bool m_auto_save = false;
+    std::recursive_mutex m_sec_mtx;
 };
 

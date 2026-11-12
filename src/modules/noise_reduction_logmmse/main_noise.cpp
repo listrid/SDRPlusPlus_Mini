@@ -267,7 +267,7 @@ static void noise_reduction_logmmse_INIT()
 {
     config.setFile( "noise_reduction_logmmse.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
 static ModuleManager::Instance* noise_reduction_logmmse_CREATE_INSTANCE(std::string name) {

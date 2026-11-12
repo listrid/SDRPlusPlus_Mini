@@ -549,7 +549,7 @@ static void iq_exporter_INIT()
 {
     config.setFile("iq_exporter.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
 static ModuleManager::Instance* iq_exporter_CREATE_INSTANCE(std::string name)

@@ -352,7 +352,7 @@ static void network_sink_INIT()
 {
     config.setFile("network_sink.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
 }
 
 static ModuleManager::Instance* network_sink_CREATE_INSTANCE(std::string name)

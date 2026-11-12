@@ -151,7 +151,6 @@ public:
         ((void**)ptr)[1] = (void*)size;
         m_list_free = (void**)ptr;
         m_pool_size += size;
-        printf("free %u\n", m_pool_size);
     }
     void Stat_chunk(size_t* chunk_all, size_t* chunk_use = 0)
     {

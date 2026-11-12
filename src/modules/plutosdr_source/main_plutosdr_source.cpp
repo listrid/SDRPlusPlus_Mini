@@ -627,7 +627,7 @@ static void plutosdr_source_INIT() {
 
     config.setFile("plutosdr_source.json");
     config.load();
-    config.enableAutoSave();
+    config.autoSave(true);
     {// Reset the configuration if the old format is still used
         auto configAccess = config.edit();
         if (!configAccess.contains("device") || !configAccess.contains("devices"))

@@ -1476,7 +1476,7 @@ inline message::message(std::string const &title,
     m_async->start(EM_ASM_INT(
     {
         if ($1)
-            return window.confirm(UTF8ToString($0)) ? 0 : -1;
+            return g_window.confirm(UTF8ToString($0)) ? 0 : -1;
         alert(UTF8ToString($0));
         return 0;
     }, full_message.c_str(), _choice == choice::ok_cancel));
